@@ -25,7 +25,7 @@ def gen_audio_samples(current_folder_videos,
 current_folder_csv,
 GT_audio_output_folder,
 sr = 16000,
-praat_extension = '_' + 'praat_done_ready'
+praat_extension = '_' + 'praat_done_ready',
 tony_flag = True,
 ):
     print(f'\n\tCurrent Folder: {current_folder_videos.stem}\n')
