@@ -1,0 +1,1905 @@
+<!kDOCTYPE html> 
+<html>
+
+<!-- https://www.aspsnippets.com/DownloadFile.aspx?File=f9b2dcbb-de35-493c-870e-27e2448a0c81.zip#center -->
+<!-- https://www.w3schools.com/tags/av_prop_duration.asp
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_progressbar_3
+https://htmlcolorcodes.com/ -->
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+  body{
+  height: 650px;
+  width: 1180px;
+  margin: 0px;
+}
+  p { font-family: Arial; }
+
+  h4{
+    /*background: orange;*/
+    margin:3px;
+  }
+
+  h3{
+    /*background: orange;*/
+    margin:2px;
+    margin-bottom:4px;
+  }
+
+  #myProgress {
+    width: 100%;
+    background-color: #ddd;
+  }
+
+
+  #myBar {
+    width: 1%;
+    height: 10px;
+    background-color: #2C3E50;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Create four equal columns that floats next to each other */
+  .column {
+    font-family: Arial;
+    float: left;
+    width: 20%;
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-bottom: 0px;
+    padding-left: 2px;
+    /*height: 300px;  Should be removed. Only for demonstration */
+  }
+
+  .columnTitle {
+    font-family: Arial;
+    float: left;
+    width: 100%;
+    text-align: center;
+    /*height: 300px;  Should be removed. Only for demonstration */
+  }
+
+  .colside {
+    font-family: Arial;
+    float: left;
+    width: 33%;
+    padding: 10px;
+  }
+
+  .colsrc1 {
+    font-family: Arial;
+    float: left;
+    width: 50%;
+    text-align: center;  
+    }
+
+  .colsrc2 {
+    font-family: Arial;
+    float: left;
+    width: 50%;
+    /*padding: 5px;*/
+/*    text-align: right;*/  
+    }
+
+  .colv {
+    font-family: Arial;
+    float: left;
+    width: 67%;
+    padding: 10px;
+  }
+
+  .SideRowControls:after {
+  content: "";
+  display: table;
+  clear: both;
+  }
+
+  .colsControls{
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+  /* Clear floats after the columns */
+  .row:after {
+    font-family: Arial;
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+   .row{
+      margin-top: 10px;
+    }
+
+  .rowTitle:after {
+    font-family: Arial;
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .rowTitle{
+    margin-top: 0px;
+    margin-bottom: 9px;
+  }
+
+  .videoRow{
+    margin-bottom: 8px;
+  }
+
+  .videoRow:after {
+    font-family: Arial;
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .dot {
+    height: 25px;
+    width: 25px;
+    background-color: #17202A;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .highlight {color: orange}
+
+  div.timer {
+  font-size: 150%;
+}
+
+  #circle0{
+    position: absolute;
+    background-color: #EC7063;
+    opacity: 0.7;
+    margin: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    top: 520px; 
+    left: 77px;
+  }
+
+  #circle1{
+    position: absolute;
+    background-color: #AF7AC5;
+    opacity: 0.7;
+    margin: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    top: 520px; 
+    left: 312px;
+  }
+
+  #circle2{
+    position: absolute;
+    background-color: #5DADE2;
+    opacity: 0.7;
+    margin: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    top: 520px; 
+    left: 548px;
+  }
+
+  #circle3{
+    position: absolute;
+    background-color: #52BE80;
+    opacity: 0.7;
+    margin: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    top: 520px; 
+    left: 788px;
+  }
+
+  #circle4{
+    position: absolute;
+    background-color: #F5B041;
+    opacity: 0.7;
+    margin: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    top: 520px; 
+    left: 1024px;
+  }
+
+  /* desired top: 25 | left: 8; */
+  /* actual: top: 65 | left: 46 */
+  /* to be:  top: 25 -40 = -15 | left: 8 -40 = -32    */
+
+  #top_div {
+    height:50%;
+    width:100%;
+    background-color:#009900;
+    }
+
+  #bot_div {
+    height:50%;
+    width:100%;
+    background-color:#009900;
+    }
+
+  table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+#buttoncontainer{
+    text-align: center;
+}
+
+.statusBar_text{
+  text-align: center;
+  display: inline-block;
+
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 26px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+
+input.classReplay:checked + .slider {
+  background-color: #2196F3;
+}
+
+input.classReplay:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+
+input.classsw0:checked + .slider {
+  background-color: #641E16;
+}
+
+input.classsw0:focus + .slider {
+  box-shadow: 0 0 1px #641E16;
+}
+
+input.classsw1:checked + .slider {
+  background-color: #4A235A;
+}
+
+input.classsw1:focus + .slider {
+  box-shadow: 0 0 1px #4A235A;
+}
+
+input.classsw2:checked + .slider {
+  background-color: #1B4F72;
+}
+
+input.classsw2:focus + .slider {
+  box-shadow: 0 0 1px #1B4F72;
+}
+
+input.classsw3:checked + .slider {
+  background-color: #186A3B;
+}
+
+input.classsw3:focus + .slider {
+  box-shadow: 0 0 1px #186A3B;
+}
+
+input.classsw4:checked + .slider {
+  background-color: #B7950B ;
+}
+
+input.classsw4:focus + .slider {
+  box-shadow: 0 0 1px #B7950B;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(32px);
+  -ms-transform: translateX(32px);
+  transform: translateX(32px);
+}
+
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switchSel {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switchSel input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sliderSel {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.sliderSel:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+
+input.classSEL0:checked + .sliderSel {
+  background-color: #641E16;
+}
+
+input.classSEL0:focus + .sliderSel {
+  box-shadow: 0 0 1px #641E16;
+}
+
+input.classSEL1:checked + .sliderSel {
+  background-color: #4A235A;
+}
+
+input.classSEL1:focus + .sliderSel {
+  box-shadow: 0 0 1px #4A235A;
+}
+
+input.classSEL2:checked + .sliderSel {
+  background-color: #1B4F72;
+}
+
+input.classSEL2:focus + .sliderSel {
+  box-shadow: 0 0 1px #1B4F72;
+}
+
+input.classSEL3:checked + .sliderSel {
+  background-color: #186A3B;
+}
+
+input.classSEL3:focus + .sliderSel {
+  box-shadow: 0 0 1px #186A3B;
+}
+
+input.classSEL4:checked + .sliderSel {
+  background-color: #B7950B ;
+}
+
+input.classSEL4:focus + .sliderSel {
+  box-shadow: 0 0 1px #B7950B;
+}
+
+input:checked + .sliderSEL:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.sliderSEL.round {
+  border-radius: 34px;
+}
+
+.sliderSEL.round:before {
+  border-radius: 50%;
+}
+
+</style>
+</head>
+
+<body onclick="showCoords(event)"> 
+
+<br>
+<div class="videoRow" style="text-align:center"> 
+<div class="colv"> 
+  <video id="video1" width="750" controls>
+
+  <!-- <source src="basic_vid1\output"+ vid_cnt + ".mp4" >
+    Your browser does not support HTML video. -->
+  </video>
+</div>
+<div class="colside" style="text-align:center;">
+  <table id="myTable">
+  <tr>
+    <th>Src</th>
+    <th>Start</th>
+    <th>End</th>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+</table>
+ <br>
+  <div class="SideRowControls">
+  <button onclick="download_csv_file()">Download CSV</button>
+
+<!--     <div class="colsControls" style="text-align: center;">
+    <button onclick="download_csv_file()">Download CSV</button> -->
+<!--         <div class="timer">
+        <span id="mins"> 00 </span> &nbsp <span id="secs"> 00 </span> &nbsp <span id="mms"> 00 </span>
+        <br> - - - - - - - - - <br>
+        <span id="total_mins">  00 </span> &nbsp <span id="total_secs"> 00 </span> &nbsp <span id="total_mms"> 00 </span>
+        </div> -->
+    <!-- </div> -->
+  </div>
+  <br><br>
+  <div id="buttoncontainer">
+  <button onclick="load_prev_video()">PREV video</button>
+  &nbsp &nbsp &nbsp
+  <button onclick="load_next_video()">NEXT video</button>
+  </div>
+    
+
+  </div>
+<br><br>
+</div>
+    
+<div class='rowTitle' style="background-color:#CCD1D1;text-align:left">
+  <div class='columnTitle'>
+    <h4>&nbsp &nbsp
+    Erase  -  <font color="white">1</font>
+    &nbsp &nbsp &nbsp &nbsp
+    &nbsp &nbsp &nbsp &nbsp
+    1.0x - <font color="white">W</font>
+    &nbsp &nbsp &nbsp
+    0.5x - <font color="white">Z</font> 
+    &nbsp &nbsp &nbsp &nbsp
+    0.7x - <font color="white">X</font> 
+    &nbsp &nbsp &nbsp &nbsp
+    0.8x - <font color="white">C</font>
+
+    &nbsp &nbsp &nbsp &nbsp 
+    &nbsp &nbsp &nbsp &nbsp
+
+    Goto 0s - <font color="white">A</font>
+
+    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+    Play -  <font color="white">S</font> 
+
+    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp         
+    3s <font color="white">D</font> <- &nbsp -> <font color="white">F</font> 3s
+
+    &nbsp &nbsp &nbsp &nbsp 
+  </div>
+</div>
+
+<div class='rowTitle' style="background-color:#ABB2B9;text-align:left">
+  <div class='columnTitle'>
+    <h4>&nbsp &nbsp
+    Spa - <font color="white">N</font>
+    &nbsp &nbsp &nbsp &nbsp
+    Eng - <font color="white">M</font> 
+    &nbsp &nbsp &nbsp &nbsp
+    &nbsp &nbsp &nbsp &nbsp
+    0.5s <font color="white">H</font> <- &nbsp Start &nbsp -> <font color="white">J</font> 0.5s
+    &nbsp &nbsp &nbsp &nbsp
+    &nbsp &nbsp
+    0.5s <font color="white">K</font> <- &nbsp End &nbsp -> <font color="white">L</font> 0.5s  
+    &nbsp &nbsp &nbsp &nbsp
+    &nbsp &nbsp &nbsp &nbsp 
+    Undo last entry  -  <font color="white">P</font>
+    &nbsp &nbsp
+  </div>
+</div>
+
+<div class='row'>
+  <div class="column" style="background-color:#EC7063;"> <!-- #E74C3C -->
+    <div class="colsrc1">
+      <!-- <button onclick="set_mark_0()">Speaker 0</button> -->
+      <h4 style="color:#641E16;"> Speaker 0 </h4>
+      <label class="switch">
+        <input type="checkbox" class="classsw0" id="sw0">
+        <span class="slider round"></span>
+      </label>
+      <p> </p>
+    </div>
+    
+    <div class="colsrc2" align="center">
+      <p> </p>
+      <label class="switchSel">
+        <input type="checkbox" class="classSEL0" id="Sel0">
+        <span class="sliderSel round"></span>
+      </label>
+        <div id="circle0"> </div>
+        <br>
+        <br>
+    </div>
+  </div>
+  <div class="column" style="background-color:#AF7AC5;"> <!-- #9B59B6 -->
+    <div class="colsrc1">
+      <h4 style="color:#4A235A;"> Speaker 1 </h4>
+      <label class="switch">
+        <input type="checkbox" class="classsw1" id="sw1">
+        <span class="slider round"></span>
+      </label>
+      <p> </p>
+    </div>
+    <div class="colsrc2" align="center">
+      <p> </p>
+      <label class="switchSel">
+        <input type="checkbox" class="classSEL1" id="Sel1">
+        <span class="sliderSel round"></span>
+      </label>
+        <div id="circle1"> </div>
+        <br>
+        <br>
+    </div>
+
+  </div>
+  <div class="column" style="background-color:#5DADE2;"> <!-- #3498DB -->
+    <div class="colsrc1"> 
+      <h4 style="color:#1B4F72;"> Speaker 2 </h4>
+      <label class="switch">
+        <input type="checkbox" class="classsw2" id="sw2">
+        <span class="slider round"></span>
+      </label>
+      <p> </p>
+    </div>
+    <div class="colsrc2" align="center">
+      <p> </p>
+      <label class="switchSel">
+        <input type="checkbox" class="classSEL2" id="Sel2">
+        <span class="sliderSel round"></span>
+      </label>
+        <div id="circle2"> </div>
+        <br>
+        <br>
+    </div>
+
+
+  </div>
+  <div class="column" style="background-color:#52BE80;"> <!-- #229954 -->
+    <div class="colsrc1">
+      <h4 style="color:#186A3B;"> Speaker 3 </h4>
+      <label class="switch">
+        <input type="checkbox" class="classsw3" id="sw3">
+        <span class="slider round"></span>
+      </label>
+      <p> </p>
+    </div>
+    <div class="colsrc2" align="center">
+      <p> </p>
+      <label class="switchSel">
+        <input type="checkbox" class="classSEL3" id="Sel3">
+        <span class="sliderSel round"></span>
+      </label>
+        <div id="circle3"> </div>
+        <br>
+        <br>
+    </div>
+
+  </div>
+  <div class="column" style="background-color:#F5B041;"> <!-- #F39C12 -->
+    <div class="colsrc1"> 
+      <h4 style="color:#B7950B;"> Speaker 4 </h4>
+      <label class="switch">
+        <input type="checkbox" class="classsw4" id="sw4">
+        <span class="slider round"></span>
+      </label>
+      <p> </p>
+    </div>
+    <div class="colsrc2" align="center">
+      <p> </p>
+      <label class="switchSel">
+        <input type="checkbox" class="classSEL4" id="Sel4">
+        <span class="sliderSel round"></span>
+      </label>
+        <div id="circle4"> </div>
+        <br>
+        <br>
+    </div>   
+
+  </div>
+</div>
+<div id="statusBar_text" style="text-align:right"> 
+  <p>
+  Video n#: &nbsp <span id="the_cnt">-1</span>
+  &nbsp &nbsp
+  <span id="video_name_txt"> _____ </span>
+<!--   &nbsp &nbsp &nbsp &nbsp
+  <input type="text" id="input_marks" name="mymarks">
+  &nbsp 
+  <button onclick="load_text_marks()">Load Marks</button> -->
+  &nbsp &nbsp &nbsp &nbsp
+  Ptr Coords: <span id="mouse_loc_X"> ?? </span> - <span id="mouse_loc_Y"> ?? </span> 
+  </p> 
+</div>
+
+<script>
+
+var sw0_state = 0;
+var sw1_state = 0;
+var sw2_state = 0;
+var sw3_state = 0;
+var sw4_state = 0;
+
+var marks_positions = [[520,77],
+                        [520,312],
+                        [520,548],
+                        [520,788],
+                        [520,1024],
+                        ];
+
+function showCoords(click) {
+
+  var x = event.clientX;
+  var y = event.clientY;
+  document.getElementById("mouse_loc_X").innerHTML = x;
+  document.getElementById("mouse_loc_Y").innerHTML = y;
+
+  // const current_mark_text = document.getElementById("current_mark");
+  // current_mark = current_mark_text.textContent;
+  var posx = x - 40;
+  var posy = y - 40;
+
+  if((document.getElementById("sw0").checked) && (sw0_state<2)){
+    sw0_state = sw0_state + 1;
+    document.getElementById("circle0").style.top = String(posy) + "px" ;
+    document.getElementById("circle0").style.left = String(posx) + "px" ;
+    marks_positions[0] = [posy, posx];
+
+  } else if ((document.getElementById("sw1").checked) && (sw1_state<2)){
+    sw1_state = sw1_state + 1;
+    document.getElementById("circle1").style.top = String(posy) + "px" ;
+    document.getElementById("circle1").style.left = String(posx) + "px" ;
+    marks_positions[1] = [posy, posx];
+
+  } else if ((document.getElementById("sw2").checked) && (sw2_state<2)){
+    sw2_state = sw2_state + 1;
+    document.getElementById("circle2").style.top = String(posy) + "px" ;
+    document.getElementById("circle2").style.left = String(posx) + "px" ;
+    marks_positions[2] = [posy, posx];
+
+  } else if ((document.getElementById("sw3").checked) && (sw3_state<2)){
+    sw3_state = sw3_state + 1;
+    document.getElementById("circle3").style.top = String(posy) + "px" ;
+    document.getElementById("circle3").style.left = String(posx) + "px" ;
+    marks_positions[3] = [posy, posx];
+
+  } else if ((document.getElementById("sw4").checked) && (sw4_state<2)){
+    sw4_state = sw4_state + 1;
+    document.getElementById("circle4").style.top = String(posy) + "px" ;
+    document.getElementById("circle4").style.left = String(posx) + "px" ;
+    marks_positions[4] = [posy, posx];
+  }
+
+}
+
+var myVideo = document.getElementById("video1"); 
+
+function update_nextmyvideo(){
+  const vid_cnt_span = document.getElementById("the_cnt");
+  vid_cnt = String(parseInt(vid_cnt_span.textContent)+1);
+  var current_video_name;
+  vid_cnt3d = String(vid_cnt).padStart(3, '0');
+  current_video_name = 'G-C2L1P-Feb16-B-Shelby_q2_03-05_' + vid_cnt3d;
+  document.getElementById('video_name_txt').textContent = current_video_name;
+  document.getElementById('video1').innerHTML = '<source src=' + current_video_name + '.mp4 type="video/mp4">';
+  myVideo.load()
+  vid_cnt_span.textContent = vid_cnt;
+
+}
+
+window.onload = function() {
+  update_nextmyvideo();
+};
+
+
+function update_prevmyvideo(){
+  const vid_cnt_span = document.getElementById("the_cnt");
+  vid_cnt = String(parseInt(vid_cnt_span.textContent)-1);
+  var current_video_name;
+  vid_cnt3d = String(vid_cnt).padStart(3, '0');
+  current_video_name = 'G-C2L1P-Feb16-B-Shelby_q2_03-05_' + vid_cnt3d;
+  document.getElementById('video_name_txt').textContent = current_video_name;
+  document.getElementById('video1').innerHTML = '<source src=' + current_video_name + '.mp4 type="video/mp4">';
+  myVideo.load()
+  vid_cnt_span.textContent = vid_cnt;
+
+}
+
+
+function load_next_video(){
+  // Restart the timetables
+  restart_table_time();
+
+  // update_myvideo
+  update_nextmyvideo();
+}
+
+function load_prev_video(){
+  // Restart the timetables
+  restart_table_time();
+
+  // update_myvideo
+  update_prevmyvideo();
+}
+
+var data_s0 = [];
+var data_s1 = []; 
+var data_s2 = []; 
+var data_s3 = []; 
+var data_s4 = []; 
+
+var csvdata = [];
+
+function addentry(speaker_ID, current_lang){
+    if (speaker_ID == 'S0'){
+      data_s0.push([current_lang, speaker_ID, myVideo.currentTime]);
+    } else if(speaker_ID == 'S1'){
+      data_s1.push([current_lang, speaker_ID, myVideo.currentTime]);
+    } else if(speaker_ID == 'S2'){
+      data_s2.push([current_lang, speaker_ID, myVideo.currentTime]);
+    } else if(speaker_ID == 'S3'){
+      data_s3.push([current_lang, speaker_ID, myVideo.currentTime]);
+    } else if(speaker_ID == 'S4'){
+      data_s4.push([current_lang, speaker_ID, myVideo.currentTime]);
+    }
+}
+
+function restart_table_time(){
+  // Erase timetable
+
+    data_s0.length = 0
+    data_s1.length = 0
+    data_s2.length = 0
+    data_s3.length = 0
+    data_s4.length = 0
+
+    csvdata.length = 0
+
+    // Erase table
+    document.getElementById("myTable").deleteRow(1);
+    document.getElementById("myTable").deleteRow(1);
+    document.getElementById("myTable").deleteRow(1);
+    document.getElementById("myTable").deleteRow(1);
+    document.getElementById("myTable").deleteRow(1);
+    document.getElementById("myTable").deleteRow(1);
+
+    var table = document.getElementById("myTable");
+
+    for (let i = 0; i < 6; i++) {      
+      var row = table.insertRow(i+1);
+      var src = row.insertCell(0);
+      var start_time = row.insertCell(1);
+      var end_time = row.insertCell(2);
+
+      src.innerHTML = "-";
+      start_time.innerHTML = "-";
+      end_time.innerHTML = "-";
+
+      // set video time to zero
+      myVideo.currentTime = 0;
+    }
+}
+
+// Add event listener on keydown
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+
+  if (code == 'Digit1'){
+    restart_table_time();
+  }
+
+}, false);
+
+
+document.getElementById("sw0").addEventListener("input", function(){
+    if (!(document.getElementById("sw0").checked)){
+     sw0_state = 0;
+    }
+}, false);
+
+document.getElementById("sw1").addEventListener("input", function(){
+    if (!(document.getElementById("sw1").checked)){
+     sw1_state = 0;
+    }
+}, false);
+
+document.getElementById("sw2").addEventListener("input", function(){
+    if (!(document.getElementById("sw2").checked)){
+     sw2_state = 0;
+    }
+}, false);
+
+
+document.getElementById("sw3").addEventListener("input", function(){
+    if (!(document.getElementById("sw3").checked)){
+     sw3_state = 0;
+    }
+}, false);
+
+
+document.getElementById("sw4").addEventListener("input", function(){
+    if (!(document.getElementById("sw4").checked)){
+     sw4_state = 0;
+    }
+}, false);
+
+
+
+// Add event listener on keydown
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+
+  if (code == 'KeyS')
+    if (myVideo.paused) {
+      myVideo.play();
+      myVideo.playbackRate = 0.8; 
+    } else {
+      myVideo.pause(); 
+    }
+
+}, false);
+
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+
+  if (code == 'KeyF') {
+    myVideo.currentTime = myVideo.currentTime + 3;
+  } else if (code == 'KeyD') {
+    myVideo.currentTime = myVideo.currentTime - 3;
+  }
+
+}, false);
+
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+
+  if (code == 'KeyZ')
+    myVideo.playbackRate = 0.5;
+  else if (code == 'KeyX')
+    myVideo.playbackRate = 0.7;
+  else if (code == 'KeyC')
+    myVideo.playbackRate = 0.8;
+  else if (code == 'KeyW')
+    myVideo.playbackRate = 1;
+
+}, false);
+
+let pressed_state_0_eng = false;
+let pressed_state_1_eng = false;
+let pressed_state_2_eng = false;
+let pressed_state_3_eng = false;
+let pressed_state_4_eng = false;
+
+let pressed_state_0_spa = false;
+let pressed_state_1_spa = false;
+let pressed_state_2_spa = false;
+let pressed_state_3_spa = false;
+let pressed_state_4_spa = false;
+
+
+var Sel0_state = 0;
+var Sel1_state = 0;
+var Sel2_state = 0;
+var Sel3_state = 0;
+var Sel4_state = 0;
+
+document.getElementById("Sel0").addEventListener("input", function(){
+    if (document.getElementById("Sel0").checked){
+      Sel0_state = 1;
+    } else {
+      Sel0_state = 0;
+    }
+}, false);
+document.getElementById("Sel1").addEventListener("input", function(){
+    if (document.getElementById("Sel1").checked){
+      Sel1_state = 1;
+    } else {
+      Sel1_state = 0;
+    }
+}, false);
+document.getElementById("Sel2").addEventListener("input", function(){
+    if (document.getElementById("Sel2").checked){
+      Sel2_state = 1;
+    } else {
+      Sel2_state = 0;
+    }
+}, false);
+document.getElementById("Sel3").addEventListener("input", function(){
+    if (document.getElementById("Sel3").checked){
+      Sel3_state = 1;
+    } else {
+      Sel3_state = 0;
+    }
+}, false);
+document.getElementById("Sel4").addEventListener("input", function(){
+    if (document.getElementById("Sel4").checked){
+      Sel4_state = 1;
+    } else {
+      Sel4_state = 0;
+    }
+}, false);
+
+document.addEventListener('keydown', (event) => {
+
+    var code = event.code;
+    var sum_all = Sel0_state + Sel1_state + Sel2_state + Sel3_state + Sel4_state;
+
+    if (code == 'KeyM'){
+
+      if (Sel0_state == 1 && sum_all == 1 && pressed_state_0_eng == false){
+        circle0.style.setProperty("opacity", "1.0");
+        circle0.style.setProperty("background-color", "white");
+        addentry('S0', 'Eng');
+        pressed_state_0_eng = true;
+      } else if (Sel1_state == 1 && sum_all == 1 && pressed_state_1_eng == false) {
+        circle1.style.setProperty("opacity", "1.0");
+        circle1.style.setProperty("background-color", "white");
+        addentry('S1', 'Eng');
+        pressed_state_1_eng = true;
+      } else if (Sel2_state == 1 && sum_all == 1 && pressed_state_2_eng == false) {
+        circle2.style.setProperty("opacity", "1.0");
+        circle2.style.setProperty("background-color", "white");
+        addentry('S2', 'Eng');
+        pressed_state_2_eng = true;
+      } else if (Sel3_state == 1 && sum_all == 1 && pressed_state_3_eng == false) {
+        circle3.style.setProperty("opacity", "1.0");
+        circle3.style.setProperty("background-color", "white");
+        addentry('S3', 'Eng');
+        pressed_state_3_eng = true;
+      } else if (Sel4_state == 1 && sum_all == 1 && pressed_state_4_eng == false) {
+        circle4.style.setProperty("opacity", "1.0");
+        circle4.style.setProperty("background-color", "white");
+        addentry('S4', 'Eng');
+        pressed_state_4_eng = true;
+      }
+  }
+
+}, false);
+
+document.addEventListener('keyup', (event) => {
+
+    var code = event.code;
+    var sum_all = Sel0_state + Sel1_state + Sel2_state + Sel3_state + Sel4_state;
+
+
+    if (code == 'KeyM'){
+
+      if (Sel0_state == 1 && sum_all == 1 && pressed_state_0_eng == true){
+        circle0.style.setProperty("opacity", "0.7");
+        circle0.style.setProperty("background-color", '#EC7063');
+        addentry('S0', 'Eng');
+        pressed_state_0_eng = false;
+        add_last_entry_table('S0');
+      } else if (Sel1_state == 1 && sum_all == 1 && pressed_state_1_eng == true) {
+        circle1.style.setProperty("opacity", "0.7");
+        circle1.style.setProperty("background-color", "#AF7AC5");
+        addentry('S1', 'Eng');
+        pressed_state_1_eng = false;
+        add_last_entry_table('S1');
+      } else if (Sel2_state == 1 && sum_all == 1 && pressed_state_2_eng == true) {
+        circle2.style.setProperty("opacity", "0.7");
+        circle2.style.setProperty("background-color", "#5DADE2");
+        addentry('S2', 'Eng');
+        pressed_state_2_eng = false;
+        add_last_entry_table('S2');
+      } else if (Sel3_state == 1 && sum_all == 1 && pressed_state_3_eng == true) {
+        circle3.style.setProperty("opacity", "0.7");
+        circle3.style.setProperty("background-color", "#52BE80");
+        addentry('S3', 'Eng');
+        pressed_state_3_eng = false;
+        add_last_entry_table('S3');
+      } else if (Sel4_state == 1 && sum_all == 1 && pressed_state_4_eng == true) {
+        circle4.style.setProperty("opacity", "0.7");
+        circle4.style.setProperty("background-color", "#F5B041");
+        addentry('S4', 'Eng');
+        pressed_state_4_eng = false;
+        add_last_entry_table('S4');
+      }
+    }
+
+}, false);
+
+////////////////////////////////
+document.addEventListener('keydown', (event) => {
+
+    var code = event.code;
+    var sum_all = Sel0_state + Sel1_state + Sel2_state + Sel3_state + Sel4_state;
+
+
+    if (code == 'KeyN'){
+
+      if (Sel0_state == 1 && sum_all == 1 && pressed_state_0_spa == false){
+        circle0.style.setProperty("opacity", "1.0");
+        circle0.style.setProperty("background-color", "black");
+        addentry('S0', 'Spa');
+        pressed_state_0_spa = true;
+      } else if (Sel1_state == 1 && sum_all == 1 && pressed_state_1_spa == false) {
+        circle1.style.setProperty("opacity", "1.0");
+        circle1.style.setProperty("background-color", "black");
+        addentry('S1', 'Spa');
+        pressed_state_1_spa = true;
+      } else if (Sel2_state == 1 && sum_all == 1 && pressed_state_2_spa == false) {
+        circle2.style.setProperty("opacity", "1.0");
+        circle2.style.setProperty("background-color", "black");
+        addentry('S2', 'Spa');
+        pressed_state_2_spa = true;
+      } else if (Sel3_state == 1 && sum_all == 1 && pressed_state_3_spa == false) {
+        circle3.style.setProperty("opacity", "1.0");
+        circle3.style.setProperty("background-color", "black");
+        addentry('S3', 'Spa');
+        pressed_state_3_spa = true;
+      } else if (Sel4_state == 1 && sum_all == 1 && pressed_state_4_spa == false) {
+        circle4.style.setProperty("opacity", "1.0");
+        circle4.style.setProperty("background-color", "black");
+        addentry('S4', 'Spa');
+        pressed_state_4_spa = true;
+      }
+    }
+
+}, false);
+
+document.addEventListener('keyup', (event) => {
+
+    var code = event.code;
+    var sum_all = Sel0_state + Sel1_state + Sel2_state + Sel3_state + Sel4_state;
+
+
+    if (code == 'KeyN'){
+
+      if (Sel0_state == 1 && sum_all == 1 && pressed_state_0_spa == true){
+        circle0.style.setProperty("opacity", "0.7");
+        circle0.style.setProperty("background-color", "#EC7063");
+        addentry('S0', 'Spa');
+        pressed_state_0_spa = false;
+        add_last_entry_table('S0');
+      } else if (Sel1_state == 1 && sum_all == 1 && pressed_state_1_spa == true) {
+        circle1.style.setProperty("opacity", "0.7");
+        circle1.style.setProperty("background-color", "#AF7AC5");
+        addentry('S1', 'Spa');
+        pressed_state_1_spa = false;
+        add_last_entry_table('S1');
+      } else if (Sel2_state == 1 && sum_all == 1 && pressed_state_2_spa == true) {
+        circle2.style.setProperty("opacity", "0.7");
+        circle2.style.setProperty("background-color", "#5DADE2");
+        addentry('S2', 'Spa');
+        pressed_state_2_spa = false;
+        add_last_entry_table('S2');
+      } else if (Sel3_state == 1 && sum_all == 1 && pressed_state_3_spa == true) {
+        circle3.style.setProperty("opacity", "0.7");
+        circle3.style.setProperty("background-color", "#52BE80");
+        addentry('S3', 'Spa');
+        pressed_state_3_spa = false;
+        add_last_entry_table('S3');
+      } else if (Sel4_state == 1 && sum_all == 1 && pressed_state_4_spa == true) {
+        circle4.style.setProperty("opacity", "0.7");
+        circle4.style.setProperty("background-color", "#F5B041");
+        addentry('S4', 'Spa');
+        pressed_state_4_spa = false;
+        add_last_entry_table('S4');
+      }
+    }
+
+}, false);
+  
+
+//create a user-defined function to download CSV file   
+function download_csv_file() {  
+  
+    //define the heading for each row of the data  
+    var csv = 'Src\tStartTime\tEndTime\n';  
+      
+    //merge the data with CSV  
+    csvdata.forEach(function(row) {  
+            csv += row.join('\t');  
+            csv += "\n";  
+    });  
+   
+    //display the created CSV data on the web browser   
+    //document.write(csv);  
+     
+    var hiddenElement = document.createElement('a');  
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+    hiddenElement.target = '_blank';  
+
+    const current_video_name = document.getElementById("video_name_txt");
+
+    //provide the name for the CSV file to be downloaded
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    var mydate = today.toISOString();
+    hiddenElement.download = String(current_video_name.textContent) + '-' + mydate + '.csv';  
+    hiddenElement.click();
+} 
+
+
+function add_last_entry_table(current_speaker){
+  var last_entry_pair;
+  var last_entry;
+  
+  if (current_speaker == 'S0'){
+      last_entry = data_s0[data_s0.length-1];
+      last_entry_pair = data_s0[data_s0.length-2];
+  } else if(current_speaker == 'S1'){
+      last_entry = data_s1[data_s1.length-1];
+      last_entry_pair = data_s1[data_s1.length-2];
+  } else if(current_speaker == 'S2'){
+      last_entry = data_s2[data_s2.length-1];
+      last_entry_pair = data_s2[data_s2.length-2];
+  } else if(current_speaker == 'S3'){
+      last_entry = data_s3[data_s3.length-1];
+      last_entry_pair = data_s3[data_s3.length-2];
+  } else if(current_speaker == 'S4'){
+      last_entry = data_s4[data_s4.length-1];
+      last_entry_pair = data_s4[data_s4.length-2];
+  }
+
+  csvdata.push([last_entry[1] + last_entry[0], last_entry_pair[2].toFixed(2), last_entry[2].toFixed(2)]);
+
+  // Format for table
+  var table = document.getElementById("myTable");
+  var row = table.insertRow(1);
+
+  var src = row.insertCell(0);
+  var start_time = row.insertCell(1);
+  var end_time = row.insertCell(2);
+
+  var current_nameLang = csvdata[csvdata.length -1][0];
+  var current_start_time = csvdata[csvdata.length -1][1];
+  var current_stop_time = csvdata[csvdata.length -1][2];
+  var current_name = current_nameLang.substring(0,2);
+
+  if (current_name == 'S0'){
+    src.innerHTML = '<p style="color:#E74C3C;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#E74C3C;">' + current_start_time  + '</p>';
+    end_time.innerHTML ='<p style="color:#E74C3C;">' + current_stop_time + '</p>';
+  } else if (current_name == 'S1'){
+    src.innerHTML = '<p style="color:#8E44AD;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#8E44AD;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#8E44AD;">' + current_stop_time + '</p>';
+  } else if (current_name == 'S2'){
+    src.innerHTML = '<p style="color:#3498DB;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#3498DB;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#3498DB;">' + current_stop_time + '</p>';
+  } else if (current_name == 'S3'){
+    src.innerHTML = '<p style="color:#27AE60;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#27AE60;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#27AE60;">' + current_stop_time + '</p>';
+  } else if (current_name == 'S4'){
+    src.innerHTML = '<p style="color:#9A7D0A;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#9A7D0A;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#9A7D0A;">' + current_stop_time + '</p>';
+  }
+
+
+  //Delete last entry
+  document.getElementById("myTable").deleteRow(7);
+}
+
+
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+  if (code == 'KeyP') {
+    delete_last_entry();
+  }
+}, false);
+
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+  if (code == 'KeyA') {
+    myVideo.currentTime = 0;
+  }
+}, false);
+
+// Undo last entry
+function delete_last_entry(){
+
+  // Delete it from the main csvdata
+  csvdata.pop();
+
+  // Delete it from the table
+  document.getElementById("myTable").deleteRow(1);
+
+  // fill at the bottom of the table with ---- to keep shape
+  var table = document.getElementById("myTable");    
+  var row = table.insertRow(6);
+  var src = row.insertCell(0);
+  var start_time = row.insertCell(1);
+  var end_time = row.insertCell(2);
+
+  src.innerHTML = "-";
+  start_time.innerHTML = "-";
+  end_time.innerHTML = "-";
+
+}
+
+
+// Offset START -0.5
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+  if (code == 'KeyH') {
+    if (csvdata.length >= 1){
+    offset_last_entry_START_minus05();
+  }
+  }
+}, false);
+
+function offset_last_entry_START_minus05(){
+
+  var new_start_val, new_end_val;
+
+  // Extract it from the main csvdata
+  last_entry_mod = csvdata.pop();
+
+  // Verify is not the beginning
+  if (last_entry_mod[1] <= 0.5) {
+    new_start_val = 0;
+  } else {
+    new_start_val = (parseFloat(last_entry_mod[1]) - 0.5).toFixed(2);
+  }
+
+  // if (last_entry_mod[2] <= 0.5) {
+  //   new_end_val = 0;
+  // } else {
+  //   new_end_val = last_entry_mod[2] - 0.5;
+  // }
+  new_end_val = last_entry_mod[2];
+
+  csvdata.push([last_entry_mod[0], new_start_val, new_end_val]);
+
+  // Delete it from the table
+  document.getElementById("myTable").deleteRow(1);
+
+  // fill at the bottom of the table with ---- to keep shape
+  var table = document.getElementById("myTable");    
+  var row = table.insertRow(1);
+  var src = row.insertCell(0);
+  var start_time = row.insertCell(1);
+  var end_time = row.insertCell(2);
+
+  var current_nameLang = last_entry_mod[0];
+  var current_start_time = new_start_val;
+  var current_stop_time = new_end_val;
+  var current_name = current_nameLang.substring(0,2);
+
+  let start_time_dataX;
+  let end_time_dataX;
+
+  if (current_name == 'S0'){
+    src.innerHTML = '<p style="color:#E74C3C;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#E74C3C;">' + current_start_time  + '</p>';
+    end_time.innerHTML ='<p style="color:#E74C3C;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s0.slice(-1)[0][2];
+    start_time_dataX = data_s0.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) - 0.5).toFixed(2);
+
+    data_s0.slice(-2)[0][2] = start_time_dataX;
+    data_s0.slice(-1)[0][2] = end_time_dataX;
+
+
+  } else if (current_name == 'S1'){
+    src.innerHTML = '<p style="color:#8E44AD;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#8E44AD;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#8E44AD;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s1.slice(-1)[0][2];
+    start_time_dataX = data_s1.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) - 0.5).toFixed(2);
+
+    data_s1.slice(-2)[0][2] = start_time_dataX;
+    data_s1.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S2'){
+    src.innerHTML = '<p style="color:#3498DB;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#3498DB;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#3498DB;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s2.slice(-1)[0][2];
+    start_time_dataX = data_s2.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) - 0.5).toFixed(2);
+
+    data_s2.slice(-2)[0][2] = start_time_dataX;
+    data_s2.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S3'){
+    src.innerHTML = '<p style="color:#27AE60;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#27AE60;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#27AE60;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s3.slice(-1)[0][2];
+    start_time_dataX = data_s3.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) - 0.5).toFixed(2);
+
+    data_s3.slice(-2)[0][2] = start_time_dataX;
+    data_s3.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S4'){
+    src.innerHTML = '<p style="color:#9A7D0A;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#9A7D0A;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#9A7D0A;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s4.slice(-1)[0][2];
+    start_time_dataX = data_s4.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) - 0.5).toFixed(2);
+
+    data_s4.slice(-2)[0][2] = start_time_dataX;
+    data_s4.slice(-1)[0][2] = end_time_dataX;
+
+  }
+
+}
+
+// Offset END -0.5
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+  if (code == 'KeyK') {
+    if (csvdata.length >= 1){
+    offset_last_entry_END_minus05();
+  }
+  }
+}, false);
+
+function offset_last_entry_END_minus05(){
+
+  var new_start_val, new_end_val;
+
+  // Extract it from the main csvdata
+  last_entry_mod = csvdata.pop();
+
+  // // Verify is not the beginning
+  // if (last_entry_mod[1] <= 0.5) {
+  //   new_start_val = 0;
+  // } else {
+  //   new_start_val = last_entry_mod[1] - 0.5;
+  //}
+
+  new_start_val = last_entry_mod[1];
+
+  // Verify the END point is greater than 0
+  if (last_entry_mod[2] <= 0.5) {
+    new_end_val = 0;
+  } else {
+    new_end_val = (parseFloat(last_entry_mod[2]) - 0.5).toFixed(2);
+  }
+
+  csvdata.push([last_entry_mod[0], new_start_val, new_end_val]);
+
+  // Delete it from the table
+  document.getElementById("myTable").deleteRow(1);
+
+  // fill at the bottom of the table with ---- to keep shape
+  var table = document.getElementById("myTable");    
+  var row = table.insertRow(1);
+  var src = row.insertCell(0);
+  var start_time = row.insertCell(1);
+  var end_time = row.insertCell(2);
+
+  var current_nameLang = last_entry_mod[0];
+  var current_start_time = new_start_val;
+  var current_stop_time = new_end_val;
+  var current_name = current_nameLang.substring(0,2);
+
+  let start_time_dataX;
+  let end_time_dataX;
+
+  if (current_name == 'S0'){
+    src.innerHTML = '<p style="color:#E74C3C;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#E74C3C;">' + current_start_time  + '</p>';
+    end_time.innerHTML ='<p style="color:#E74C3C;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s0.slice(-1)[0][2];
+    start_time_dataX = data_s0.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) - 0.5).toFixed(2);
+
+    data_s0.slice(-2)[0][2] = start_time_dataX;
+    data_s0.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S1'){
+    src.innerHTML = '<p style="color:#8E44AD;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#8E44AD;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#8E44AD;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s1.slice(-1)[0][2];
+    start_time_dataX = data_s1.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) - 0.5).toFixed(2);
+
+    data_s1.slice(-2)[0][2] = start_time_dataX;
+    data_s1.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S2'){
+    src.innerHTML = '<p style="color:#3498DB;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#3498DB;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#3498DB;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s2.slice(-1)[0][2];
+    start_time_dataX = data_s2.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) - 0.5).toFixed(2);
+
+    data_s2.slice(-2)[0][2] = start_time_dataX;
+    data_s2.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S3'){
+    src.innerHTML = '<p style="color:#27AE60;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#27AE60;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#27AE60;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s3.slice(-1)[0][2];
+    start_time_dataX = data_s3.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) - 0.5).toFixed(2);
+
+    data_s3.slice(-2)[0][2] = start_time_dataX;
+    data_s3.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S4'){
+    src.innerHTML = '<p style="color:#9A7D0A;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#9A7D0A;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#9A7D0A;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s4.slice(-1)[0][2];
+    start_time_dataX = data_s4.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) - 0.5).toFixed(2);
+
+    data_s4.slice(-2)[0][2] = start_time_dataX;
+    data_s4.slice(-1)[0][2] = end_time_dataX;
+
+  }
+}
+
+
+// Offset START +0.5
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+  if (code == 'KeyJ') {
+    if (csvdata.length >= 1){
+    offset_last_entry_START_plus05();
+  }
+  }
+}, false);
+
+function offset_last_entry_START_plus05(){
+
+  var new_start_val, new_end_val;
+
+  // Extract it from the main csvdata
+  last_entry_mod = csvdata.pop();
+
+  // // Verify is not the beginning
+  // if (last_entry_mod[1] >= 0.5) {
+  //   new_start_val = 0;
+  // } else {
+  //   new_start_val = last_entry_mod[1] - 0.5;
+  // }
+  new_start_val = (parseFloat(last_entry_mod[1]) + 0.5).toFixed(2);
+
+  new_end_val = last_entry_mod[2];
+  // // Verify the END point is greater than 0
+  // if (last_entry_mod[2] <= 0.5) {
+  //   new_end_val = 0;
+  // } else {
+  //   new_end_val = last_entry_mod[2] - 0.5;
+  // }
+
+  csvdata.push([last_entry_mod[0], new_start_val, new_end_val]);
+
+  // Delete it from the table
+  document.getElementById("myTable").deleteRow(1);
+
+  // fill at the bottom of the table with ---- to keep shape
+  var table = document.getElementById("myTable");    
+  var row = table.insertRow(1);
+  var src = row.insertCell(0);
+  var start_time = row.insertCell(1);
+  var end_time = row.insertCell(2);
+
+  var current_nameLang = last_entry_mod[0];
+  var current_start_time = new_start_val;
+  var current_stop_time = new_end_val;
+  var current_name = current_nameLang.substring(0,2);
+
+  let start_time_dataX;
+  let end_time_dataX;
+
+  if (current_name == 'S0'){
+    src.innerHTML = '<p style="color:#E74C3C;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#E74C3C;">' + current_start_time  + '</p>';
+    end_time.innerHTML ='<p style="color:#E74C3C;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s0.slice(-1)[0][2];
+    start_time_dataX = data_s0.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) + 0.5).toFixed(2);
+
+    data_s0.slice(-2)[0][2] = start_time_dataX;
+    data_s0.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S1'){
+    src.innerHTML = '<p style="color:#8E44AD;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#8E44AD;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#8E44AD;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s1.slice(-1)[0][2];
+    start_time_dataX = data_s1.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) + 0.5).toFixed(2);
+
+    data_s1.slice(-2)[0][2] = start_time_dataX;
+    data_s1.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S2'){
+    src.innerHTML = '<p style="color:#3498DB;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#3498DB;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#3498DB;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s2.slice(-1)[0][2];
+    start_time_dataX = data_s2.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) + 0.5).toFixed(2);
+
+    data_s2.slice(-2)[0][2] = start_time_dataX;
+    data_s2.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S3'){
+    src.innerHTML = '<p style="color:#27AE60;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#27AE60;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#27AE60;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s3.slice(-1)[0][2];
+    start_time_dataX = data_s3.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) + 0.5).toFixed(2);
+
+    data_s3.slice(-2)[0][2] = start_time_dataX;
+    data_s3.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S4'){
+    src.innerHTML = '<p style="color:#9A7D0A;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#9A7D0A;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#9A7D0A;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s4.slice(-1)[0][2];
+    start_time_dataX = data_s4.slice(-2)[0][2];
+
+    start_time_dataX = (parseFloat(start_time_dataX) + 0.5).toFixed(2);
+
+    data_s4.slice(-2)[0][2] = start_time_dataX;
+    data_s4.slice(-1)[0][2] = end_time_dataX;
+
+  }
+}
+
+
+// Offset END +0.5
+document.addEventListener('keydown', (event) => {
+  var code = event.code;
+  if (code == 'KeyL') {
+    if (csvdata.length >= 1){
+    offset_last_entry_END_plus05();
+  }
+  }
+}, false);
+
+function offset_last_entry_END_plus05(){
+
+  var new_start_val, new_end_val;
+
+  // Extract it from the main csvdata
+  last_entry_mod = csvdata.pop();
+
+  // // Verify is not the beginning
+  // if (last_entry_mod[1] >= 0.5) {
+  //   new_start_val = 0;
+  // } else {
+  //   new_start_val = last_entry_mod[1] - 0.5;
+  // }
+  new_end_val = (parseFloat(last_entry_mod[2]) + 0.5).toFixed(2);
+  
+  new_start_val = last_entry_mod[1];
+  // // Verify the END point is greater than 0
+  // if (last_entry_mod[2] <= 0.5) {
+  //   new_end_val = 0;
+  // } else {
+  //   new_end_val = last_entry_mod[2] - 0.5;
+  // }
+
+  csvdata.push([last_entry_mod[0], new_start_val, new_end_val]);
+
+  // Delete it from the table
+  document.getElementById("myTable").deleteRow(1);
+
+  // fill at the bottom of the table with ---- to keep shape
+  var table = document.getElementById("myTable");    
+  var row = table.insertRow(1);
+  var src = row.insertCell(0);
+  var start_time = row.insertCell(1);
+  var end_time = row.insertCell(2);
+
+  var current_nameLang = last_entry_mod[0];
+  var current_start_time = new_start_val;
+  var current_stop_time = new_end_val;
+  var current_name = current_nameLang.substring(0,2);
+
+  let start_time_dataX;
+  let end_time_dataX;
+
+  if (current_name == 'S0'){
+    src.innerHTML = '<p style="color:#E74C3C;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#E74C3C;">' + current_start_time  + '</p>';
+    end_time.innerHTML ='<p style="color:#E74C3C;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s0.slice(-1)[0][2];
+    start_time_dataX = data_s0.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) + 0.5).toFixed(2);
+
+    data_s0.slice(-2)[0][2] = start_time_dataX;
+    data_s0.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S1'){
+    src.innerHTML = '<p style="color:#8E44AD;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#8E44AD;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#8E44AD;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s1.slice(-1)[0][2];
+    start_time_dataX = data_s1.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) + 0.5).toFixed(2);
+
+    data_s1.slice(-2)[0][2] = start_time_dataX;
+    data_s1.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S2'){
+    src.innerHTML = '<p style="color:#3498DB;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#3498DB;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#3498DB;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s2.slice(-1)[0][2];
+    start_time_dataX = data_s2.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) + 0.5).toFixed(2);
+
+    data_s2.slice(-2)[0][2] = start_time_dataX;
+    data_s2.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S3'){
+    src.innerHTML = '<p style="color:#27AE60;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#27AE60;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#27AE60;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s3.slice(-1)[0][2];
+    start_time_dataX = data_s3.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) + 0.5).toFixed(2);
+
+    data_s3.slice(-2)[0][2] = start_time_dataX;
+    data_s3.slice(-1)[0][2] = end_time_dataX;
+
+  } else if (current_name == 'S4'){
+    src.innerHTML = '<p style="color:#9A7D0A;">' + current_nameLang + '</p>';
+    start_time.innerHTML ='<p style="color:#9A7D0A;">' + current_start_time + '</p>';
+    end_time.innerHTML ='<p style="color:#9A7D0A;">' + current_stop_time + '</p>';
+
+    end_time_dataX = data_s4.slice(-1)[0][2];
+    start_time_dataX = data_s4.slice(-2)[0][2];
+
+    end_time_dataX = (parseFloat(end_time_dataX) + 0.5).toFixed(2);
+
+    data_s4.slice(-2)[0][2] = start_time_dataX;
+    data_s4.slice(-1)[0][2] = end_time_dataX;
+
+  }
+}
+
+
+myVideo.addEventListener('timeupdate', (event) => {
+  
+  // check speaker 0 if not engaged
+  if (Sel0_state == 0 && data_s0.length >= 2){
+    var last_entry_start;
+    var last_entry_end;
+
+    for (let i = 0; i < data_s0.length; i=i+2){
+      last_entry_start = data_s0[i][2];
+      last_entry_end = data_s0[i+1][2];
+
+      if (myVideo.currentTime >= last_entry_start && myVideo.currentTime <= last_entry_end){
+        circle0.style.setProperty("opacity", "1.0");
+        circle0.style.setProperty("background-color", "#616A6B");
+        break;
+      } else {
+        circle0.style.setProperty("opacity", "0.7");
+        circle0.style.setProperty("background-color", "#EC7063");
+      }
+    }
+  }
+
+  // check speaker 1 if not engaged
+  if (Sel1_state == 0 && data_s1.length >= 2){
+    var last_entry_start;
+    var last_entry_end;
+
+    for (let i = 0; i < data_s1.length; i=i+2){
+      last_entry_start = data_s1[i][2];
+      last_entry_end = data_s1[i+1][2];
+
+      if (myVideo.currentTime >= last_entry_start && myVideo.currentTime <= last_entry_end){
+        circle1.style.setProperty("opacity", "1.0");
+        circle1.style.setProperty("background-color", "#616A6B");
+        break;
+      } else {
+        circle1.style.setProperty("opacity", "0.7");
+        circle1.style.setProperty("background-color", "#AF7AC5");
+        continue;
+      }
+    }
+  }
+
+
+  // check speaker 2 if not engaged
+  if (Sel2_state == 0 && data_s2.length >= 2){
+    var last_entry_start;
+    var last_entry_end;
+
+    for (let i = 0; i < data_s2.length; i=i+2){
+      last_entry_start = data_s2[i][2];
+      last_entry_end = data_s2[i+1][2];
+
+      if (myVideo.currentTime >= last_entry_start && myVideo.currentTime <= last_entry_end){
+        circle2.style.setProperty("opacity", "1.0");
+        circle2.style.setProperty("background-color", "#616A6B");
+        break;
+      } else {
+        circle2.style.setProperty("opacity", "0.7");
+        circle2.style.setProperty("background-color", "#5DADE2");
+        continue;
+      }
+    }
+  }
+
+
+  // check speaker 3 if not engaged
+  if (Sel3_state == 0 && data_s3.length >= 2){
+    var last_entry_start;
+    var last_entry_end;
+
+    for (let i = 0; i < data_s3.length; i=i+2){
+      last_entry_start = data_s3[i][2];
+      last_entry_end = data_s3[i+1][2];
+
+      if (myVideo.currentTime >= last_entry_start && myVideo.currentTime <= last_entry_end){
+        circle3.style.setProperty("opacity", "1.0");
+        circle3.style.setProperty("background-color", "#616A6B");
+        break;
+      } else {
+        circle3.style.setProperty("opacity", "0.7");
+        circle3.style.setProperty("background-color", "#52BE80");
+        continue;
+      }
+    }
+  }
+
+
+    // check speaker 2 if not engaged
+  if (Sel4_state == 0 && data_s4.length >= 2){
+    var last_entry_start;
+    var last_entry_end;
+
+    for (let i = 0; i < data_s4.length; i=i+2){
+      last_entry_start = data_s4[i][2];
+      last_entry_end = data_s4[i+1][2];
+
+      if (myVideo.currentTime >= last_entry_start && myVideo.currentTime <= last_entry_end){
+        circle4.style.setProperty("opacity", "1.0");
+        circle4.style.setProperty("background-color", "#616A6B");
+        break;
+      } else {
+        circle2.style.setProperty("opacity", "0.7");
+        circle4.style.setProperty("background-color", "#F5B041");
+        continue;
+      }
+    }
+  }
+
+});
+
+
+</script> 
+
+</body> 
+</html>
