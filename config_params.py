@@ -1,5 +1,4 @@
 
-
 ### From Shelby (S0 and counterclockwise)
 def speaker_swapping(s_input_ID):
     # swap speaker accordingly:
