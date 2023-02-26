@@ -1,0 +1,2 @@
+cd ~/Dropbox/SpeechFall2022/SpeakerLID_GT_code/utls
+pip install -e .

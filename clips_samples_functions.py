@@ -6,18 +6,19 @@ from pathlib import Path
 from utilities_functions import check_folder_for_process, ffmpeg_split_audio, get_total_video_length
 from scripts_functions import verify_video_csvNamebase, unique_entry_gen, simplify_praat, convert_to_csv
 
-from config_params import speaker_swapping 
+import textgrid
+from config_params import speaker_swapping_tony, speaker_swapping_groups
 
 
 ########################    01a Separate into selected videos #################################
 
-def create_clips(current_folder, current_clips_output_folder,  header_flag = True):
+def create_clips(current_folder, current_clips_output_folder,  header_flag = True, timestamp_flag=True):
 
     # Check if output audios are present
     if not(check_folder_for_process(current_clips_output_folder)):
         print(f'Not modified! Goodbye!')
 
-    csv_selections_list, current_video_path = verify_video_csvNamebase(current_folder)
+    csv_selections_list, current_video_path = verify_video_csvNamebase(current_folder, timestamp_flag=timestamp_flag)
     current_video_name = current_video_path.name
 
     unique_lines_gt = unique_entry_gen(csv_selections_list, header_flag)
@@ -63,6 +64,8 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
 
     list_to_segment = []
     list_passed = []
+
+
     # determine how many 15' segments would be
     for current_video_path in folder_videos_list:
         current_video_name = current_video_path.name
@@ -177,6 +180,8 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
             new_video_path = current_video_path.parent.joinpath(new_video_name)
             print(f'{current_video_path}\n{new_video_path}\n\n')
             os.rename(current_video_path, new_video_path)
+    
+    # 
 
 
 
@@ -184,34 +189,42 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
 
 def delete_tms_from_folder(current_folder, idx_neg = 29):
 
-   folder_csv_list = [x for x in os.listdir(current_folder) if re.search(r'\d\d\dZ.csv', x)]
+    # Convert all txt files into csv files
+    txt_list = sorted(list(current_folder.glob('*.txt')))
+    for current_txt in txt_list:
+        new_path = current_txt.with_suffix('.csv') 
+        current_txt.rename(new_path)
 
-   folder_csv_cleared = [(x[:-idx_neg]+'.csv') for x in folder_csv_list]
+    folder_csv_list = [x for x in os.listdir(current_folder) if re.search(r'\d\d\dZ.csv', x)]
 
-   print(folder_csv_cleared)
+    folder_csv_cleared = [(x[:-idx_neg]+'.csv') for x in folder_csv_list]
 
-   # iterate over all audio sorted
-   for idx_csv, current_csv_path in enumerate(folder_csv_list):
-      os.rename(current_csv_path, folder_csv_cleared[idx_csv])
+    print(folder_csv_cleared)
+
+    # iterate over all audio sorted
+    for idx_csv, current_csv_name in enumerate(folder_csv_list):
+        current_csv_path = current_folder.joinpath(current_csv_name)
+        current_csv_path.rename(current_folder.joinpath(folder_csv_cleared[idx_csv]))
+
 
 
 ########################  02b convert csv file into simple praat + generate audios  #################################
 
 # IMPORTANT: csv should have the same name as videos
 
-def convert_csv_2_praat(input_csvs_pth, output_praat_pth, praat_name = '_praat.txt'):
+def convert_csv_2_praat(input_csvs_pth, output_praat_pth, current_GT_clips_output_folder, praat_name = '_praat.txt'):
 
     if not(check_folder_for_process(output_praat_pth)):
         sys.exit('goodbye')
 
     for csv_pth in input_csvs_pth.glob( '*.csv' ):
-        print( csv_pth )
+        print(f'\n This is the csv_path: {csv_pth}' )
         # Src folder with all csv file to transform (future)
         csv_name = csv_pth.stem
 
         # Load name of the video those clips came from
-        mp4_pth = csv_pth.parent.with_name(csv_name).with_suffix('.mp4')
-        print(mp4_pth)
+        mp4_pth = current_GT_clips_output_folder.joinpath(csv_name).with_suffix('.mp4')
+        print(f'\n This is the mp4: {mp4_pth}\n---------------------\n')
 
         # Generate audio mono 16K audio from video
         current_audio_name = mp4_pth.stem
@@ -295,20 +308,83 @@ def convert_csv_2_praat(input_csvs_pth, output_praat_pth, praat_name = '_praat.t
 def convert_praat_2_csv(folder_pth, final_csv_pth, 
                     tag_from_praat = 'done', tag_after_finished = 'ready'):
 
-    if not(check_folder_for_process(final_csv_pth)):
-        sys.exit('goodbye')
+    if folder_pth != final_csv_pth:
+        if not(check_folder_for_process(final_csv_pth)):
+            sys.exit('goodbye')
+    
+    if tag_from_praat == '':
+        textgrid_files = folder_pth.glob( f'*.TextGrid' )
+    else:
+        textgrid_files = folder_pth.glob( f'*_{tag_from_praat}.TextGrid' )
 
-    for praat_pth in folder_pth.glob( f'*_{tag_from_praat}.txt' ):
+    for praat_pth in textgrid_files:
         print(f'\tNow processing: {praat_pth}\n')
         conrrected_praat_name = praat_pth.stem
 
-        new_transcript_name = conrrected_praat_name.split('.')[0] + f'_{tag_after_finished}.csv'
-        simplified_transcr_path = final_csv_pth.joinpath(new_transcript_name)
+        if tag_from_praat == '':
+            new_transcript_name = conrrected_praat_name.split('.')[0] + f'.csv'
+        else:
+            new_transcript_name = conrrected_praat_name.split('.')[0] + f'_{tag_after_finished}.csv'
 
-        simplify_praat(praat_pth, simplified_transcr_path)
+        csv_transcript_pth = final_csv_pth.joinpath(new_transcript_name)
 
-        convert_to_csv(simplified_transcr_path, simplified_transcr_path)
+        tgrid = textgrid.read_textgrid(str(praat_pth))
+        new_file = open(csv_transcript_pth, "w")
 
+        for current_entry in tgrid:
+            speaker_lang = current_entry.name
+            strt_time = current_entry.start
+            end_time =  current_entry.stop
+            speaker_ID = current_entry.tier 
+
+            if speaker_ID not in ['S0', 'S1', 'S2', 'S3', 'S4']:
+                sys.error(f'Tier name is wrong: {speaker_ID}')
+            
+            if float(end_time) < float(strt_time):
+                sys.error(f'End time smaller that start time: {strt_time} ~ {end_time}')
+            
+            if speaker_lang != '':
+                new_line = f'{speaker_ID}\t{speaker_lang}\t{strt_time:.2f}\t{end_time:.2f}\n'
+                new_file.write(new_line)
+
+        new_file.close()
+
+
+def convert_praat_interviews_csv(folder_pth, final_csv_pth):
+
+    if folder_pth != final_csv_pth:
+        if not(check_folder_for_process(final_csv_pth)):
+            sys.exit('goodbye')
+
+    for praat_pth in folder_pth.glob( f'*.TextGrid' ):
+        print(f'\tNow processing: {praat_pth}\n')
+        corrected_praat_name = praat_pth.stem
+
+        aolme_code = corrected_praat_name.split('_')[-1]
+
+        new_transcript_name = corrected_praat_name.split('.')[0] + '.csv'
+        csv_transcript_pth = final_csv_pth.joinpath(new_transcript_name)
+
+        tgrid = textgrid.read_textgrid(str(praat_pth))
+        new_file = open(csv_transcript_pth, "w")
+
+        for current_entry in tgrid:
+            speaker_lang = current_entry.name
+            strt_time = current_entry.start
+            end_time =  current_entry.stop
+            Mary_ID = current_entry.tier 
+            
+            if float(end_time) < float(strt_time):
+                sys.error(f'End time smaller that start time: {strt_time} ~ {end_time}')
+            
+            if speaker_lang != '':
+                if Mary_ID != 'Mary':
+                    sys.error(f'Tier name is not Mary! -> {Mary_ID}')
+
+                new_line = f'{aolme_code}\t{speaker_lang}\t{strt_time:.2f}\t{end_time:.2f}\n'
+                new_file.write(new_line)
+
+        new_file.close()
 
 ########################    03b Generate audio samples #################################
 
@@ -316,7 +392,10 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
             GT_audio_output_folder,
             sr = 16000,
             praat_extension = '_' + 'praat_done_ready',
-            tony_flag = True,
+            groups_flag = True,
+            tony_flag = False,
+            audio_flag = False,
+            interviews_flag = False,
             ):
 
     # Check if output audios are present
@@ -327,7 +406,12 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
 
     # Obtain each gt_transcript
     folder_transcripts_list = sorted(list(current_folder_csv.glob('*.csv')))
-    folder_videos_list = sorted(list(current_folder_videos.glob('*.mp4')))
+    
+    if audio_flag:
+        folder_videos_list = sorted(list(current_folder_videos.glob('*.wav')))
+    else:
+        folder_videos_list = sorted(list(current_folder_videos.glob('*.mp4')))
+
     csv_names_only_list = [x.stem for x in folder_transcripts_list]
 
     # New transcript per folder
@@ -349,29 +433,65 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
             print(f'\nVideo SKIPPED: {current_input_video}\n')
             continue
 
+        speaker_ID = current_video_name.split('_')[-1]
+
         lines.pop(0)
         # Create samples audio from each clip
         for idx in range(0, len(lines)):
-            speaker_lang_csv, start_time_csv, stop_time_csv = lines[idx].strip().split('\t')
+            speaker_csv, lang_csv, start_time_csv, stop_time_csv = lines[idx].strip().split('\t')
 
             if tony_flag:
-                speaker_ID = speaker_swapping(speaker_lang_csv[0:2])
-            else:
-                speaker_ID = speaker_lang_csv[0:2]
-
-            current_audio_sample_name = current_video_name + '-sample-' + \
-                str(idx).zfill(4) + '_' + speaker_ID + '.wav'
+                speaker_ID = speaker_swapping_tony(speaker_csv, current_video_name)
+                current_audio_sample_name = current_video_name + '-sample-' + \
+                    str(idx).zfill(4) + '_' + speaker_ID + '.wav'
+            elif groups_flag:
+                speaker_ID = speaker_swapping_groups(speaker_csv, current_video_name)
+                current_audio_sample_name = current_video_name + '_' + speaker_ID + '_' + str(idx).zfill(4) + '.wav'
+            elif interviews_flag:
+                current_audio_sample_name = current_video_name + '_' + \
+                    str(idx).zfill(4) + '.wav'
             current_audio_sample_path = GT_audio_output_folder.joinpath(current_audio_sample_name)
 
             start_mod, end_mod = ffmpeg_split_audio(input_video=current_input_video, 
-            output_video = current_audio_sample_path,
+            output_pth = current_audio_sample_path,
             start_time_csv = start_time_csv,
             stop_time_csv = stop_time_csv,
             sr = sr)
 
             # Add new entry at the csv output file
             current_filename_transcript = current_audio_sample_path.stem
-            new_line = f'{current_filename_transcript}\t{speaker_ID}\t{speaker_lang_csv[2:]}\t{start_mod}\t{end_mod}\n'
+            if interviews_flag:
+                new_line = f'{current_filename_transcript}\t{speaker_ID}\t{lang_csv}\t{start_mod}\t{end_mod}\n'
+            else:
+                new_line = f'{current_filename_transcript}\t{speaker_ID}\t{lang_csv}\t{start_mod}\t{end_mod}\n'
+
             new_file.write(new_line)
 
     new_file.close()
+
+# def create_micro_segments(input_folder_path):
+
+def divide_speakers_into_folders(input_folder_path):
+
+    speaker_folder_root = input_folder_path.joinpath('Speakers_folder')
+
+    # Check if output audios are present
+    if not(check_folder_for_process(speaker_folder_root)):
+        sys.exit(f'Not modified! Goodbye!')
+
+    folder_audios_list = sorted(list(input_folder_path.glob('*.wav')))
+
+    for current_audio in folder_audios_list:
+        speaker_ID = (current_audio.stem).split('_')[-2]
+
+        # Create folder if doesn't exist
+        if not(speaker_folder_root.joinpath(speaker_ID).exists()):
+            speaker_folder_root.joinpath(speaker_ID).mkdir()
+        
+        # Generate new path
+        new_audio_path = speaker_folder_root.joinpath(speaker_ID, current_audio.name)
+
+        # Copy wav into new folder
+        shutil.copy(current_audio, new_audio_path)
+        
+

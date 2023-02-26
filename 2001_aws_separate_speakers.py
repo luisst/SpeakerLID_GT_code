@@ -1,11 +1,17 @@
 import sys
 from pathlib import Path
 
-folder_pth = Path.home().joinpath('Dropbox', '04_Audio_Perfomance_Evaluation','AWS_speech_recognition')
+from utilities_functions import check_folder_for_process
 
-name_of_aws_results = 'ftDiarization01_aws_2022-12-18-23_05.txt'
+folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO', 'Conversation_SpeakerDiarization','SDpart1','All_results', 'aws')
+name_of_aws_results = 'aws_audios_dec22_aws_2022-12-24-15_04.txt'
 
 transcript_pth = folder_pth.joinpath(name_of_aws_results)
+
+output_folder_pth = folder_pth.joinpath('final_csv')
+
+if not(check_folder_for_process(output_folder_pth)):
+    sys.exit("goodbye")
 
 f = open(transcript_pth, 'r')
 lines = f.readlines()
@@ -24,7 +30,7 @@ for line in lines:
 for current_filename in files_dict:
     current_data_lines = files_dict[current_filename]
     new_transcript_name_base = '{}_awspred.txt'.format(current_filename.split('.')[0])
-    new_transcript_pth = folder_pth.joinpath(new_transcript_name_base)
+    new_transcript_pth = output_folder_pth.joinpath(new_transcript_name_base)
     print(f'\n\nNow processing {new_transcript_name_base}')
 
     new_file = open(new_transcript_pth, "w")

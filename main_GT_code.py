@@ -18,10 +18,10 @@ longvideos_dir = root_dir.joinpath('01_Long_videos')
 
 # I start in long videos folder!
 
-pc01 , pc02, pc03 = [1,0,0]
+pc01 , pc02, pc03 = [0,0,1]
 
 # One folder in -> one folder out
-current_folder = longvideos_dir.joinpath('G-C3L1P-Mar21-A-Venkatesh_q2_02-05')
+current_folder = longvideos_dir.joinpath('G-C1L1P-Mar02-E-Irma_q2_03-08')
 
 clips_dir = root_dir.joinpath('02_Selected_clips')
 GT_output_dir = root_dir.joinpath('03_Final_samples')
@@ -34,27 +34,27 @@ current_GT_output_folder = GT_output_dir.joinpath(current_folder.name)
 
 # create directories if doesn't exist
 create_folder_if_missing(current_csv_webapp_folder)
+create_folder_if_missing(clips_dir.joinpath(current_folder))
 
 #############  [pc01]  First step: Divide into selections + webapp      ##############
 if pc01:
-    gt.create_clips(current_folder, current_clips_output_folder)
+    gt.create_clips(current_folder, current_clips_output_folder,timestamp_flag=False)
     gt.process_raw_long_clips(current_clips_output_folder, current_GT_clips_output_folder)
 
 #############  [pc02] Second step: Read CSV -> Praat      ##############
 if pc02:
     gt.delete_tms_from_folder(current_csv_webapp_folder)
-
-    gt.convert_csv_2_praat(current_csv_webapp_folder, current_praat_files_folder, 
-                            praat_name = '_praat.txt')
+    gt.convert_csv_2_praat(current_csv_webapp_folder, current_praat_files_folder,
+                            current_GT_clips_output_folder, praat_name = '_praat.txt')
 
 #############  [pc03] Third step: Praat -> audio samples      ##############
 if pc03:
     gt.convert_praat_2_csv(current_praat_files_folder, current_final_csv_folder, 
-                        tag_from_praat = 'done', tag_after_finished = 'ready')
+                        tag_from_praat = 'praat', tag_after_finished = 'ready')
 
     gt.gen_audio_samples(current_GT_clips_output_folder, current_final_csv_folder,
                             current_GT_output_folder,
                             sr = 16000,
-                            praat_extension = '_' + 'praat_done_ready'
-                            tony_flag = True,
+                            praat_extension = '_' + 'praat_ready',
+                            tony_flag = False,
                             )

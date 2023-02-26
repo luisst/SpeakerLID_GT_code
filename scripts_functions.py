@@ -1,6 +1,5 @@
 import re
 import sys
-from config_params import speaker_swapping
 
 replacements=[("File type = ", ""), 
     ("Object class = ", ""),
@@ -15,9 +14,10 @@ replacements=[("File type = ", ""),
     ("    ", ""),
     ("item \[\d\]:", ""),
 
-    ("(?<=\"IntervalTier\" )(\n)(?=\"S\d\")", ""),
-    ("(?<=intervals \[\d\]:\n)(\d+\.?\d*?) \n(\d+\.?\d*?) \n(\"\S*?\")", "\g<1> \g<2> \g<3>"),
-    ("(?<=\"IntervalTier\" \"S\d\" \n)(\d )\n((\d+\.?\d*?) )", "\g<1>\g<2>"),
+    ("(?<=\"IntervalTier\" )(\n)(?=\"[sS]\d\")", ""),
+    ("(?<=intervals \[\d\]:\n)(\d+\.?\d*?) \n(\d+\.?\d*?) \n\"(.*?)\"", "\g<1>\t\g<2>\t\"\g<3>\""),
+    ("(?<=intervals \[\d\d\]:\n)(\d+\.?\d*?) \n(\d+\.?\d*?) \n\"(.*?)\"", "\g<1>\t\g<2>\t\"\g<3>\""),
+    ("(?<=\"IntervalTier\" \"[sS]\d\" \n)(\d )\n((\d+\.?\d*?) )", "\g<1>\g<2>"),
     ("(?<=\n)\n", ""),
 
     ("(?<=\"ooTextFile\"\n\"TextGrid\"\n)(\d )\n((\d+\.?\d*?) )", "\g<1>\g<2>"),
@@ -57,7 +57,7 @@ def convert_to_csv(simplified_transcr_path, final_csv_pth):
     lines = f.read()
     f.close()
 
-    regex = r"(?:\"IntervalTier\" \"(S\d)\"\n.+?\n(\d) interval coming\n(.+?)(?=\"IntervalTier\"))|(?:\"IntervalTier\" \"(S\d)\"\n.+?\n(\d) interval coming\n(.+?)(?=\Z))"
+    regex = r"(?:\"IntervalTier\" \"([sS]\d)\"\n.+?\n(\d) interval coming\n(.+?)(?=\"IntervalTier\"))|(?:\"IntervalTier\" \"([sS]\d)\"\n.+?\n(\d) interval coming\n(.+?)(?=\Z))"
 
     matches = re.finditer(regex, lines, re.DOTALL)
 
@@ -89,7 +89,7 @@ def convert_to_csv(simplified_transcr_path, final_csv_pth):
         if len(interval_list) != int(number_intervals):
             sys.exit("Intervals numbers are not matching! {len(interval_list)} vs {int(number_intervals)}")
         for inter_idx, line in enumerate(interval_list):
-            strt_time, end_time, data_GT = line.split()
+            strt_time, end_time, data_GT = line.split('\t')
             ID_lang = speaker_id + data_GT.strip("\"")
             if data_GT != '""':
                 strt_time_str = str(round(float(strt_time),2))
@@ -98,17 +98,22 @@ def convert_to_csv(simplified_transcr_path, final_csv_pth):
 
     new_file.close()
 
-def verify_video_csvNamebase(current_folder):
+def verify_video_csvNamebase(current_folder, timestamp_flag):
     # gather all csv files
     csv_selections_list = sorted(list(current_folder.glob('*.csv')))
+    csv_selections_list.extend(sorted(list(current_folder.glob('*.txt'))))
 
     # check all have the same base name
-    base_name_list = [str(x)[:-28] for x in csv_selections_list]
+    if timestamp_flag:
+        base_name_list = [str(x)[:-28] for x in csv_selections_list]
+    else:
+        base_name_list = [str(x)[:-3] for x in csv_selections_list]
     if len(set(base_name_list)) != 1:
         sys.exit(f'Error in the base names, there are {len(set(base_name_list))} different names')
 
     # Read the only src video from folder
     src_video_list = sorted(list(current_folder.glob('*.mpeg')))
+    src_video_list.extend(sorted(list(current_folder.glob('*.mp4'))))
 
     if len(src_video_list) != 1:
         sys.exit(f'Error, too many (or none) src videos found')

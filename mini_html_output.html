@@ -1,0 +1,124 @@
+<!kDOCTYPE html> 
+<html>
+
+<!-- https://www.aspsnippets.com/DownloadFile.aspx?File=f9b2dcbb-de35-493c-870e-27e2448a0c81.zip#center -->
+<!-- https://www.w3schools.com/tags/av_prop_duration.asp
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_progressbar_3
+https://htmlcolorcodes.com/ -->
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+  body{
+  height: 650px;
+  width: 1180px;
+  margin: 0px;
+}
+  p { font-family: Arial; }
+
+  h4{
+    /*background: orange;*/
+    margin:3px;
+  }
+
+/* Rounded sliders */
+.sliderSEL.round {
+  border-radius: 34px;
+}
+
+.sliderSEL.round:before {
+  border-radius: 50%;
+}
+
+</style>
+</head>
+
+<body onclick="showCoords(event)"> 
+
+<br>
+<div class="videoRow" style="text-align:center"> 
+<div class="colv"> 
+  <video id="video1" width="750" controls>
+
+  <!-- <source src="basic_vid1\output"+ vid_cnt + ".mp4" >
+    Your browser does not support HTML video. -->
+  </video>
+</div>
+<div class="colside" style="text-align:center;">
+  <table id="myTable">
+  <tr>
+    <th>Src</th>
+    <th>Start</th>
+    <th>End</th>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+  <tr>
+    <td> - </td>
+    <td> - </td>
+    <td> - </td>
+  </tr>
+</table>
+ <br>
+
+
+<script>
+
+var myVideo = document.getElementById("video1"); 
+
+function update_nextmyvideo(){
+  const vid_cnt_span = document.getElementById("the_cnt");
+  vid_cnt = String(parseInt(vid_cnt_span.textContent)+1);
+  var current_video_name;
+  vid_cnt3d = String(vid_cnt).padStart(3, '0');
+  current_video_name = another_video_baseline + vid_cnt3d; //ID_edit!!
+  document.getElementById('video_name_txt').textContent = current_video_name;
+  document.getElementById('video1').innerHTML = '<source src=' + current_video_name + '.mp4 type="video/mp4">';
+  myVideo.load()
+  vid_cnt_span.textContent = vid_cnt;
+
+}
+
+
+function update_prevmyvideo(){
+  const vid_cnt_span = document.getElementById("the_cnt");
+  vid_cnt = String(parseInt(vid_cnt_span.textContent)-1);
+  var current_video_name;
+  vid_cnt3d = String(vid_cnt).padStart(3, '0');
+  current_video_name = another_video_baseline + vid_cnt3d; //ID_edit!!
+  document.getElementById('video_name_txt').textContent = current_video_name;
+  document.getElementById('video1').innerHTML = '<source src=' + current_video_name + '.mp4 type="video/mp4">';
+  myVideo.load()
+  vid_cnt_span.textContent = vid_cnt;
+
+}
+
+
+</script> 
+
+</body> 
+</html>

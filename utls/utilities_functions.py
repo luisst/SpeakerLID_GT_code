@@ -1,5 +1,5 @@
 # coding=utf8
-
+import re
 import os
 import shutil
 import time
@@ -7,6 +7,8 @@ import sys
 import subprocess as subp
 import json
 import pdb
+import pandas as pd
+import datetime
 
 
 def get_platform():
@@ -35,11 +37,13 @@ def check_folder_for_process(this_dir):
 
     if len(os.listdir(this_dir)) != 0:
         print(f"{this_dir} isn't empty, overwrite[o] or append[a]?")
-        if input().lower() == 'o':
+        user_response = input().lower()
+        print(f'user answered: {user_response}')
+        if user_response == 'o':
             shutil.rmtree(this_dir)
             os.mkdir(this_dir)
             compute_procedure = True
-        elif input().lower() == 'a':
+        elif user_response == 'a':
             print("Append content")
             compute_procedure = True
         else:
@@ -66,6 +70,22 @@ def get_total_video_length(input_video_path):
     return video_duration_seconds
 
 
+def find_audio_duration(current_transcript_pth, audios_folder, suffix_added, verbose=False):
+    # Find the path of the audio
+    if suffix_added != '':
+        current_basename = extract_basename(current_transcript_pth.stem, suffix_added)
+        candidate_path = audios_folder.joinpath(current_basename + '.wav')
+    else:
+        candidate_path = audios_folder.joinpath(current_gt_pth.stem + '.wav')
+
+    if candidate_path.exists ():
+        if verbose:
+            print (f'File exist: {candidate_path}')
+        return get_total_video_length(candidate_path)
+    else:
+        sys.error(f'Error! Audio {candidate_path} was not located!')
+    
+
 def ffmpeg_split_audio(input_video, output_pth,
             start_time_csv = '0.00',
             stop_time_csv = 'default',
@@ -88,9 +108,9 @@ def ffmpeg_split_audio(input_video, output_pth,
 
     if stop_time_csv == 'default':
         if get_platform() == 'Linux':
-            cmd = f"ffmpeg -i '{input_video}' -acodec pcm_s16le -ac 1 -ar {sr} '{output_video}'"
+            cmd = f"ffmpeg -i '{input_video}' -acodec pcm_s16le -ac 1 -ar {sr} '{output_pth}'"
         else:
-            cmd = f"ffmpeg -i {input_video} -acodec pcm_s16le -ac 1 -ar {sr} {output_video}"
+            cmd = f"ffmpeg -i {input_video} -acodec pcm_s16le -ac 1 -ar {sr} {output_pth}"
         subp.run(cmd, shell=True)
         return 'non_valid', 'non_valid'
 
@@ -130,3 +150,137 @@ def ffmpeg_split_audio(input_video, output_pth,
     subp.run(cmd, shell=True)
 
     return start_time_csv, stop_time_csv
+
+def extract_basename(input_str, suffix_added):
+    mymatch = re.search(r'.+(?=_{})'.format(suffix_added), input_str)
+    if mymatch != None:
+        mystring = mymatch.group()    
+    else:
+        mystring = ''
+    return mystring
+
+def matching_basename_pathlib_gt_pred(GT_pth, pred_pth, 
+        gt_suffix_added='', pred_suffix_added='',
+        gt_ext = 'txt', pred_ext = 'txt', verbose = False):
+
+    if gt_suffix_added == '':
+        GT_list = sorted(list(GT_pth.glob(f'*.{gt_ext}')))
+    else:
+        GT_list = sorted(list(GT_pth.glob(f'*_{gt_suffix_added}.{gt_ext}')))
+
+    if pred_suffix_added == '':
+        pred_list = sorted(list(pred_pth.glob(f'*.{pred_ext}')))
+    else:
+        pred_list = sorted(list(pred_pth.glob(f'*_{pred_suffix_added}.{pred_ext}')))
+
+
+    if len(GT_list) == 0:
+        print(f'ERROR GT list empty. Check suffix')
+    
+    if len(pred_list) == 0:
+        print(f'ERROR!! Pred list is empty. Check suffix')
+
+    # Extract basenames from pathlib
+
+    if gt_suffix_added == '':
+        gt_list_basenames = [x.stem for x in GT_list]
+    else:
+        gt_list_basenames = [extract_basename(x.name, gt_suffix_added) for x in GT_list]
+
+    if pred_suffix_added == '':
+        pred_list_basenames = [x.stem for x in pred_list]
+    else:
+        pred_list_basenames = [extract_basename(x.name, pred_suffix_added) for x in pred_list]
+
+    if verbose:
+        print(f'GT: {gt_list_basenames}\nPred: {pred_list_basenames}')
+
+    # Check for duplicates
+    if len(gt_list_basenames) != len(list(set(gt_list_basenames))):
+        sys.exit(f'Duplicates found at folder {GT_pth}')
+
+    if len(pred_list_basenames) != len(list(set(pred_list_basenames))):
+        sys.exit(f'Duplicates found at folder {pred_pth}')
+
+    gt_idxs = []
+    for idx, current_gt in enumerate(gt_list_basenames):
+        if current_gt in pred_list_basenames:
+            gt_idxs.append(idx)
+
+    pred_idxs = []
+    for idx, current_pred in enumerate(pred_list_basenames):
+        if current_pred in gt_list_basenames:
+            pred_idxs.append(idx)
+
+    # Verify same length
+    if len(gt_idxs) != len(pred_idxs):
+        sys.exit(f'matching indexes are not equal!')
+
+    # Return the tuples
+    matching_list = []
+    for idx in range(0, len(gt_idxs)):
+        matching_list.append((GT_list[gt_idxs[idx]], pred_list[pred_idxs[idx]]))
+
+    if verbose:
+        print(matching_list)
+
+    return matching_list
+
+
+def check_csv_exists_pathlib(csv_path):
+    if csv_path.exists():
+        print("CSV file already exists, do you want to overwrite? (y)")
+        if input().lower() != 'y':
+            print("File not modified")
+            sys.exit()
+
+def check_same_length(list1, list2):
+    if len(list1) != len(list2):
+        print("Error, your list1 and list2 have different lengths")
+        sys.exit()
+
+
+def write_2_csv(*args, **kwargs):
+    """
+    Function to write csv files.
+    args:
+        - Columns for the csv (matched to the names)
+    kwargs:
+        - cols: List of names for columns (matched to args)
+        - path: output_path for the csv
+    """
+    defaultKwargs = { 'time_format': True, 'txt_flag': False }
+    kwargs = { **defaultKwargs, **kwargs }
+
+    # my_df = pd.DataFrame(index=False)
+    my_df = pd.DataFrame()
+
+    csv_path = kwargs['path']
+    columns_values = kwargs['cols']
+
+    # check if csv file exists
+    check_csv_exists_pathlib(csv_path)
+
+    if len(args) > 2:
+        check_same_length(args[0], args[1])
+    elif len(args) > 3:
+        check_same_length(args[1], args[2])
+
+    idx = 0
+    for current_list in args:
+        my_df[columns_values[idx]] = current_list
+        idx = idx + 1
+
+    today_date = '_' + str(datetime.date.today())
+    datetime_object = datetime.datetime.now()
+    time_f = "-{:d}_{:02d}".format(datetime_object.hour, datetime_object.minute)
+
+    if kwargs['time_format']:
+        full_output_csv_path = csv_path.with_name(csv_path.stem + today_date + time_f)
+    else:
+        full_output_csv_path = csv_path.with_name(csv_path.stem)
+
+    if kwargs['txt_flag']:
+        my_df.to_csv(full_output_csv_path.with_suffix('.txt'), header=False, sep='\t', index=False)
+    else:
+        my_df.to_csv(full_output_csv_path.with_suffix('.csv'), index=False)
