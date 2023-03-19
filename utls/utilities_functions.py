@@ -106,13 +106,22 @@ def ffmpeg_split_audio(input_video, output_pth,
         (hstop, mstop, sstop) = stop_time_csv.split(':')
         stop_time_csv = str(float(hstop) * 3600 + float(mstop) * 60 + float(sstop))
 
-    if stop_time_csv == 'default':
-        if get_platform() == 'Linux':
-            cmd = f"ffmpeg -i '{input_video}' -acodec pcm_s16le -ac 1 -ar {sr} '{output_pth}'"
-        else:
-            cmd = f"ffmpeg -i {input_video} -acodec pcm_s16le -ac 1 -ar {sr} {output_pth}"
-        subp.run(cmd, shell=True)
-        return 'non_valid', 'non_valid'
+    if verbose:
+        if stop_time_csv == 'default':
+            if get_platform() == 'Linux':
+                cmd = f"ffmpeg -i '{input_video}' -acodec pcm_s16le -ac 1 -ar {sr} '{output_pth}'"
+            else:
+                cmd = f"ffmpeg -i {input_video} -acodec pcm_s16le -ac 1 -ar {sr} {output_pth}"
+            subp.run(cmd, shell=True)
+            return 'non_valid', 'non_valid'
+    else:
+        if stop_time_csv == 'default':
+            if get_platform() == 'Linux':
+                cmd = f"ffmpeg -i '{input_video}' -hide_banner -loglevel error -acodec pcm_s16le -ac 1 -ar {sr} '{output_pth}'"
+            else:
+                cmd = f"ffmpeg -i {input_video} -hide_banner -loglevel error -acodec pcm_s16le -ac 1 -ar {sr} {output_pth}"
+            subp.run(cmd, shell=True)
+            return 'non_valid', 'non_valid'
 
     video_duration_seconds = get_total_video_length(input_video)
 
@@ -134,11 +143,15 @@ def ffmpeg_split_audio(input_video, output_pth,
 
     if verbose:
         print(f'{start_time_format} - {stop_time_format}')
-
-    if output_video_flag:
-        ffmpeg_params = f' -c:v libx264 -crf 30 '
+        if output_video_flag:
+            ffmpeg_params = f' -c:v libx264 -crf 30 '
+        else:
+            ffmpeg_params = f' -acodec pcm_s16le -ac 1 -ar {sr} '
     else:
-        ffmpeg_params = f' -acodec pcm_s16le -ac 1 -ar {sr} '
+        if output_video_flag:
+            ffmpeg_params = f' -hide_banner -loglevel error -c:v libx264 -crf 30 '
+        else:
+            ffmpeg_params = f' -hide_banner -loglevel error -acodec pcm_s16le -ac 1 -ar {sr} '
 
     if get_platform() == 'Linux':
         cmd = f"ffmpeg -i '{input_video}' '{ffmpeg_params}' -ss '{start_time_format}' -to  '{stop_time_format}' '{output_pth}'"
@@ -284,3 +297,35 @@ def write_2_csv(*args, **kwargs):
         my_df.to_csv(full_output_csv_path.with_suffix('.txt'), header=False, sep='\t', index=False)
     else:
         my_df.to_csv(full_output_csv_path.with_suffix('.csv'), index=False)
+
+
+def calculate_duration_in_folder(videos_folder_pth, wav_flag = False, return_list = False, return_names = False):
+
+    if wav_flag:
+        folder_videos_list = sorted(list(videos_folder_pth.glob('*.wav')))
+    else:
+        folder_videos_list = sorted(list(videos_folder_pth.glob('*.mp4')))
+        folder_videos_list.extend(sorted(list(videos_folder_pth.glob('*.mpeg'))))
+
+    total_time_folder = 0
+
+    list_lengths = []
+    list_names = []
+
+    for current_video_pth in folder_videos_list:
+        # obtain total time of video
+        current_length_seconds = get_total_video_length(current_video_pth)
+        print(f'\tNow media: {current_video_pth.name}')
+        list_names.append(current_video_pth.name)
+        list_lengths.append(current_length_seconds)
+
+        total_time_folder = total_time_folder + current_length_seconds
+
+
+    if return_list:
+        if return_names:
+            return list_names, list_lengths, total_time_folder
+        else:
+            return list_lengths, total_time_folder
+    else:
+        return total_time_folder

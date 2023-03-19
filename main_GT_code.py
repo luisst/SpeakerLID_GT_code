@@ -18,12 +18,16 @@ longvideos_dir = root_dir.joinpath('01_Long_videos')
 
 # I start in long videos folder!
 
-pc01 , pc02, pc03 = [0,0,1]
+pc01 , pc02, pc03 = [1,0,0]
 
 # One folder in -> one folder out
-current_folder = longvideos_dir.joinpath('G-C1L1P-Mar02-E-Irma_q2_03-08')
+current_folder = longvideos_dir.joinpath('G-C3L1P-Mar21-B-Jenny_q2_02-06')
 
 clips_dir = root_dir.joinpath('02_Selected_clips')
+
+create_folder_if_missing(clips_dir.joinpath(current_folder.name))
+print(f'New path: {clips_dir.joinpath(current_folder.name)}')
+
 GT_output_dir = root_dir.joinpath('03_Final_samples')
 current_clips_output_folder = clips_dir.joinpath(current_folder.name, 'clips_raw')
 current_GT_clips_output_folder = clips_dir.joinpath(current_folder.name, 'videos_for_GT')
@@ -34,7 +38,6 @@ current_GT_output_folder = GT_output_dir.joinpath(current_folder.name)
 
 # create directories if doesn't exist
 create_folder_if_missing(current_csv_webapp_folder)
-create_folder_if_missing(clips_dir.joinpath(current_folder))
 
 #############  [pc01]  First step: Divide into selections + webapp      ##############
 if pc01:

@@ -52,7 +52,7 @@ def speaker_swapping_groups(s_input_ID, current_video_name):
         swap_speaker_list = ['Gabino96P','Jesus69P','Leandro99P','VJ']
 
     elif group_name == 'Allan':
-        swap_speaker_list = ['Bryan26P','Mateo59P','Manuel58P','Luis']
+        swap_speaker_list = ['Bryan26P','Mateo59P','Manuel58P','Luis', 'Allan']
 
     elif group_name == 'Shelby':
         swap_speaker_list = ['Shelby','Cesar61P','Mauricio60P','Karen63P','Emily62P']

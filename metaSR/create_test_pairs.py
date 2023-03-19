@@ -7,21 +7,22 @@ import random
 from utilities_functions import check_folder_for_process
 
 def convert_naming(current_wav_name):
-    speaker_ID = '-'.join(current_wav_name.split('_')[0].split('-')[2:]) + '_' + current_wav_name.split('.')[0][-2:]
+
+    speaker_ID = current_wav_name.split('_')[-2]
     return speaker_ID + '/' + current_wav_name
 
-root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','AOLME_SD_Collection','03_Final_samples')
+root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','AOLME_SD_Collection','03_Final_samples','Interviews_output','Speakers_folder')
 
 all_wavs_pth_list = sorted(list(root_dir.rglob('*.wav')))
 
-output_pairs_aolme_pth = root_dir.joinpath('test_pair_aolme.txt') 
+output_pairs_aolme_pth = root_dir.joinpath('test_pair_aolme_interviews.txt') 
 
 new_file = open(output_pairs_aolme_pth, "w")
 
 speakers_dict = {}
 
 for current_wav_pth in all_wavs_pth_list:
-    speaker_ID = '-'.join(current_wav_pth.name.split('_')[0].split('-')[2:]) + '-' + current_wav_pth.stem[-2:]
+    speaker_ID = current_wav_pth.name.split('_')[-2]
     print(speaker_ID)
 
     if speaker_ID not in speakers_dict:

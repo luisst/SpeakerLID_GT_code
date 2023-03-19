@@ -50,17 +50,27 @@ def create_clips(current_folder, current_clips_output_folder,  header_flag = Tru
 
 ########################    01b Cut selected clip into smaller clips #################################
 
-def process_raw_long_clips(current_folder, current_GT_clips_output_folder, 
-        seg_length = 15,
-        acceptable_length = 10,
-        min_length = 5,
-        flag_standard_names=True):
+def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
+                        seg_length = 15,
+                        acceptable_length = 10,
+                        min_length = 5,
+                        flag_standard_names=True,
+                        audio_flag = False):
 
-    # Check if output audios are present
-    if not(check_folder_for_process(current_GT_clips_output_folder)):
-        sys.exit(f'Not modified! Goodbye!')
 
-    folder_videos_list = sorted(list(current_folder.glob('*.mp4')))
+    if audio_flag:
+        my_extension = 'wav'
+    else:
+        my_extension = 'mp4'
+
+    # # Check if output audios are present
+    # if not(check_folder_for_process(current_GT_clips_output_folder)):
+    #     sys.exit(f'Not modified! Goodbye!')
+    
+    if not(current_GT_clips_output_folder.exists()):
+        current_GT_clips_output_folder.mkdir()
+
+    folder_videos_list = sorted(list(current_folder.glob(f'*.{my_extension}')))
 
     list_to_segment = []
     list_passed = []
@@ -73,18 +83,18 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
         duration_seconds = get_total_video_length(current_video_path)
         print(f'name: {current_video_name} \n duration: {duration_seconds}')
 
-        if duration_seconds < seg_length + min_length  + 2 :
+        if duration_seconds < seg_length + min_length:
             list_passed.append([current_video_path, duration_seconds])
         else:
             list_to_segment.append([current_video_path, duration_seconds])
 
+    idx_sample = 0
     # Segment videos process
     for idx in range(0, len(list_to_segment)):
         current_video_path, total_duration = list_to_segment[idx]
         current_video_name = current_video_path.name
         print(f'\n\nVideo: {current_video_name} \t duration: {total_duration}')
         # Init the counter values
-        idx_sample = 0
         remainder_length = total_duration
         start_time = 0
 
@@ -96,8 +106,13 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
                 print(f'Last bit - segment is passed')
                 print(f'\n ss {start_time} to {stop_time} | r: {remainder_length}')
 
+                new_video_name = '-'.join(current_video_name.split('-')[0:-1]) + '-segment_' + \
+                                    str(idx_sample).zfill(3) + f'.{my_extension}'
+
+                current_segment_path = current_GT_clips_output_folder.joinpath(new_video_name)
+
                 # Generate new name | Use -4 because 'mp4', use -5 because 'mpeg'
-                current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + '.mp4')
+                # current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + f'.{my_extension}')
 
                 _, _ = ffmpeg_split_audio(current_video_path, 
                                                         current_segment_path,
@@ -118,8 +133,12 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
                 # call function cut segment
                 print(f'\n ss {start_time} to {stop_time} | r: {remainder_length}')
 
+                new_video_name = '-'.join(current_video_name.split('-')[0:-1]) + '-segment_' + \
+                                    str(idx_sample).zfill(3) + f'.{my_extension}'
+
+                current_segment_path = current_GT_clips_output_folder.joinpath(new_video_name)
                 # Generate new name | Use -4 because 'mp4', use -5 because 'mpeg'
-                current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + '.mp4')
+                # current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + f'.{my_extension}')
 
                 _, _ = ffmpeg_split_audio(current_video_path, 
                                                         current_segment_path,
@@ -143,7 +162,12 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
                 print(f'\n ss {start_time} to {stop_time} | r: {remainder_length}')
 
                 # Generate new name | Use -4 because 'mp4', use -5 because 'mpeg'
-                current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + '.mp4')
+
+                new_video_name = '-'.join(current_video_name.split('-')[0:-1]) + '-segment_' + \
+                                    str(idx_sample).zfill(3) + f'.{my_extension}'
+
+                current_segment_path = current_GT_clips_output_folder.joinpath(new_video_name)
+                # current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + f'.{my_extension}')
 
                 _, _ = ffmpeg_split_audio(current_video_path, 
                                                         current_segment_path,
@@ -165,23 +189,27 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
         current_video_name = current_video_path.name 
         print(f'\n\nVideo passed: {current_video_name} \t duration: {total_duration}')
 
-        current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + '.mp4')
+        new_video_name = '-'.join(current_video_name.split('-')[0:-1]) + '-segment_' + \
+                            str(idx_sample).zfill(3) + f'.{my_extension}'
+
+        current_segment_path = current_GT_clips_output_folder.joinpath(new_video_name)
+        # current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + 
+        #                             '-sample_' + str(idx_sample).zfill(2) + f'.{my_extension}')
 
         shutil.move(current_video_path, current_segment_path)
+        idx_sample +=1
 
 
-    if flag_standard_names:
-        folder_videos_list = sorted(list(current_GT_clips_output_folder.glob('*.mp4')))
+    # if flag_standard_names:
+    #     folder_videos_list = sorted(list(current_GT_clips_output_folder.glob(f'*.{my_extension}')))
 
-        # iterate over all audio sorted
-        for idx_seg, current_video_path in enumerate(folder_videos_list):
-            current_video_name = current_video_path.name
-            new_video_name = '-'.join(current_video_name.split('-')[0:-2]) + '-segment_' + str(idx_seg).zfill(3) + '.mp4'
-            new_video_path = current_video_path.parent.joinpath(new_video_name)
-            print(f'{current_video_path}\n{new_video_path}\n\n')
-            os.rename(current_video_path, new_video_path)
-    
-    # 
+    #     # iterate over all audio sorted
+    #     for idx_seg, current_video_path in enumerate(folder_videos_list):
+    #         current_video_name = current_video_path.name
+    #         new_video_name = '-'.join(current_video_name.split('-')[0:-2]) + '-segment_' + str(idx_seg).zfill(3) + f'.{my_extension}'
+    #         new_video_path = current_video_path.parent.joinpath(new_video_name)
+    #         print(f'{current_video_path}\n{new_video_path}\n\n')
+    #         os.rename(current_video_path, new_video_path)
 
 
 
@@ -296,6 +324,14 @@ def convert_csv_2_praat(input_csvs_pth, output_praat_pth, current_GT_clips_outpu
                     int_lang = current_speaker_intervals[int((int_idx + 1)/2 -1)][0]
                 else:
                     int_lang = ""
+                
+                if float(int_end) > float(total_time):
+                    print(f'>>>>>>>>>> MAX {int_end}({type(int_end)}) | {total_time}({type(total_time)}) in {csv_name}')
+                    int_end = total_time
+                    print(f'new int_end {int_end}')
+                
+                if float(int_start) > float(total_time):
+                    int_start = total_time
 
                 new_line = f'{int_start} {int_end} "{int_lang}"\n'
                 new_file.write(new_line)
@@ -471,9 +507,9 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
 
 # def create_micro_segments(input_folder_path):
 
-def divide_speakers_into_folders(input_folder_path):
+def divide_speakers_into_folders(input_folder_path, output_folder_path, speaker_at_end_flag = False, inner_name='wav'):
 
-    speaker_folder_root = input_folder_path.joinpath('Speakers_folder')
+    speaker_folder_root = output_folder_path.joinpath(inner_name)
 
     # Check if output audios are present
     if not(check_folder_for_process(speaker_folder_root)):
@@ -482,7 +518,10 @@ def divide_speakers_into_folders(input_folder_path):
     folder_audios_list = sorted(list(input_folder_path.glob('*.wav')))
 
     for current_audio in folder_audios_list:
-        speaker_ID = (current_audio.stem).split('_')[-2]
+        if speaker_at_end_flag:
+            speaker_ID = (current_audio.stem).split('_')[-1]
+        else:
+            speaker_ID = (current_audio.stem).split('_')[-2]
 
         # Create folder if doesn't exist
         if not(speaker_folder_root.joinpath(speaker_ID).exists()):

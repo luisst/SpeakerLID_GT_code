@@ -1,20 +1,17 @@
 
 from pathlib import Path
 
-from utilities_functions import get_total_video_length, ffmpeg_split_audio, check_folder_for_process
+from utilities_functions import calculate_duration_in_folder
 
-videos_folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Speech_vs_BackgroundNoise','Wenjing_GT','src_videos')
+# videos_folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Speech_vs_BackgroundNoise','Wenjing_GT','src_videos')
+videos_folder_pth = Path.cwd()
 
-folder_videos_list = sorted(list(videos_folder_pth.glob('*.mp4')))
-folder_videos_list.extend(sorted(list(videos_folder_pth.glob('*.mpeg'))))
+wav_flag = True
 
-total_time_folder = 0
+total_time_folder = calculate_duration_in_folder(videos_folder_pth, wav_flag = True)
 
-for current_video_pth in folder_videos_list:
-    # obtain total time of video
-    current_length_seconds = get_total_video_length(current_video_pth)
-    print(f'\tNow video: {current_video_pth.name}')
+total_min = total_time_folder/60
+total_hours = total_min/60
 
-    total_time_folder = total_time_folder + current_length_seconds
-
-print(f'The total seconds in this folder is: {total_time_folder}')
+print(f'The total seconds in this folder is: {total_time_folder:.2f}')
+print(f'In minutes: {total_min:.2f} \t In hours: {total_hours:.2f}')

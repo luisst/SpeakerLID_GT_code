@@ -27,4 +27,4 @@ create_folder_if_missing(output_interview_folder)
 #                         interviews_flag = True,
 #                         )
 
-gt.divide_speakers_into_folders(output_interview_folder)
+gt.divide_speakers_into_folders(output_interview_folder, output_interview_folder)
