@@ -1,9 +1,11 @@
 import os
+import math
 import sys
 import re
 import shutil
+import random
 from pathlib import Path
-from utilities_functions import check_folder_for_process, ffmpeg_split_audio, get_total_video_length
+from utilities_functions import check_folder_for_process, ffmpeg_split_audio, get_total_video_length, create_folder_if_missing
 from scripts_functions import verify_video_csvNamebase, unique_entry_gen, simplify_praat, convert_to_csv
 
 import textgrid
@@ -47,6 +49,62 @@ def create_clips(current_folder, current_clips_output_folder,  header_flag = Tru
 
     new_file.close()
 
+
+def random_select_segment(current_folder, clips_dir, random_duration = 8*60, my_extension='mp4'):
+    # List all videos and for loop each
+    folder_videos_list = sorted(list(current_folder.glob(f'*.{my_extension}')))
+
+    for current_video_path in folder_videos_list:
+        print(f'Now processing: {current_video_path.name}')
+
+        current_length = get_total_video_length(current_video_path)
+        # Create folder with video name in 02_Select_videos
+        current_clips_output_folder = clips_dir.joinpath(current_video_path.stem, 'clips_raw')
+        create_folder_if_missing(current_clips_output_folder)
+
+        # Select randomly a segment from video
+        if random_duration > current_length:
+            random_start = 0
+            random_end = current_length
+        else:
+            latest_start = int(math.floor(current_length - random_duration))
+            random_start = random.randrange(0,latest_start)
+            random_end = random_start + random_duration
+        
+        print(f'Duration: {current_length} \t Started: {random_start} \t Ended: {random_end}')
+
+        # Perform cut 
+        random_video_path = current_clips_output_folder.joinpath(current_video_path.stem + f'-{random_start}.mp4')
+
+        print(f'Output path: {random_video_path}')
+
+        _, _ = ffmpeg_split_audio(current_video_path, 
+                                                random_video_path,
+                                                start_time_csv = random_start,
+                                                stop_time_csv = random_end,
+                                                times_as_integers=True,
+                                                output_video_flag=True)
+
+        current_GT_clips_output_folder = clips_dir.joinpath(current_video_path.stem, 'videos_for_GT')
+
+        current_csv_webapp_folder = clips_dir.joinpath(current_video_path.name, 'csv_from_webapp')
+
+        # create directories if doesn't exist
+        create_folder_if_missing(current_csv_webapp_folder)
+
+        # # Call segments cut
+        process_raw_long_clips(current_clips_output_folder, 
+                               current_GT_clips_output_folder,
+                               seg_length = 45,
+                                acceptable_length = 40,
+                                min_length = 5)
+
+        # current_praat_files_folder = clips_dir.joinpath(current_folder.name, 'praat_files')
+        # current_final_csv_folder = clips_dir.joinpath(current_folder.name, 'final_csv')
+                
+
+        # # create directories if doesn't exist
+        # create_folder_if_missing(current_csv_webapp_folder)
 
 ########################    01b Cut selected clip into smaller clips #################################
 
@@ -123,33 +181,33 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
                 idx_sample += 1
 
                 break
-            elif remainder_length < (seg_length + acceptable_length): # Case B: cut remainder in half
-                # Calculate our stop time
-                stop_time = start_time + remainder_length / 2
+            # elif remainder_length < (seg_length + acceptable_length): # Case B: cut remainder in half
+            #     # Calculate our stop time
+            #     stop_time = start_time + remainder_length / 2
 
-                # Update remainder
-                remainder_length = remainder_length / 2
+            #     # Update remainder
+            #     remainder_length = remainder_length / 2
 
-                # call function cut segment
-                print(f'\n ss {start_time} to {stop_time} | r: {remainder_length}')
+            #     # call function cut segment
+            #     print(f'\n ss {start_time} to {stop_time} | r: {remainder_length}')
 
-                new_video_name = '-'.join(current_video_name.split('-')[0:-1]) + '-segment_' + \
-                                    str(idx_sample).zfill(3) + f'.{my_extension}'
+            #     new_video_name = '-'.join(current_video_name.split('-')[0:-1]) + '-segment_' + \
+            #                         str(idx_sample).zfill(3) + f'.{my_extension}'
 
-                current_segment_path = current_GT_clips_output_folder.joinpath(new_video_name)
-                # Generate new name | Use -4 because 'mp4', use -5 because 'mpeg'
-                # current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + f'.{my_extension}')
+            #     current_segment_path = current_GT_clips_output_folder.joinpath(new_video_name)
+            #     # Generate new name | Use -4 because 'mp4', use -5 because 'mpeg'
+            #     # current_segment_path = current_GT_clips_output_folder.joinpath(current_video_name[:-4] + '-sample_' + str(idx_sample).zfill(2) + f'.{my_extension}')
 
-                _, _ = ffmpeg_split_audio(current_video_path, 
-                                                        current_segment_path,
-                                                        start_time_csv = start_time,
-                                                        stop_time_csv = stop_time,
-                                                        times_as_integers=True,
-                                                        output_video_flag=True)
-                idx_sample += 1
+            #     _, _ = ffmpeg_split_audio(current_video_path, 
+            #                                             current_segment_path,
+            #                                             start_time_csv = start_time,
+            #                                             stop_time_csv = stop_time,
+            #                                             times_as_integers=True,
+            #                                             output_video_flag=True)
+            #     idx_sample += 1
 
-                # update counters
-                start_time = start_time + remainder_length / 2
+            #     # update counters
+            #     start_time = start_time + remainder_length / 2
 
             else: # Case A: cut first seg from video
                 # Calculate our stop time
@@ -215,22 +273,22 @@ def process_raw_long_clips(current_folder, current_GT_clips_output_folder,
 
 ########################  02a delete timestamps after the GT webapp   #################################
 
-def delete_tms_from_folder(current_folder, idx_neg = 29):
+def delete_tms_from_folder(current_folder, idx_neg = 29, input_is_txt = True):
 
-    # Convert all txt files into csv files
-    txt_list = sorted(list(current_folder.glob('*.txt')))
-    for current_txt in txt_list:
-        new_path = current_txt.with_suffix('.csv') 
-        current_txt.rename(new_path)
+    if input_is_txt:
+        # Convert all txt files into csv files
+        txt_list = sorted(list(current_folder.glob('*.txt')))
+        for current_txt in txt_list:
+            new_path = current_txt.with_suffix('.csv') 
+            current_txt.rename(new_path)
 
     folder_csv_list = [x for x in os.listdir(current_folder) if re.search(r'\d\d\dZ.csv', x)]
 
     folder_csv_cleared = [(x[:-idx_neg]+'.csv') for x in folder_csv_list]
 
-    print(folder_csv_cleared)
-
     # iterate over all audio sorted
     for idx_csv, current_csv_name in enumerate(folder_csv_list):
+        print(f'Changed name of: {current_csv_name}')
         current_csv_path = current_folder.joinpath(current_csv_name)
         current_csv_path.rename(current_folder.joinpath(folder_csv_cleared[idx_csv]))
 

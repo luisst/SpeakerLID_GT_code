@@ -3,12 +3,12 @@ from pathlib import Path
 
 from utilities_functions import calculate_duration_in_folder
 
-# videos_folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Speech_vs_BackgroundNoise','Wenjing_GT','src_videos')
-videos_folder_pth = Path.cwd()
+videos_folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO','AOLME_SD_Collection','TestSet')
+# videos_folder_pth = Path.cwd()
 
 wav_flag = True
 
-total_time_folder = calculate_duration_in_folder(videos_folder_pth, wav_flag = True)
+total_time_folder = calculate_duration_in_folder(videos_folder_pth, wav_flag = False)
 
 total_min = total_time_folder/60
 total_hours = total_min/60

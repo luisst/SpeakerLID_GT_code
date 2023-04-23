@@ -9,6 +9,7 @@ import json
 import pdb
 import pandas as pd
 import datetime
+from pathlib import Path
 
 
 def get_platform():
@@ -32,7 +33,7 @@ def check_folder_for_process(this_dir):
     this_dir = str(this_dir)
 
     if not os.path.isdir(this_dir):
-            os.mkdir(this_dir)
+            Path(this_dir).mkdir( parents=True, exist_ok=True )
             compute_procedure = True
 
     if len(os.listdir(this_dir)) != 0:
@@ -59,7 +60,7 @@ def create_folder_if_missing(this_dir):
     this_dir = str(this_dir)
 
     if not os.path.isdir(this_dir):
-            os.mkdir(this_dir)
+        Path(this_dir).mkdir( parents=True, exist_ok=True )
 
 
 def get_total_video_length(input_video_path):
@@ -132,7 +133,7 @@ def ffmpeg_split_audio(input_video, output_pth,
 
     # Check stop time is less than duration of the video
     if float(stop_time_csv) > video_duration_seconds:
-        print(f'Error! Stop time {stop_time_csv} is larger than video duration {video_duration_seconds}')
+        print(f'Warning! [changed] Stop time {stop_time_csv} is larger than video duration {video_duration_seconds}')
         stop_time_csv = str(video_duration_seconds)
     
     # convert the starting time/stop time from seconds -> 00:00:00
