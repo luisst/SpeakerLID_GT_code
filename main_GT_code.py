@@ -18,10 +18,10 @@ longvideos_dir = root_dir.joinpath('01_Long_videos')
 
 # I start in long videos folder!
 
-pc01 , pc02, pc03 = [0,1,0]
+pc01 , pc02, pc03 = [0,0,1]
 
 # One folder in -> one folder out
-current_folder = longvideos_dir.joinpath('G-C2L1P-Apr12-A-Allan_q2_02-05')
+current_folder = longvideos_dir.joinpath('G-C2L1P-Feb16-B-Shelby_q2_03-05')
 
 clips_dir = root_dir.joinpath('02_Selected_clips')
 

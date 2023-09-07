@@ -534,12 +534,14 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
         for idx in range(0, len(lines)):
             speaker_csv, lang_csv, start_time_csv, stop_time_csv = lines[idx].strip().split('\t')
 
+            current_audio_sample_name = ''
+
             if tony_flag:
                 speaker_ID = speaker_swapping_tony(speaker_csv, current_video_name)
                 current_audio_sample_name = current_video_name + '-sample-' + \
                     str(idx).zfill(4) + '_' + speaker_ID + '.wav'
             elif groups_flag:
-                speaker_ID = speaker_swapping_groups(speaker_csv, current_video_name)
+                speaker_ID = speaker_swapping_groups(speaker_csv, current_video_name, lang_csv)
                 current_audio_sample_name = current_video_name + '_' + speaker_ID + '_' + str(idx).zfill(4) + '.wav'
             elif interviews_flag:
                 current_audio_sample_name = current_video_name + '_' + \

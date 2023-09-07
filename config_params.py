@@ -32,7 +32,7 @@ def speaker_swapping_tony(s_input_ID, current_video_name):
     return swap_speaker_list[index_from_speaker]
 
 
-def speaker_swapping_groups(s_input_ID, current_video_name):
+def speaker_swapping_groups(s_input_ID, current_video_name, lang_csv):
 
     # Extract facilitator name to choose the matching
     matches_list = re.findall(regex, current_video_name)
@@ -57,6 +57,8 @@ def speaker_swapping_groups(s_input_ID, current_video_name):
     elif group_name == 'Shelby':
         swap_speaker_list = ['Shelby','Cesar61P','Mauricio60P','Karen63P','Emily62P']
 
+    elif group_name == 'Jenny':
+            swap_speaker_list = ['Jessy102P','Eric101P','Emily62P','Hannah100P','Jenny']
     # elif group_name == '':
     #     swap_speaker_list = []
 
@@ -72,4 +74,10 @@ def speaker_swapping_groups(s_input_ID, current_video_name):
     
     index_from_speaker = int(s_input_ID[-1])
 
-    return swap_speaker_list[index_from_speaker]
+    speaker_ID = swap_speaker_list[index_from_speaker]
+
+    if lang_csv not in ['Spa', 'Eng', 'SPA', 'ENG', 'spa', 'eng']:
+        print(f'\n\n>>>>>>>>>>>>>>> found new speaker! {lang_csv}')
+        speaker_ID = lang_csv
+
+    return speaker_ID 

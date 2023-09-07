@@ -235,8 +235,8 @@ def matching_basename_pathlib_gt_pred(GT_pth, pred_pth,
     for idx in range(0, len(gt_idxs)):
         matching_list.append((GT_list[gt_idxs[idx]], pred_list[pred_idxs[idx]]))
 
-    if verbose:
-        print(matching_list)
+    # if verbose:
+        # print(matching_list)
 
     return matching_list
 

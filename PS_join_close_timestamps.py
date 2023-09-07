@@ -3,7 +3,7 @@ import sys
 
 from utilities_functions import check_folder_for_process
 
-transcript_folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','Sample_dataset','All_results','auditok')
+transcript_folder_pth = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','TTS_minitest','GT')
 transcript_pth_list = sorted(list(transcript_folder_pth.glob('*.csv')))
 
 output_folder_csv_pth = transcript_folder_pth.joinpath('joined_timestamps') 
