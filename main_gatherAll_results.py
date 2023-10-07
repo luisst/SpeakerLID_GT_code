@@ -125,7 +125,7 @@ def select_method(pred_method):
         return azure_format
     
 
-def vad_calculation(pred_method, current_matches ):
+def vad_calculation(pred_method, current_matches, detection_method = 'acc', verbose = False):
 
     if len(current_matches) == 0:
         print(f'ERROR: no matches found! in {pred_method}')
@@ -133,20 +133,25 @@ def vad_calculation(pred_method, current_matches ):
     
     func_pred = select_method(pred_method)
 
-    all_vad_acc = []
+    all_vad_metric = []
     for current_gt_pth, current_pred_pth in current_matches:
         current_reference = vad_format(current_gt_pth)
         current_hypothesis = func_pred(current_pred_pth)
 
-        # vad_pyannote = DetectionAccuracy()
-        vad_pyannote = DetectionErrorRate()
+        if detection_method == 'acc':
+            vad_pyannote = DetectionAccuracy()
+        elif detection_method == 'der':
+            vad_pyannote = DetectionErrorRate()
+        else:
+            vad_pyannote = DetectionAccuracy()
 
         current_DER = vad_pyannote(current_reference, current_hypothesis)
-        # print(f'DER: {current_DER}')
+        if verbose:
+            print(f'{detection_method}: {current_DER}')
 
-        all_vad_acc.append(current_DER)
+        all_vad_metric.append(current_DER)
     
-    return sum(all_vad_acc) / len(all_vad_acc)
+    return sum(all_vad_metric) / len(all_vad_metric)
 
 
 # Root of all results
@@ -154,7 +159,9 @@ root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','Sample_d
 
 # Load GT list:
 GT_pth = root_dir.parent.joinpath('GT','final_csv')
-
+detection_method = 'der'
+verbose = True
+print(f'Detection from pyannote: {detection_method}')
 
 ### List of all available models:
 
@@ -165,7 +172,7 @@ audiotok_matches = matching_basename_pathlib_gt_pred(GT_pth, audiotok_pth,
         gt_suffix_added='done_ready', pred_suffix_added='ener75',
         gt_ext = 'csv', pred_ext = 'csv')
 
-audiotok_acc =  vad_calculation('audiotok', audiotok_matches)
+audiotok_acc =  vad_calculation('audiotok', audiotok_matches, detection_method = detection_method, verbose = verbose)
 # print(f'audiotok: {(audiotok_acc*100):.2f}')
 print(f'audiotok: {(audiotok_acc):.2f}')
 
@@ -176,7 +183,7 @@ BAS_matches = matching_basename_pathlib_gt_pred(GT_pth, BAS_pth,
         gt_suffix_added='done_ready', 
         gt_ext = 'csv', pred_ext = 'csv')
 
-BAS_acc =  vad_calculation('BAS', BAS_matches)
+BAS_acc =  vad_calculation('BAS', BAS_matches, detection_method = detection_method, verbose = verbose)
 # print(f'BAS website: {(BAS_acc*100):.2f}')
 print(f'BAS website: {(BAS_acc):.2f}')
 
@@ -187,7 +194,7 @@ cobra_matches = matching_basename_pathlib_gt_pred(GT_pth, cobra_pth,
         gt_suffix_added='done_ready', pred_suffix_added='pico0.3',
         gt_ext = 'csv', pred_ext = 'csv')
 
-cobra_acc =  vad_calculation('cobra', cobra_matches)
+cobra_acc =  vad_calculation('cobra', cobra_matches, detection_method = detection_method, verbose = verbose)
 # print(f'cobra: {(cobra_acc*100):.2f}')
 print(f'cobra: {(cobra_acc):.2f}')
 
@@ -198,7 +205,7 @@ inaSS_matches = matching_basename_pathlib_gt_pred(GT_pth, inaSS_pth,
         gt_suffix_added='done_ready',
         gt_ext = 'csv', pred_ext = 'csv')
 
-inaSS_acc =  vad_calculation('inaSS', inaSS_matches)
+inaSS_acc =  vad_calculation('inaSS', inaSS_matches, detection_method = detection_method, verbose = verbose)
 # print(f'inaSpeechSegmenter: {(inaSS_acc*100):.2f}')
 print(f'inaSpeechSegmenter: {(inaSS_acc):.2f}')
 
@@ -209,7 +216,7 @@ shas_matches = matching_basename_pathlib_gt_pred(GT_pth, shas_pth,
         gt_suffix_added='done_ready',
         gt_ext = 'csv', pred_ext = 'txt')
 
-shas_acc =  vad_calculation('shas', shas_matches)
+shas_acc =  vad_calculation('shas', shas_matches, detection_method = detection_method, verbose = verbose)
 # print(f'shas: {(shas_acc*100):.2f}')
 print(f'shas: {(shas_acc):.2f}')
 
@@ -220,7 +227,7 @@ speechbrain_matches = matching_basename_pathlib_gt_pred(GT_pth, speechbrain_pth,
         gt_suffix_added='done_ready',
         gt_ext = 'csv', pred_ext = 'csv')
 
-speechbrain_acc =  vad_calculation('speechbrain', speechbrain_matches)
+speechbrain_acc =  vad_calculation('speechbrain', speechbrain_matches, detection_method = detection_method, verbose = verbose)
 # print(f'speechbrain: {(speechbrain_acc*100):.2f}')
 print(f'speechbrain: {(speechbrain_acc):.2f}')
 
@@ -231,7 +238,7 @@ whisper_matches = matching_basename_pathlib_gt_pred(GT_pth, whisper_pth,
         gt_suffix_added='done_ready',
         gt_ext = 'csv', pred_ext = 'txt')
 
-whisper_acc =  vad_calculation('whisper', whisper_matches)
+whisper_acc =  vad_calculation('whisper', whisper_matches, detection_method = detection_method, verbose = verbose)
 # print(f'whisper: {(whisper_acc*100):.2f}')
 print(f'whisper: {(whisper_acc):.2f}')
 
@@ -242,7 +249,7 @@ aws_matches = matching_basename_pathlib_gt_pred(GT_pth, aws_pth,
         gt_suffix_added='done_ready', pred_suffix_added='awspred',
         gt_ext = 'csv', pred_ext = 'txt')
 
-aws_acc =  vad_calculation('aws', aws_matches)
+aws_acc =  vad_calculation('aws', aws_matches, detection_method = detection_method, verbose = verbose)
 # print(f'aws: {(aws_acc*100):.2f}')
 print(f'aws: {(aws_acc):.2f}')
 
@@ -253,6 +260,6 @@ azure_matches = matching_basename_pathlib_gt_pred(GT_pth, azure_pth,
         gt_suffix_added='done_ready', pred_suffix_added='raw',
         gt_ext = 'csv', pred_ext = 'txt')
 
-azure_acc =  vad_calculation('azure', azure_matches)
+azure_acc =  vad_calculation('azure', azure_matches, detection_method = detection_method, verbose = verbose)
 # print(f'azure: {(azure_acc*100):.2f}')
 print(f'azure: {(azure_acc):.2f}')
