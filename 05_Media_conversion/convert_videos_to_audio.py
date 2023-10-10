@@ -8,9 +8,8 @@ sr = 16000
 
 
 #Iterate all csv files in folder
-folder_pth = Path.home().joinpath('Dropbox', 'SpeechFall2022','GT_speakerLID', 'G-C2L1P-Apr12-A-Allan_q2_04-05')
-
-audios_output_path = Path.joinpath(folder_pth,'output_audios_praat')
+folder_pth = Path.home().joinpath('Dropbox', 'DATASETS_AUDIO','VAD_aolme','Groups_Irma_division','input_videos_irma')
+audios_output_path = Path.joinpath(folder_pth,'output_audios')
 try:
     audios_output_path.mkdir(parents=True, exist_ok=False)
 except FileExistsError:
