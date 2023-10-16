@@ -5,7 +5,7 @@ from utilities_functions import check_folder_for_process, ffmpeg_split_audio, ge
 
 
 # load folder with long wavs
-root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Speech_vs_BackgroundNoise','Generate_noises_TTS2')
+root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_TTS2','Generate_noises_TTS2_crosstalk')
 
 folder_inputs = root_dir.joinpath('input_WAVS_TTS2')
 output_folders_path = root_dir.joinpath('output_WAVS')

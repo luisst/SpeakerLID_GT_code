@@ -3,6 +3,7 @@ import re
 import os
 import shutil
 import time
+import csv
 import sys
 import subprocess as subp
 import json
@@ -330,3 +331,55 @@ def calculate_duration_in_folder(videos_folder_pth, wav_flag = False, return_lis
             return list_lengths, total_time_folder
     else:
         return total_time_folder
+
+def has_header(csv_file_path):
+    try:
+        with open(csv_file_path, 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+            first_row = next(csv_reader)
+            return any(row.isalpha() for row in first_row)
+    except FileNotFoundError:
+        print(f"File not found: {csv_file_path}")
+        return False
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return False
+
+def extract_matching_csv_media(csv_folder_path, media_folder_path, 
+                               audio_flag=True, ending_csv=''):
+    
+    if ending_csv != '':
+        ending_csv = '_' + ending_csv 
+
+    # Obtain each gt_transcript
+    folder_transcripts_list = sorted(list(csv_folder_path.glob('*.csv')))
+    
+    if audio_flag:
+        folder_media_list = sorted(list(media_folder_path.glob('*.wav')))
+    else:
+        folder_media_list = sorted(list(media_folder_path.glob('*.mp4')))
+
+    csv_names_only_list = [x.stem for x in folder_transcripts_list]
+
+    matching_media_list = []
+    matching_csv_list = []
+
+    # Check every clip and match the csv GT file
+    for current_input_media in folder_media_list:
+        current_media_name = current_input_media.stem
+        # Verify there's a corresponding csv file
+        if (current_media_name + ending_csv) in csv_names_only_list:
+
+            match_csv_path = csv_folder_path.joinpath(current_media_name + ending_csv + '.csv')
+            matching_csv_list.append(match_csv_path)
+            matching_media_list.append(current_input_media)
+
+            print(f'Match: {current_media_name}')
+        else:
+            print(f'SKIPPED: {current_media_name}')
+            continue
+    
+    if len(matching_media_list) == 0:
+        print(f'\n\n ERROR! No match was found at {csv_folder_path}\n{media_folder_path}\n\n') 
+
+    return matching_csv_list, matching_media_list

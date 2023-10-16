@@ -5,7 +5,8 @@ import re
 import shutil
 import random
 from pathlib import Path
-from utilities_functions import check_folder_for_process, ffmpeg_split_audio, get_total_video_length, create_folder_if_missing
+from utilities_functions import check_folder_for_process, ffmpeg_split_audio, \
+    get_total_video_length, create_folder_if_missing, has_header
 from scripts_functions import verify_video_csvNamebase, unique_entry_gen, simplify_praat, convert_to_csv
 
 import textgrid
@@ -373,7 +374,7 @@ def convert_csv_2_praat(input_csvs_pth, output_praat_pth, current_GT_clips_outpu
             for interval in current_speaker_intervals:
                 current_speaker_timestamps_ordered.append(interval[1])
                 current_speaker_timestamps_ordered.append(interval[2])
-            current_speaker_timestamps_ordered.append(total_time)
+            current_speaker_timestamps_ordered.append(int(total_time))
 
             for int_idx in range(0, n_inter):
                 int_start = current_speaker_timestamps_ordered[int_idx]
@@ -432,10 +433,10 @@ def convert_praat_2_csv(folder_pth, final_csv_pth,
             speaker_ID = current_entry.tier 
 
             if speaker_ID not in ['S0', 'S1', 'S2', 'S3', 'S4']:
-                sys.error(f'Tier name is wrong: {speaker_ID}')
+                sys.exit(f'Tier name is wrong: {speaker_ID}')
             
             if float(end_time) < float(strt_time):
-                sys.error(f'End time smaller that start time: {strt_time} ~ {end_time}')
+                sys.exit(f'End time smaller that start time: {strt_time} ~ {end_time}')
             
             if speaker_lang != '':
                 new_line = f'{speaker_ID}\t{speaker_lang}\t{strt_time:.2f}\t{end_time:.2f}\n'
@@ -469,11 +470,11 @@ def convert_praat_interviews_csv(folder_pth, final_csv_pth):
             Mary_ID = current_entry.tier 
             
             if float(end_time) < float(strt_time):
-                sys.error(f'End time smaller that start time: {strt_time} ~ {end_time}')
+                sys.exit(f'End time smaller that start time: {strt_time} ~ {end_time}')
             
             if speaker_lang != '':
                 if Mary_ID != 'Mary':
-                    sys.error(f'Tier name is not Mary! -> {Mary_ID}')
+                    sys.exit(f'Tier name is not Mary! -> {Mary_ID}')
 
                 new_line = f'{aolme_code}\t{speaker_lang}\t{strt_time:.2f}\t{end_time:.2f}\n'
                 new_file.write(new_line)
@@ -512,6 +513,7 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
     new_transcr_path = GT_audio_output_folder.joinpath('transcript.txt')
     new_file = open(new_transcr_path, "w")
 
+    header_flag = False
     # Check every clip and match the csv GT file
     for current_input_video in folder_videos_list:
         current_video_name = current_input_video.stem
@@ -520,6 +522,7 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
         if (current_video_name + praat_extension) in csv_names_only_list:
             indx_csv = csv_names_only_list.index(current_video_name + praat_extension)
             f = open(folder_transcripts_list[indx_csv], 'r')
+            header_flag = has_header(folder_transcripts_list[indx_csv])
             lines = f.readlines()
             f.close()
             print(f'\nnow video: {current_input_video}\n')
@@ -529,7 +532,11 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
 
         speaker_ID = current_video_name.split('_')[-1]
 
-        lines.pop(0)
+        if header_flag:
+            print(f'Header found in: {folder_transcripts_list[indx_csv]}')
+            lines.pop(0)
+
+
         # Create samples audio from each clip
         for idx in range(0, len(lines)):
             speaker_csv, lang_csv, start_time_csv, stop_time_csv = lines[idx].strip().split('\t')
