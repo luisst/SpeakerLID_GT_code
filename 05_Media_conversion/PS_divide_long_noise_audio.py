@@ -5,9 +5,9 @@ from utilities_functions import check_folder_for_process, ffmpeg_split_audio, ge
 
 
 # load folder with long wavs
-root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_TTS2','Generate_noises_TTS2_crosstalk')
+root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_TTS2','TTS2_sampling1')
 
-folder_inputs = root_dir.joinpath('input_WAVS_TTS2')
+folder_inputs = root_dir.joinpath('input_audios')
 output_folders_path = root_dir.joinpath('output_WAVS')
 output_folders_path.mkdir(exist_ok=True)
 
@@ -26,7 +26,7 @@ for input_file in long_mp3_list:
     #     sys.exit("goodbye")
 
     if input_file.exists():
-        duration = 3  # duration of each chunk in seconds
+        duration = 2  # duration of each chunk in seconds
         output_path = output_folders_path.joinpath(output_name)
 
         # Use FFmpeg to split the file into chunks of 8 seconds

@@ -6,12 +6,12 @@ from pathlib import Path
 from utilities_functions import check_folder_for_process, write_2_csv
 
 
-root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Conversation_SpeakerDiarization','SDpart1','All_results','azure')
-# root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','Sample_dataset','All_results','azure')
 
 
-current_input_folder = root_dir.joinpath('json_raw')
-output_folder_csv_pth = root_dir.joinpath('final_csv')
+root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','TestSet_for_VAD','All_results','azure')
+
+current_input_folder = root_dir.joinpath('json_raw_v31')
+output_folder_csv_pth = root_dir.joinpath('final_csv_v31')
 
 transcript_pth_list = sorted(list(current_input_folder.glob('*.json')))
 
@@ -36,12 +36,16 @@ for current_json_pth in transcript_pth_list:
     all_items = data['recognizedPhrases']
 
     for idx, current_entry in enumerate(all_items):
-        current_start_seconds = float(current_entry['offset'][2:-1])
-        current_duration = float(current_entry['duration'][2:-1])
+
+        start_pd = pd.Timedelta(current_entry['offset'])
+        current_start_seconds = float(start_pd.total_seconds())
+
+        stop_pd = pd.Timedelta(current_entry['duration'])
+        current_duration = float(stop_pd.total_seconds())
         current_stop_seconds = current_start_seconds + current_duration
 
-        list_start_time.append(str(current_start_seconds))
-        list_end_time.append(str(current_stop_seconds))
+        list_start_time.append("{:.2f}".format(current_start_seconds))
+        list_end_time.append("{:.2f}".format(current_stop_seconds))
         list_text.append(current_entry['nBest'][0]['display'])
         list_prob.append(str(current_entry['nBest'][0]['confidence']))
         list_speaker.append(str(current_entry['speaker']))

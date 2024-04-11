@@ -5,7 +5,7 @@ current_directory = Path.cwd()
 
 # Iterate over all the WAV files in the current directory
 for file_path in current_directory.glob('*.wav'):
-    new_stem = file_path.stem.replace('noise', 'noises')
+    new_stem = file_path.stem.replace('_praat_ready', '')
     new_file_path = current_directory / (new_stem + file_path.suffix)
     
     # Rename the file

@@ -24,7 +24,7 @@ pc01 , pc02, pc03 = [0,0,1]
 
 clips_dir = root_dir.joinpath('02_Selected_clips')
 # GT_output_dir = root_dir.joinpath('03_Final_samples')
-current_folder = clips_dir.joinpath('G-C1L1P-Apr27-E-Irma_q2_03-08')
+current_folder = clips_dir.joinpath('G-C2L1P-Apr26-E-Krithika_q2_04-06')
 current_csv_webapp_folder = current_folder.joinpath('csv_from_webapp')
 
 current_GT_clips_output_folder = current_folder.joinpath('videos_for_GT')
@@ -48,9 +48,15 @@ if pc03:
     gt.convert_praat_2_csv(current_praat_files_folder, current_final_csv_folder, 
                         tag_from_praat = 'praat', tag_after_finished = 'ready')
 
-    gt.gen_audio_samples(current_GT_clips_output_folder, current_final_csv_folder,
-                            current_GT_output_folder,
-                            sr = 16000,
-                            praat_extension = '_' + 'praat_ready',
-                            tony_flag = False,
-                            )
+    # gt.gen_audio_samples(current_GT_clips_output_folder, current_final_csv_folder,
+    #                         current_GT_output_folder,
+    #                         sr = 16000,
+    #                         praat_extension = '_' + 'praat_ready',
+    #                         tony_flag = False,
+    #                         )
+
+    gt.generate_final_csv(current_final_csv_folder,
+                          current_praat_files_folder,
+                          current_final_csv_folder,
+                          current_folder,
+                          praat_extension = '_' + 'praat_ready')

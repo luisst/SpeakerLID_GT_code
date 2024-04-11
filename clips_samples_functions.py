@@ -81,8 +81,8 @@ def random_select_segment(current_folder, clips_dir, random_duration = 8*60, my_
 
         _, _ = ffmpeg_split_audio(current_video_path, 
                                                 random_video_path,
-                                                start_time_csv = random_start,
-                                                stop_time_csv = random_end,
+                                                start_time_csv = str(random_start),
+                                                stop_time_csv = str(random_end),
                                                 times_as_integers=True,
                                                 output_video_flag=True)
 
@@ -369,12 +369,12 @@ def convert_csv_2_praat(input_csvs_pth, output_praat_pth, current_GT_clips_outpu
 
             current_speaker_intervals = sorted(current_speaker_intervals, key=lambda x: float(x[1]))
             # Make new array
-            current_speaker_timestamps_ordered = [0]
+            current_speaker_timestamps_ordered = [0.0]
 
             for interval in current_speaker_intervals:
                 current_speaker_timestamps_ordered.append(interval[1])
                 current_speaker_timestamps_ordered.append(interval[2])
-            current_speaker_timestamps_ordered.append(int(total_time))
+            current_speaker_timestamps_ordered.append(float(total_time))
 
             for int_idx in range(0, n_inter):
                 int_start = current_speaker_timestamps_ordered[int_idx]
@@ -572,8 +572,6 @@ def gen_audio_samples(current_folder_videos, current_folder_csv,
 
     new_file.close()
 
-# def create_micro_segments(input_folder_path):
-
 def divide_speakers_into_folders(input_folder_path, output_folder_path, speaker_at_end_flag = False, inner_name='wav'):
 
     speaker_folder_root = output_folder_path.joinpath(inner_name)
@@ -599,5 +597,98 @@ def divide_speakers_into_folders(input_folder_path, output_folder_path, speaker_
 
         # Copy wav into new folder
         shutil.copy(current_audio, new_audio_path)
-        
+
+
+def generate_final_csv(input_csv_folder,
+                       path_to_audios,
+                       output_folder_csv_pth,
+                       current_session_folder,
+                       praat_extension = '_' + 'praat_ready'):
+
+    # Get the audio files
+    audio_files = list(path_to_audios.glob('*.wav'))
+
+    # Get the csv files
+    csv_files = list(input_csv_folder.glob('*.csv'))
+
+    # Get the name of the current session folder
+    session_name = current_session_folder.parts[-1]
+    print(f'\n\tCurrent Folder: {session_name}\n')
+
+    # Create the new csv file
+    current_output_json_pth = f'{session_name}_GT.csv'
+    new_transcr_path = output_folder_csv_pth.joinpath(current_output_json_pth)
+    new_file = open(new_transcr_path, "w")
+
+    # Initialize an empty list to store the pairs of csv and wav files
+    csv_wav_pairs = []
+
+    # For each csv file in the csv_files list
+    for csv_file in csv_files:
+        # Extract the base name of the csv file (without extension)
+        base_name = csv_file.stem
+        base_name = base_name.replace(praat_extension, '')
+
+        # Find the corresponding wav file in the audio_files list by matching the base name
+        wav_file = next((audio_file for audio_file in audio_files if audio_file.stem == base_name), None)
+
+        # If the wav file is found
+        if wav_file is not None:
+            # Use the find_audio_duration function to get the duration of the wav file
+            duration = get_total_video_length(wav_file)
+
+            # Append a list containing the csv file path, wav file path, and the duration to the list
+            csv_wav_pairs.append([csv_file, wav_file, duration])
+
+
+    # For each index in the range from 0 to the length of csv_wav_pairs - 1
+    for i in range(len(csv_wav_pairs) - 1):
+        # Get the current pair and the next pair
+        current_pair = csv_wav_pairs[i]
+        next_pair = csv_wav_pairs[i + 1]
+
+        # Extract the base name of the current pair's csv file (without extension) and remove the '_praat_ready' suffix
+        current_base_name = current_pair[0].stem.replace(praat_extension, '')
+        # Extract the last 3 digits from the base name
+        current_last_three_digits = int(current_base_name.split('_')[-1])
+
+        # Repeat the above two steps for the next pair's csv file
+        next_base_name = next_pair[0].stem.replace(praat_extension, '')
+        next_last_three_digits = int(next_base_name.split('_')[-1])
+
+        # If the last 3 digits of the current pair's csv file incremented by 1 is not equal to the last 3 digits of the next pair's csv file
+        if current_last_three_digits + 1 != next_last_three_digits:
+            # Raise an error and print the paths of the two csv files that are not consecutive
+            raise ValueError(f"The csv files {current_pair[0]} and {next_pair[0]} are not consecutive.")
+
+    # If the loop completes without raising an error, print that the csv pairs are all consecutive
+    print(f'CSV pairs are all consecutive')
+
+
+    # Initialize a variable to store the total duration of all previous csv files
+    total_duration = 0
+
+
+
+    for csv_file, wav_file, duration in csv_wav_pairs:
+
+        ## Read all lines from current csv file
+        for current_line in open(csv_file, 'r'):
+
+            # Read the current line
+            current_speaker, lang_csv, start_time, stop_time = current_line.strip().split('\t')
+
+            new_start_time = float(start_time) + total_duration
+            new_stop_time = float(stop_time) + total_duration
+
+            speaker_ID = speaker_swapping_groups(current_speaker, session_name, lang_csv, session_name_full = True)
+
+            new_file.write(f'{speaker_ID}\t{lang_csv}\t{new_start_time:.2f}\t{new_stop_time:.2f}\n')
+
+        # Add the duration of the current csv file to the total duration
+        total_duration += duration
+
+
+    new_file.close()
+            
 

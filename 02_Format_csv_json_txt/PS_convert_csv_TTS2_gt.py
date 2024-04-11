@@ -17,9 +17,9 @@ name_mapping = {
 }
 
 
-root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','AlterAI_morph_PhuongYeti_English','VAD_synthetic')
+root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_TTS2','GT_generation1')
 
-current_final_csv_folder = root_dir.joinpath('GT_logs')
+current_final_csv_folder = root_dir.joinpath('input_csv_GT')
 output_folder_csv_pth = root_dir.joinpath('gt_format')
 
 transcript_pth_list = sorted(list(current_final_csv_folder.glob('*.csv')))

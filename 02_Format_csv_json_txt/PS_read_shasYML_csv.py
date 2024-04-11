@@ -3,8 +3,10 @@ import re
 
 regex = r"duration: (\d+?.\d+?), offset: (\d+?.\d+?), rW: \d.?\d*?, speaker_id: (\w+?), uW: \d.?\d*?, wav: (.*?)}"
 
-yml_pth = Path.home().joinpath('Dropbox', 'SpeechSpring2023','shas','results_ymal','minitest_TTS')
-output_csv_folder= Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','TTS_minitest','inference')
+yml_pth = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\VAD_aolme\TestSet_for_VAD\All_results\shas\results_VADaolme_Testset.yaml')
+output_csv_folder= Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','TestSet_for_VAD')
+
+print(f'Processing {yml_pth.stem}...')
 #open text file in read mode
 text_file = open(yml_pth, "r")
  
@@ -14,7 +16,7 @@ data = text_file.read()
 #close file
 text_file.close()
  
-print(data)
+# print(data)
 
 matches = re.finditer(regex, data)
 
