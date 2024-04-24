@@ -20,14 +20,14 @@ export path_to_checkpoint="${SHAS_LOCATION}/en_sfc_model_epoch-6.pt"
 python3 ${SRC_PATH}/folder_verify.py $STG1_FINAL_CSV
 python3 ${SRC_PATH}/folder_verify.py $path_to_yaml_folder
 
-echo "VAD input: $STG1_WAVS"
+echo -e "\n\t>>>>> VAD input: $STG1_WAVS\n"
 
 python3 ${SHAS_ROOT}/src/supervised_hybrid/segment.py -wavs $STG1_WAVS -ckpt $path_to_checkpoint -yaml $path_to_yaml_file -max 10 
 
-echo "VAD output: $path_to_yaml_file"
+echo -e "\t>>>>> VAD output: $path_to_yaml_file"
 
 python3 ${SRC_PATH}/Stage1_convert_shasYML_csv.py $path_to_yaml_file $STG1_FINAL_CSV
 
-echo "Converted to CSV: $STG1_FINAL_CSV"
+echo -e "\t>>>>> Converted to CSV: $STG1_FINAL_CSV"
 
 cd $SRC_PATH

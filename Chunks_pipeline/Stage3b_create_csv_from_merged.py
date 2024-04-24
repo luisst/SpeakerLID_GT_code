@@ -13,15 +13,15 @@ def valid_path(path):
         raise argparse.ArgumentTypeError(f"readable_dir:{path} is not a valid path")
 
 
-base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','EXP-001C','TestSet_AOLME_SHAS')
+base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Proposal_runs', 'TestAO-Liz')
 merged_wav_folder_ex = base_path_ex.joinpath('Testset_stage3','merged_wav_files')
 csv_folder_ex = base_path_ex.joinpath('Testset_stage4','final_csv')
 separated_folder_ex = base_path_ex.joinpath('Testset_stage4','separated_merged_wavs')
 
 parser = argparse.ArgumentParser()
-parser.add_argument('stg3_merged_wavs', type=valid_path, default=merged_wav_folder_ex, help='Stg3 merged WAVs folder path')
-parser.add_argument('stg4_final_csv', type=valid_path, default=csv_folder_ex, help='Stg4 final csv from merged wavs folder path')
-parser.add_argument('stg4_separated_merged_wavs', type=valid_path, default=separated_folder_ex, help='Stg4 merged wavs separated in labels folder path')
+parser.add_argument('--stg3_merged_wavs', type=valid_path, default=merged_wav_folder_ex, help='Stg3 merged WAVs folder path')
+parser.add_argument('--stg4_final_csv', type=valid_path, default=csv_folder_ex, help='Stg4 final csv from merged wavs folder path')
+parser.add_argument('--stg4_separated_merged_wavs', type=valid_path, default=separated_folder_ex, help='Stg4 merged wavs separated in labels folder path')
 
 args = parser.parse_args()
 

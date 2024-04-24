@@ -10,6 +10,7 @@ def single_pred(csv_pred_folder,
                 metric_output_folder,
                 method_type,
                 run_name,
+                run_params,
                 suffix_ext_list,
                 verbose=False,
                 extra_verbose=False,
@@ -27,6 +28,7 @@ def single_pred(csv_pred_folder,
     log_and_print_entropy(metric_output_folder,
                           method_type,
                           run_name,
+                          run_params,
                           method_matches,
                           min_overlap_percentage,
                           extra_verbose,
@@ -76,6 +78,7 @@ def azure_multiple_wavs(csv_pred_folder,
                         metric_output_folder,
                         method_type,
                         current_azure_run,
+                        'azureV3.1',
                         suffix_ext_list,
                         verbose=verbose,
                         extra_verbose=extra_verbose,
@@ -87,6 +90,7 @@ def run_single_pred(csv_pred_folder,
                     metric_output_folder,
                     method_type,
                     run_name,
+                    run_params,
                     suffix_ext_list,
                     verbose=False,
                     extra_verbose=False,
@@ -110,6 +114,7 @@ def run_single_pred(csv_pred_folder,
                     metric_output_folder,
                     method_type,
                     run_name,
+                    run_params,
                     suffix_ext_list,
                     verbose=verbose,
                     extra_verbose=extra_verbose,
@@ -130,14 +135,15 @@ metric_output_folder_ex = base_path_ex.joinpath('')
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('csv_pred_folder', type=valid_path, default=csv_pred_folder_ex, help='Initial WAVs folder path')
-parser.add_argument('GT_csv_folder', type=valid_path, default=GT_csv_folder_ex, help='Prediction with folders per label')
-parser.add_argument('metric_output_folder', type=valid_path, default=metric_output_folder_ex, help='Separated per Long wav folder path')
-parser.add_argument('pred_extensions', default='csv', help='extension of the prediction files')
-parser.add_argument('pred_suffix', default='pred', help='Suffix added to the prediction files')
-parser.add_argument('min_overlap_pert', default=0.3, help='Minimum overlap percentage for the metric calculation')
-parser.add_argument('method_name', default='default_method', help='Method name, Azure or Others')
-parser.add_argument('run_name', default='default_name', help='Run ID name')
+parser.add_argument('--csv_pred_folder', type=valid_path, default=csv_pred_folder_ex, help='Initial WAVs folder path')
+parser.add_argument('--GT_csv_folder', type=valid_path, default=GT_csv_folder_ex, help='Prediction with folders per label')
+parser.add_argument('--metric_output_folder', type=valid_path, default=metric_output_folder_ex, help='Separated per Long wav folder path')
+parser.add_argument('--pred_suffix', default='prd', help='Suffix added to the prediction files')
+parser.add_argument('--pred_extensions', default='csv', help='extension of the prediction files')
+parser.add_argument('--min_overlap_pert', default=0.3, help='Minimum overlap percentage for the metric calculation')
+parser.add_argument('--method_name', default='default_method', help='Method name, Azure or Others')
+parser.add_argument('--run_name', default='default_name', help='Run ID name')
+parser.add_argument('--run_params', default='default_params', help='Run ID name')
 
 
 args = parser.parse_args()
@@ -150,10 +156,24 @@ pred_ext = args.pred_extensions
 min_overlap_percentage = float(args.min_overlap_pert)
 method_type = args.method_name
 run_name = args.run_name
+run_params = args.run_params
+
+if pred_suffix_added == 'xx':
+    pred_suffix_added = ''
+    print('updating pred_suffix_added to empty string')
+
+print(f'>>>>>>> pred_suffix: {pred_suffix_added} \t ext: {pred_ext}')
+
+print(f'Metrics folder: {metric_output_folder}')
 
 method_type = method_type.lower()
 
-suffix_ext_list = [pred_suffix_added, pred_ext]
+suffix_ext_list = [pred_ext, pred_suffix_added]
+
+# print elements in suffix_ext_list
+print(f' main suffix: {suffix_ext_list[1]} \t main ext: {suffix_ext_list[0]}')
+
+
 # methods_dict = {'Chunks_SHAS': {'pred_suffix_added':'pred', 'pred_ext':'csv'},
 #                 'Chunks_TDA': {'pred_suffix_added':'pred', 'pred_ext':'csv'},
 #                 'azure': {'pred_suffix_added':'', 'pred_ext':'txt'}}
@@ -167,6 +187,7 @@ run_single_pred(csv_pred_folder,
             metric_output_folder,
             method_type,
             run_name,
+            run_params,
             suffix_ext_list,
             verbose=verbose,
             extra_verbose=extra_verbose,

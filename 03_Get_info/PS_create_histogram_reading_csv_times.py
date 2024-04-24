@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 def compute_histogram_bins(data, desired_bin_size):
     min_val = np.min(data)
     max_val = np.max(data)
-    print(f'Min val {min_val} | max val {max_val}')
     min_boundary = -1.0 * (min_val % desired_bin_size - min_val)
     max_boundary = max_val - max_val % desired_bin_size + desired_bin_size
     n_bins = int((max_boundary - min_boundary) / desired_bin_size) + 1

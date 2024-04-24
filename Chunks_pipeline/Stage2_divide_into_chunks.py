@@ -10,15 +10,15 @@ def valid_path(path):
     else:
         raise argparse.ArgumentTypeError(f"readable_dir:{path} is not a valid path")
 
-base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','EXP-001C','TestSet_AOLME_SHAS')
+base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','TestAO-Liz')
 audio_folder_ex = base_path_ex.joinpath('Testset_stage1','input_wavs')
 csv_folder_ex = base_path_ex.joinpath('Testset_stage1','input_csv')
 chunks_WAV_ex = base_path_ex.joinpath('Testset_stage2','wav_chunks')
 
 parser = argparse.ArgumentParser()
-parser.add_argument('stg1_wavs', type=valid_path, default=audio_folder_ex, help='Stg1 WAVs folder path')
-parser.add_argument('stg1_final_csv', type=valid_path, default=csv_folder_ex, help='Stg1 VAD csvs folder path')
-parser.add_argument('stg2_chunks_wavs', type=valid_path, default=chunks_WAV_ex, help='Stg2 chunks wavs folder path')
+parser.add_argument('--stg1_wavs', type=valid_path, default=audio_folder_ex, help='Stg1 WAVs folder path')
+parser.add_argument('--stg1_final_csv', type=valid_path, default=csv_folder_ex, help='Stg1 VAD csvs folder path')
+parser.add_argument('--stg2_chunks_wavs', type=valid_path, default=chunks_WAV_ex, help='Stg2 chunks wavs folder path')
 parser.add_argument('--azure_flag', type=bool, default=False, help='Flag to indicate csv line columns')
 
 args = parser.parse_args()

@@ -1,13 +1,18 @@
 #! /bin/bash
+export MOVE_ON=true
 #### Root folder from dropbox 
 export ROOT_PATH="/home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs"
 export SRC_PATH=$(pwd)
 
 export EXP_NAME="EXP001"
-export DATASET_NAME="TestAO-Liz"
+export DATASET_NAME="TestAO-Irma"
+
+# export DATASET_NAME="TestAO-Liz"
 export SHAS_NAME="SHAS"
 export FEAT_NAME="DV"
 export METHOD_NAME="HDB"
+
+echo -e "\t>>>>> HDB-SCAN Chunks SCRIPT <<<<<"
 
 #### Stage 1 VAD
 export STG1_WAVS="${ROOT_PATH}/${DATASET_NAME}/input_wavs/"
@@ -17,7 +22,10 @@ export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG1_${SHAS_NAME}/shas_outpu
 #### Stage 2 Feature Extraction
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
+
+# if [ "$MOVE_ON" = true ]; then
 # source STG2_DVECTORS.sh
+# fi
 
 #### Stage 3 Unsupervised Method
 export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
@@ -29,14 +37,29 @@ export pca_elem="0"
 export hdb_mode="eom"
 export min_samples="5"
 
+export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
+
+cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
 # source STG3_META_HDB.sh
+# fi
+
 
 #### Stage 4 Metrics
 export STG1_GT_CSV="${ROOT_PATH}/${DATASET_NAME}/GT_final/"
 export STG4_METRICS="${current_stg3}/metrics"
 export STG4_METRIC_RUNNAME="${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_${METHOD_NAME}"
 
-source STG4_ENTROPY.sh
+export pred_suffix_added="pred"
+export pred_ext="csv"
+
+echo -e "\t>>>>> Using the CSV files from: $STG3_FINAL_CSV"
+echo -e "\t>>>>> Results stored in: $STG4_METRICS"
+
+cd $SRC_PATH
+if [ "$MOVE_ON" = true ]; then
+    source STG4_ENTROPY.sh
+fi
 
 ## Add Azure comparison
 

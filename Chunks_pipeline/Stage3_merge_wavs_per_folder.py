@@ -14,7 +14,7 @@ def valid_path(path):
     else:
         raise argparse.ArgumentTypeError(f"readable_dir:{path} is not a valid path")
 
-base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','EXP-001C','TestSet_AOLME_SHAS')
+base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','TestAO-Liz')
 stg3_pred_folders_ex = base_path_ex.joinpath('Testset_stage3','HDBSCAN_pred_output')
 stg3_merged_wavs_ex = base_path_ex.joinpath('Testset_stage3','merged_wavs')
 
@@ -25,11 +25,11 @@ stg1_long_wavs_ex = base_path_ex.joinpath('Testset_stage1','input_wav')
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('stg1_long_wavs', type=valid_path, default=stg1_long_wavs_ex, help='Initial WAVs folder path')
-parser.add_argument('stg3_pred_folders', type=valid_path, default=stg3_pred_folders_ex, help='Prediction with folders per label')
-parser.add_argument('stg3_separated_wavs', type=valid_path, default=stg3_separated_wavs_ex, help='Separated per Long wav folder path')
-parser.add_argument('stg3_merged_wavs', type=valid_path, default=stg3_merged_wavs_ex, help='Merged wavs folder path')
-parser.add_argument('stg3_outliers', type=valid_path, default=stg3_outliers_ex, help='Outliers wavs folder path')
+parser.add_argument('--stg1_long_wavs', type=valid_path, default=stg1_long_wavs_ex, help='Initial WAVs folder path')
+parser.add_argument('--stg3_pred_folders', type=valid_path, default=stg3_pred_folders_ex, help='Prediction with folders per label')
+parser.add_argument('--stg3_separated_wavs', type=valid_path, default=stg3_separated_wavs_ex, help='Separated per Long wav folder path')
+parser.add_argument('--stg3_merged_wavs', type=valid_path, default=stg3_merged_wavs_ex, help='Merged wavs folder path')
+parser.add_argument('--stg3_outliers', type=valid_path, default=stg3_outliers_ex, help='Outliers wavs folder path')
 
 
 args = parser.parse_args()
@@ -68,7 +68,7 @@ for current_pred_label_path in label_subfolders:
 
 
     # Get the base name of each file, excluding the last substring divided by a dash
-    base_names = [('_'.join(Path(f).name.split('_')[:-2])) for f in all_stg2_wav_files]
+    base_names = [('_'.join(Path(f).name.split('_')[:-3])) for f in all_stg2_wav_files]
 
     # Create sub-directories for each unique base name
     for base_name in set(base_names):
@@ -102,8 +102,8 @@ for current_pred_label_path in label_subfolders:
             segments = wav_file.stem.split('_')
 
             # Get the last two segments as start_time and stop_time
-            start_time = segments[-2]
-            stop_time = segments[-1]
+            start_time = segments[-3]
+            stop_time = segments[-2]
 
             # Append the tuple to the list
             time_tuples.append((start_time, stop_time, str(wav_file.stem)))

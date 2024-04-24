@@ -5,15 +5,26 @@ conda activate pyannote
 
 cd ~/Dropbox/SpeechFall2022/SpeakerLID_GT_code/utls
 pip install -e .
-echo "Installed utls library"
+echo -e "\t>>>>> Installed utls library"
 
 cd $SRC_PATH
 
 python3 ${SRC_PATH}/folder_verify.py $STG4_METRICS
 
-readonly min_overlap_percentage="0.3"
-readonly pred_suffix_added="pred"
-readonly pred_ext="csv"
+export min_overlap_percentage="0.3"
 
-python3 ${SRC_PATH}/Stage4_entropy_single.py $STG3_FINAL_CSV $STG1_GT_CSV $STG4_METRICS\
- $pred_suffix_added $pred_ext $min_overlap_percentage $METHOD_NAME $STG4_METRIC_RUNNAME
+echo -e "\n\t>>>>> Using the CSV files from: $STG3_FINAL_CSV \n"
+echo -e "\n\t>>>>> Results stored in: $STG4_METRICS\n"
+
+python3 ${SRC_PATH}/Stage4_entropy_single.py --csv_pred_folder $STG3_FINAL_CSV\
+ --GT_csv_folder $STG1_GT_CSV --metric_output_folder $STG4_METRICS\
+ --pred_suffix $pred_suffix_added --pred_extensions $pred_ext\
+ --min_overlap_pert $min_overlap_percentage --method_name $METHOD_NAME\
+ --run_name $STG4_METRIC_RUNNAME --run_params $RUN_PARAMS
+
+# Check if the Python script was successful
+if [ $? -ne 0 ]; then
+    export MOVE_ON=false
+    echo "Move on: $MOVE_ON"
+    return 1
+fi

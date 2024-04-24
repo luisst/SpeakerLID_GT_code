@@ -14,7 +14,6 @@ matplotlib.rc('font', **font)
 def compute_histogram_bins(data, desired_bin_size):
     min_val = np.min(data)
     max_val = np.max(data)
-    print(f'Min val {min_val} | max val {max_val}')
     min_boundary = -1.0 * (min_val % desired_bin_size - min_val)
     max_boundary = max_val - max_val % desired_bin_size + desired_bin_size
     n_bins = int((max_boundary - min_boundary) / desired_bin_size) + 1
@@ -182,6 +181,9 @@ def match_segments(current_pred_line, df_GT, method_type, mylog, min_overlap_per
 
         matched_segments_list = []
 
+        no_overlap_count = 0
+        no_overlap_seconds = 0.0
+
         for index, row in df_GT.iterrows():
                 start_time = float(row['start_time'])
                 end_time = float(row['end_time'])
@@ -192,17 +194,22 @@ def match_segments(current_pred_line, df_GT, method_type, mylog, min_overlap_per
                 if overlap_percentage > min_overlap_percentage:
                         matched_segments_list.append((row['label'], round(overlap_percentage,2), start_time, end_time))
                 else:
+                        ## Count predicitons that do not overlap with any GT
+                        no_overlap_count += 1
+                        no_overlap_seconds += current_pred_end - current_pred_start
+
                         if extra_verbose:
                                 row_label = row['label']
                                 row_start = row['start_time']
                                 row_end = row['end_time']
-                                matched_to_print_tuple = matched_to_print(current_pred_line, row_label, row_start, row_end) 
-                                log_print(f'\n\t{prd_line_idx}-No overlap between', file=mylog)
+                                matched_to_print_tuple = matched_to_print(current_pred_line, row_label, row_start, row_end, method_type) 
+                                log_print(f'\n\t{index}-No overlap between', file=mylog)
                                 log_print(f'\t{matched_to_print_tuple[0]}\n\t{matched_to_print_tuple[1]}', file=mylog)
 
         matched_segments_list.sort(key=lambda x: x[1], reverse=True)
 
-        return matched_segments_list
+        no_overlap_tuple = (no_overlap_count, no_overlap_seconds)
+        return matched_segments_list, no_overlap_tuple
 
 
 def print_metrics_summary(IOU_list, overlap_GT_list, mylog): 
@@ -286,6 +293,7 @@ def generate_IOU_overlap_lists(session_dict, matched_segments_list, current_pred
 def log_and_print_entropy(metric_output_folder,
                           method_type,
                           run_name,
+                          run_params,
                           ch_matches,
                           min_overlap_percentage,
                           extra_verbose,
@@ -308,6 +316,19 @@ def log_and_print_entropy(metric_output_folder,
                 with open(current_pred_csv_path, 'r') as f:
                         Pred_lines = f.readlines()
 
+                ## Count how many seconds in total from all prediction lines
+                total_pred_seconds = 0.0
+                for current_pred_line in Pred_lines:
+                        current_pred_label, \
+                        current_pred_start, \
+                        current_pred_end = unpack_line(current_pred_line, method_type)
+                        total_pred_seconds += current_pred_end - current_pred_start
+
+                ## Count how many seconds in total from all GT lines
+                total_GT_seconds = 0.0
+                for index, row in df_GT.iterrows():
+                        total_GT_seconds += row['end_time'] - row['start_time']
+
 
                 for prd_line_idx, current_pred_line in enumerate(Pred_lines):
 
@@ -315,7 +336,7 @@ def log_and_print_entropy(metric_output_folder,
                     current_pred_start, \
                     current_pred_end = unpack_line(current_pred_line, method_type)
 
-                    matched_segments_list = match_segments(current_pred_line, df_GT,\
+                    matched_segments_list, no_overlap_tuple = match_segments(current_pred_line, df_GT,\
                                                            method_type, mylog, \
                                                     min_overlap_percentage, extra_verbose)
 
@@ -345,5 +366,24 @@ def log_and_print_entropy(metric_output_folder,
         entropy_values = [calculate_entropy(current_value) for current_value in session_dict.values()]
         average_entropy = sum(entropy_values) / len(entropy_values)
         log_print(f'\nAverage {method_type} entropy: {average_entropy:.3f}', file=mylog)
+
+
+        log_print(f'---------------------------------------', file=mylog)
+        log_print(f'Count no-overlap: {no_overlap_tuple[0]}', file=mylog)
+        log_print(f'Seconds no-overlap: {no_overlap_tuple[1]:.2f}s', file=mylog)
+
+        # Calculate the percentage of no-overlap seconds
+        no_overlap_percentage = (no_overlap_tuple[1] / total_pred_seconds) * 100
+        log_print(f'Percentage no-overlap: {no_overlap_percentage:.2f}% \t Total Pred: {total_pred_seconds:.2f}', file=mylog)
+
+        # Calculate the percentage of no-overlap seconds from the total GT seconds
+        no_overlap_percentage_GT = (no_overlap_tuple[1] / total_GT_seconds) * 100
+        log_print(f'Percentage no-overlap GT: {no_overlap_percentage_GT:.2f}% \t Total GT: {total_GT_seconds:.2f}', file=mylog)
+
+        log_print(f'---------------------------------------', file=mylog)
+
+        log_print(f'Run Method: {method_type}', file=mylog)
+        log_print(f'Run Name: {run_name}', file=mylog)
+        log_print(f'Run Params: {run_params}', file=mylog)
     
 
