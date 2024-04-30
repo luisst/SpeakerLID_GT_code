@@ -10,18 +10,18 @@ export DATASET_NAME="TestAO-Irma"
 
 export SHAS_NAME="SHAS"
 export FEAT_NAME="DV"
-export METHOD_NAME="TDA-e"
+export METHOD_NAME="TDA"
 
 echo -e "\t>>>>> TDA Keppler Mapper Chunks SCRIPT <<<<<"
 
 
 #### Stage 1 VAD
 export STG1_WAVS="${ROOT_PATH}/${DATASET_NAME}/input_wavs/"
-export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG1_${SHAS_NAME}/shas_output_csv/"
+export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas_output_csv/"
 # source STG1_SHAS.sh
 
 #### Stage 2 Feature Extraction
-export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
+export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
 
 # if [ "$MOVE_ON" = true ]; then
@@ -29,7 +29,7 @@ export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NA
 # fi
 
 #### Stage 3 Unsupervised Method
-export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
+export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG_3/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
 export STG3_MERGED_WAVS="${current_stg3}/merged_wavs"
 export STG3_FINAL_CSV="${current_stg3}/final_csv"
 
@@ -47,10 +47,10 @@ export min_samples="5"
 # export min_samples="5"
 export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
 
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-source STG3_META_TDA.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+# source STG3_META_TDA.sh
+# fi
 
 ### Stage 4 Metrics
 export STG1_GT_CSV="${ROOT_PATH}/${DATASET_NAME}/GT_final/"

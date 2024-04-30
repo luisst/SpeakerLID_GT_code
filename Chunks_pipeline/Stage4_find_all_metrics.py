@@ -39,7 +39,7 @@ def append_to_summary(output_summary_path, metrics_folder):
 
     new_file.close()
 
-dataset_name = 'TestAO-Liz'
+dataset_name = 'TestAO-Irma'
 
 root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Proposal_runs',dataset_name)
 output_summary_path = root_dir.joinpath('entropy_summary.txt')

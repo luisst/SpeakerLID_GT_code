@@ -67,8 +67,6 @@ def calculate_rms_segments_db(audio_file, segment_duration=0.25):
             end_time = (i + 1) * segment_duration
             f.write(f'{audio_file.name}\t{start_time:.2f}\t{end_time:.2f}\t{full_scale_rms_db[i]:.2f}\n')
 
-
-
     return full_scale_rms_db
 
 

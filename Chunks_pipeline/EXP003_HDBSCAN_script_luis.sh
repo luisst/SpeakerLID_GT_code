@@ -4,11 +4,11 @@ export MOVE_ON=true
 export ROOT_PATH="/home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs"
 export SRC_PATH=$(pwd)
 
-export EXP_NAME="EXP001"
+export EXP_NAME="EXP003"
 export DATASET_NAME="TestAO-Irma"
 
 # export DATASET_NAME="TestAO-Liz"
-export SHAS_NAME="SHAS"
+export SHAS_NAME="SHASfilt"
 export FEAT_NAME="DV"
 export METHOD_NAME="HDB"
 
@@ -16,16 +16,16 @@ echo -e "\t>>>>> HDB-SCAN Chunks SCRIPT <<<<<"
 
 #### Stage 1 VAD
 export STG1_WAVS="${ROOT_PATH}/${DATASET_NAME}/input_wavs/"
-export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas_output_csv/"
+export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas_filtered_output_csv/"
 # source STG1_SHAS.sh
 
 #### Stage 2 Feature Extraction
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
 
-# if [ "$MOVE_ON" = true ]; then
-# source STG2_DVECTORS.sh
-# fi
+if [ "$MOVE_ON" = true ]; then
+    source STG2_DVECTORS.sh
+fi
 
 #### Stage 3 Unsupervised Method
 export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG_3/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
@@ -40,9 +40,9 @@ export min_samples="5"
 export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
 
 cd $SRC_PATH
-# if [ "$MOVE_ON" = true ]; then
-# source STG3_META_HDB.sh
-# fi
+if [ "$MOVE_ON" = true ]; then
+    source STG3_META_HDB.sh
+fi
 
 
 #### Stage 4 Metrics

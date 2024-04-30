@@ -106,7 +106,7 @@ def calculate_rms_segments_db(audio_file,
         print(f'Audio duration from segments: {audio_duration_from_segments} seconds')
 
     # Write into a csv file the full scale rms values in steps of 0.2 seconds
-    output_csv_path = output_folder_path / f'{audio_file.stem}_rms_values.csv' 
+    output_csv_path = output_folder_path / f'{audio_file.stem}.txt' 
 
     # Print the output path
     print(f'\nOutput CSV path: {output_csv_path}')
