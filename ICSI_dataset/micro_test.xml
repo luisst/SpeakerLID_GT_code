@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<nite:root nite:id="Bdb001.A.segs" xmlns:nite="http://nite.sourceforge.net/">
+   <segment nite:id="Bdb001.segment.11" starttime="9.798" endtime="11.268" participant="mn017" timing-provenance="segment">
+      <nite:child href="Bdb001.A.words.xml#id(Bdb001.vocalsound.3)"/>
+   </segment>
+   <segment nite:id="Bdb001.segment.40" starttime="45.165" endtime="47.382" participant="mn017" timing-provenance="segment">
+      <nite:child href="Bdb001.A.words.xml#id(Bdb001.nonvocalsound.10)"/>
+   </segment>
+   <segment nite:id="Bdb001.segment.1,395" starttime="3015.158" endtime="3015.447" participant="mn017" timing-provenance="segment">
+      <nite:child href="Bdb001.A.words.xml#id(Bdb001.comment.224)"/>
+   </segment>
+</nite:root>

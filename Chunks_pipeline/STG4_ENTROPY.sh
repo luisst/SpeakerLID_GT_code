@@ -1,5 +1,7 @@
 #! /bin/bash
 
+echo -e "\t>>>>> Using the CSV files from: $STG3_FINAL_CSV"
+echo -e "\t>>>>> Results stored in: $STG4_METRICS"
 
 conda activate pyannote
 

@@ -49,7 +49,7 @@ def process_files(yml_pth, output_csv_folder):
             first_time_flag = False
 
         stop_val = float(match.group(2)) + float(match.group(1))
-        new_file.write(f'{match.group(4)}\t{match.group(2)}\t{stop_val}\n')
+        new_file.write(f'{new_filename}\t{match.group(2)}\t{stop_val}\n')
 
         prev_name = new_filename
 

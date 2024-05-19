@@ -19,13 +19,15 @@ export STG1_WAVS="${ROOT_PATH}/${DATASET_NAME}/input_wavs/"
 export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas_filtered_output_csv/"
 # source STG1_SHAS.sh
 
+source STG1_SILENT_DETECTOR.sh
+
 #### Stage 2 Feature Extraction
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
 
-if [ "$MOVE_ON" = true ]; then
-    source STG2_DVECTORS.sh
-fi
+# if [ "$MOVE_ON" = true ]; then
+#     source STG2_DVECTORS.sh
+# fi
 
 #### Stage 3 Unsupervised Method
 export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG_3/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
@@ -39,10 +41,10 @@ export min_samples="5"
 
 export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
 
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-    source STG3_META_HDB.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+#     source STG3_META_HDB.sh
+# fi
 
 
 #### Stage 4 Metrics
@@ -53,13 +55,10 @@ export STG4_METRIC_RUNNAME="${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_${METHOD_N
 export pred_suffix_added="pred"
 export pred_ext="csv"
 
-echo -e "\t>>>>> Using the CSV files from: $STG3_FINAL_CSV"
-echo -e "\t>>>>> Results stored in: $STG4_METRICS"
-
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-    source STG4_ENTROPY.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+#     source STG4_ENTROPY.sh
+# fi
 
 ## Add Azure comparison
 

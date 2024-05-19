@@ -17,7 +17,7 @@ echo -e "\t>>>>> HDB-SCAN Chunks SCRIPT <<<<<"
 #### Stage 1 VAD
 export STG1_WAVS="${ROOT_PATH}/${DATASET_NAME}/input_wavs/"
 export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas_output_csv/"
-# source STG1_SHAS.sh
+source STG1_SHAS.sh
 
 #### Stage 2 Feature Extraction
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
@@ -53,13 +53,11 @@ export STG4_METRIC_RUNNAME="${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_${METHOD_N
 export pred_suffix_added="pred"
 export pred_ext="csv"
 
-echo -e "\t>>>>> Using the CSV files from: $STG3_FINAL_CSV"
-echo -e "\t>>>>> Results stored in: $STG4_METRICS"
 
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-    source STG4_ENTROPY.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+#     source STG4_ENTROPY.sh
+# fi
 
 ## Add Azure comparison
 

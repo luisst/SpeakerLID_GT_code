@@ -3,8 +3,8 @@ import numpy as np
 from pathlib import Path
 
 # Set the root folder as the current working directory
-root_folder = Path.cwd()
 
+root_folder = Path.cwd()
 # Get a list of all subfolders within the root folder
 subfolders = [folder for folder in root_folder.iterdir() if folder.is_dir()]
 

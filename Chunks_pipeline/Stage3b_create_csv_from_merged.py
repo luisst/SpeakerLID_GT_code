@@ -47,11 +47,12 @@ for path in merged_wav_folder.iterdir():
         # Get the duration of the .wav file
         current_duration = get_total_video_length(path)
 
+        current_wav_name = path.name
 
         # Print the name of the file
-        print(f'Filename: {path.name}')
+        print(f'Filename: {current_wav_name}')
 
-        value_to_store = [predicted_label, start_time, end_time, current_duration]
+        value_to_store = [current_wav_name, predicted_label, start_time, end_time, current_duration]
 
         # Check if the origin_wav_filename is new
         if origin_wav_filename not in labels_dict:

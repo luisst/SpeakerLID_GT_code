@@ -6,8 +6,7 @@ from pathlib import Path
 from utilities_functions import check_folder_for_process, ffmpeg_split_audio
 
 
-# current_folder = Path.home().joinpath('Dropbox', 'DATASETS_AUDIO','VAD_aolme','TestSet_for_VAD','WAV_FILES')
-current_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\AOLME_SD_Collection\TestSet\02_Selected_clips\G-C2L1P-Apr26-E-Krithika_q2_03-06\tmp_video_input')
+current_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\Proposal_runs\ValAO-Windy\input_mp4')
 output_wav_folder = current_folder.joinpath('wav_output')
 
 if not(check_folder_for_process(output_wav_folder)):

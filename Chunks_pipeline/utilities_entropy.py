@@ -2,6 +2,7 @@ import pprint
 from scipy.stats import entropy
 import numpy as np
 import pandas as pd
+import json
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -23,13 +24,21 @@ def compute_histogram_bins(data, desired_bin_size):
 
 
 def unpack_line(line, method_type):
+
     if method_type == 'azure':
         current_pred_label, \
         current_pred_start, \
         current_pred_end, \
         current_pred_text, \
         current_pred_prob = line.strip().split('\t')
+
+    elif method_type == 'shas':
+        current_wav_name, \
+        current_pred_start, \
+        current_pred_end = line.strip().split('\t')
+        current_pred_label = 'Ignored'
     else:
+        current_wav_name, \
         current_pred_label, \
         current_pred_start, \
         current_pred_end, \
@@ -38,7 +47,7 @@ def unpack_line(line, method_type):
     current_pred_start = float(current_pred_start)
     current_pred_end = float(current_pred_end)
     
-    return current_pred_label, current_pred_start, current_pred_end
+    return current_wav_name, current_pred_label, current_pred_start, current_pred_end
     
 
 def log_print(obj, pprint_flag = False, file='output_console.txt'):
@@ -99,6 +108,7 @@ def create_histogram(metric_output_folder,
 
                 for prd_line_idx, current_pred_line in enumerate(Pred_lines):
 
+                        current_wav_name, \
                         current_pred_label, \
                         current_pred_start, \
                         current_pred_end = unpack_line(current_pred_line, method_type)
@@ -119,8 +129,8 @@ def calculate_entropy(labels):
 
 def matched_to_print(current_pred_line, row_label, row_start, row_end, method_type):
         matched_to_print_tuple = ['','']
-
-        current_pred_label, \
+        
+        _, current_pred_label, \
         current_pred_start, \
         current_pred_end = unpack_line(current_pred_line, method_type)
 
@@ -152,6 +162,7 @@ def calculate_overlap_percentage(predicted_start, predicted_end, gt_start, gt_en
 
 
 def calculate_metrics(current_pred_line, matched_segments_list, method_type): 
+        current_wav_name, \
         current_pred_label, \
         current_pred_start, \
         current_pred_end = unpack_line(current_pred_line, method_type)
@@ -175,6 +186,8 @@ def calculate_metrics(current_pred_line, matched_segments_list, method_type):
 
 
 def match_segments(current_pred_line, df_GT, method_type, mylog, min_overlap_percentage, extra_verbose):
+        
+        current_wav_name, \
         current_pred_label, \
         current_pred_start, \
         current_pred_end = unpack_line(current_pred_line, method_type)
@@ -224,8 +237,9 @@ def print_metrics_summary(IOU_list, overlap_GT_list, mylog):
         log_print(f'percentage_zeros_IOU: {percentage_zeros_IOU:.2f}% \t percentage_zeros_overlap_GT: {percentage_zeros_overlap_GT:.2f}%', file=mylog)
 
 
-def print_entropy_details(session_dict, mylog):
+def print_entropy_details(session_dict, mylog, extra_heading=''):
 
+        log_print(f'\n{extra_heading}', file=mylog)
         log_print('\nSession dict:', file=mylog)
         for key, current_value in session_dict.items():
                 element_count = {}
@@ -242,8 +256,16 @@ def print_entropy_details(session_dict, mylog):
                 log_print(f'\tEntropy {key}:  {entropy_value:.3f}', file=mylog)
 
 
-def generate_IOU_overlap_lists(session_dict, matched_segments_list, current_pred_line, method_type, mylog, prd_line_idx, verbose=False):
+def generate_IOU_overlap_lists(session_dict, paths_dicts,
+                               matched_segments_list,
+                               current_pred_line,
+                               method_type,
+                               mylog,
+                               prd_line_idx,
+                               json_path,
+                               verbose=False):
 
+        current_wav_name, \
         current_pred_label, \
         current_pred_start, \
         current_pred_end = unpack_line(current_pred_line, method_type)
@@ -267,6 +289,11 @@ def generate_IOU_overlap_lists(session_dict, matched_segments_list, current_pred
                 else:
                         session_dict[current_pred_label] = [current_GT_label]
                 
+                if current_pred_label in paths_dicts:
+                        paths_dicts[current_pred_label].append((current_wav_name, current_GT_label))
+                else:
+                        paths_dicts[current_pred_label] = [(current_wav_name, current_GT_label)]
+                
                 if verbose:
                         if len(matched_segments_list) >= 3:
                                 log_print(f'\n{prd_line_idx}-current_pred_line: {current_pred_line.strip()}', file=mylog)
@@ -286,8 +313,21 @@ def generate_IOU_overlap_lists(session_dict, matched_segments_list, current_pred
                         log_print(f'\tNo matches found', file=mylog)
                 IOU_list.append(0.0)
                 overlap_GT_list.append(0.0)
-        
-        return IOU_list, overlap_GT_list, session_dict
+
+                if current_pred_label in session_dict:
+                        session_dict[current_pred_label].append('Other_Speaker')
+                else:
+                        session_dict[current_pred_label] = ['Other_Speaker']       
+                
+                if current_pred_label in paths_dicts:
+                        paths_dicts[current_pred_label].append((current_wav_name, 'Other_Speaker'))
+                else:
+                        paths_dicts[current_pred_label] = [(current_wav_name, 'Other_Speaker')]
+                
+        with open(json_path, 'w') as json_file:
+                json.dump(paths_dicts, json_file)
+
+        return IOU_list, overlap_GT_list, session_dict, paths_dicts
 
 
 def log_and_print_entropy(metric_output_folder,
@@ -300,8 +340,10 @@ def log_and_print_entropy(metric_output_folder,
                           verbose):
         current_date_time = pd.to_datetime('today').strftime('%Y-%m-%d_%H-%M')
         mylog = str(metric_output_folder.joinpath(f'Entropy_{run_name}_{current_date_time}.txt'))
+        json_path = metric_output_folder.joinpath(f'session_dict.json')
 
         session_dict = {}
+        paths_dicts = {}
 
         log_print(f'Entropy for {method_type}', file=mylog)
 
@@ -319,6 +361,7 @@ def log_and_print_entropy(metric_output_folder,
                 ## Count how many seconds in total from all prediction lines
                 total_pred_seconds = 0.0
                 for current_pred_line in Pred_lines:
+                        current_wav_name, \
                         current_pred_label, \
                         current_pred_start, \
                         current_pred_end = unpack_line(current_pred_line, method_type)
@@ -332,6 +375,7 @@ def log_and_print_entropy(metric_output_folder,
 
                 for prd_line_idx, current_pred_line in enumerate(Pred_lines):
 
+                    current_wav_name, \
                     current_pred_label, \
                     current_pred_start, \
                     current_pred_end = unpack_line(current_pred_line, method_type)
@@ -340,13 +384,16 @@ def log_and_print_entropy(metric_output_folder,
                                                            method_type, mylog, \
                                                     min_overlap_percentage, extra_verbose)
 
-                    IOU_list, overlap_GT_list, session_dict = generate_IOU_overlap_lists(session_dict, \
-                                                                                    matched_segments_list, \
-                                                                                    current_pred_line, \
-                                                                                    method_type, \
-                                                                                    mylog, \
-                                                                                    prd_line_idx, \
-                                                                                    verbose=False)
+                    IOU_list, overlap_GT_list, \
+                        session_dict, paths_dicts = generate_IOU_overlap_lists(session_dict, \
+                                                                                paths_dicts, \
+                                                                                matched_segments_list, \
+                                                                                current_pred_line, \
+                                                                                method_type, \
+                                                                                mylog, \
+                                                                                prd_line_idx, \
+                                                                                json_path, \
+                                                                                verbose=False)
 
                 if verbose:
                         log_print(f'\n\nIOU_list:', file=mylog)
@@ -362,11 +409,13 @@ def log_and_print_entropy(metric_output_folder,
         ## Print the entropy details of the session_dict
         print_entropy_details(session_dict, mylog)
 
+        print_entropy_details(paths_dicts, mylog, extra_heading='PATHS DICTS')
+
         # Print the average entropy of the session_dict
         entropy_values = [calculate_entropy(current_value) for current_value in session_dict.values()]
+
         average_entropy = sum(entropy_values) / len(entropy_values)
         log_print(f'\nAverage {method_type} entropy: {average_entropy:.3f}', file=mylog)
-
 
         log_print(f'---------------------------------------', file=mylog)
         log_print(f'Count no-overlap: {no_overlap_tuple[0]}', file=mylog)
