@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple audio</title>
+    <!-- Include Wavesurfer.js via CDN -->
+    <style>
+        #waveform {
+            width: 100%;
+            height: 128px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="waveform"></div>
+    <input type="file" id="audioInput" accept="audio/*">
+
+    <!-- Import the wavesurfer library -->
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+
+    <script src="audio_simple_script.js"></script>
+</body>
+</html>

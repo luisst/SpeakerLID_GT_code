@@ -1,0 +1,27 @@
+ body{
+  height: 650px;
+  width: 1180px;
+  margin: 0px;
+}
+
+video {
+    width: 600px;
+    height: 100%;
+}
+
+.top{
+    display:flex;
+}
+
+.colvideo {
+    float: left;
+    width: 67%;
+    padding: 10px;
+}
+
+.colside {
+    font-family: Arial;
+    float: left;
+    width: 33%;
+    padding: 10px;
+}

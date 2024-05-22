@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveSurfer Example</title>
+    <link rel="stylesheet" href="stylesws.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <div class="colvideo">
+                <video id="video" controls>
+                    <source src="myvideo2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="colside">
+                <h2>Video Details</h2>
+                <p><strong>Duration:</strong> <span id="duration">0</span> seconds</p>
+                <p><strong>Current Time:</strong> <span id="currentTime">0</span> seconds</p>
+                <p><strong>Volume:</strong> <span id="volume">0</span></p>
+                <p><strong>Playback Rate:</strong> <span id="playbackRate">1</span></p>
+                <p><strong>Playback State:</strong> <span id="playbackState">Paused</span></p>
+            </div>
+        </div>
+        <div class="bottom">
+            <div id="bot1">
+                <div id="waveform"></div>
+            </div>
+            <div id="bot2"></div>
+        </div>
+    </div>
+
+    <!-- <script src="https://unpkg.com/wavesurfer.js@7"></script> -->
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <!-- <script src="https://unpkg.com/wavesurfer.js/dist/plugins/timeline.esm.js"></script> -->
+    <!-- <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/timeline.min.js"></script> -->
+    <script src="scriptws.js" type="module"></script>
+    <!-- <script src="scriptws.js"></script> -->
+</body>
+</html>
