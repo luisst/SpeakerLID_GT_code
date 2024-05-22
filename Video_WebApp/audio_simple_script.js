@@ -17,8 +17,5 @@ document.getElementById('audioInput').addEventListener('change', function(event)
         const objectUrl = URL.createObjectURL(file);
         wavesurfer.load(objectUrl);
 
-        wavesurfer.on('ready', () => {
-            synchronizePlayback();
-        });
     }
 });
