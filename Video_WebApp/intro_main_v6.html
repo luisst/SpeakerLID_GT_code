@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveSurfer Example</title>
+    <style>
+
+        body{
+        height: 560px;
+        width: 1120px;
+        margin: 0px;
+        }
+
+        p { font-family: Arial; }
+
+        .myButton {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            margin-left: 5px;
+            margin-right: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+
+        video {
+            width: 600px;
+            height: 100%;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 12px 24px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .top{
+            display:flex;
+        }
+
+        .colvideo {
+            float: left;
+            width: 600px;
+            padding: 5px;
+            /* margin-bottom: 30px; */
+        }
+
+        .colsidebot{
+            margin-top: 10px;
+        }
+
+        .colside {
+            font-family: Arial;
+            float: left;
+            flex-grow: 1; /* This will make colside take up the remaining space */
+
+        }
+
+        .bot2{
+            display:flex;
+        }
+
+        .colsidetop{
+            display:flex;
+        }
+
+        .colsidehalf{
+            width: 50%;
+            padding: 5px;
+        }
+
+        .speakerIDcontainer{
+            display: flex;
+            padding: 5px;
+            margin-right: 10px;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        #image-container{
+            display: flex;
+            background-color: #f0f0f0;
+        }
+
+        .src_0{
+            align-self: flex-start;
+            background-color: #EC7063;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .src_1{
+            align-self: flex-start;
+            background-color:#AF7AC5;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .src_2{
+            align-self: flex-start;
+            background-color:#5DADE2;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .src_3{
+            align-self: flex-start;
+            background-color:#52BE80;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .src_4{
+            align-self: flex-start;
+            background-color:#F5B041;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+
+        #manual_load{
+            display: flex;
+        }
+
+        .msrc_class{
+            border: 1px solid black; /* Optional: To visualize the divisions */
+            height: 150px; /* Adjust as needed */
+            margin: 4px 5px;
+        }
+
+        .mbtn_class{
+            margin-top: 3px;
+            margin-bottom: 8px;
+            margin-left: 50px;
+            margin-right: 30px;
+        }
+
+        #imageCanvas {
+            display: block;
+        }
+
+        /* #btn_start_ws{
+            margin-top: 8px;
+            margin-bottom: 8px;
+            margin-left: 5px;
+            margin-right: 5px;
+            width: 100px; 
+            height: 50px; 
+        } */
+
+        .canvas-class{
+            margin-top: 6px;
+            margin-bottom: 3px;
+            margin-left: 45px;
+            margin-right: 5px;
+        }
+
+        #btn_start_ws {
+            display: inline-block;
+            padding: 12px 24px;
+            cursor: pointer;
+            background-color: #28a745; /* Green color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        #btn_start_ws:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="container">
+        <div id="image-container">
+
+            <div id="manual_load">
+
+            </div>
+        </div>
+        <div class="top">
+            <div class="colvideo">
+                <video id="video" controls>
+                </video>
+            </div>
+            <div class="colside">
+                <button class="myButton" id="paste_all"> Download Speakers Image </button>
+                <br>
+                <button class="myButton" id="btn_start_ws" onclick="load_next_page()"> &#x270D Start WS </button>
+                <p id="Videotextbox"></p>
+                <p> 
+                    <b>How to use:</b> <br>
+                    &nbsp; &nbsp; - Copy <span style="color: #B03A2E"><i>intro_main</i></span> and <span style="color: #B03A2E"><i>ws_main</i></span> html files into <span style="color: #F39C12"><i>input_mp4</i></span> folder <br>
+                    &nbsp; &nbsp; - Copy pipeline output into <span style="color: #F39C12"><i>csv_predictions</i></span> subfolder <br>
+                    &nbsp; &nbsp; - Open videos folder in <span style="color: #2471A3"><i>VScode</i></span> <br>
+                    &nbsp; &nbsp; - Right click in <span style="color: #B03A2E"><i>intro_main</i></span> to start <span style="color: #2471A3"><i>Live Server</i></span><br>
+                </p>
+                <p>
+                    <b>A. Load JSON</b> <br>
+                    &nbsp; &nbsp; &nbsp; 1. Verify video has GT in JSON and start WaveSurfer <br>
+                    <b>B. Load manually</b> <br>
+                    &nbsp; &nbsp; &nbsp; 1. Use <span style="color: #6C3483"><i>LightShot</i></span> to copy speaker image <br>
+                    &nbsp; &nbsp; &nbsp; 2. "Download Speakers Image" in the same folder <br>
+                    &nbsp; &nbsp; &nbsp; 3. Start WaveSurfer <br>
+                </p>
+            </div>
+
+        </div> <!-- top -->
+        <div class="bottom">
+            <div id="bot1">
+                <div id="waveform"></div>
+            </div>
+            <div id="start_buttons" style="display: flex; justify-content: center; align-items: center;">
+                <br>
+                &nbsp <p> &#x26F3 First select folder: &nbsp</p>
+                <!-- <button id="select-video" style="height: 40px;">&#x26F3 START: Select Video</button> -->
+                <label for="videoInput" class="custom-file-upload">
+                    Choosee Video
+                </label>
+                <input type="file" id="videoInput" accept="video/*">
+                &nbsp &nbsp &nbsp &nbsp &nbsp <p> Then, select one: &nbsp</p>
+                <button id="load_from_json" style="height: 40px;">Option A: Load from JSON</button>
+                &nbsp &nbsp &nbsp <p> or &nbsp</p> &nbsp &nbsp
+                <button id="load_manually" style="height: 40px;">Option B: Load speakers manually</button>
+                </div>
+            </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <script>
+        var videoName = '';
+        var started_flag = false;
+        let current_src = '';
+
+        // Select the input element
+        const videoInput = document.getElementById('videoInput');
+        // Select the video player element
+        const videoPlayer = document.getElementById('video');
+
+        // Add an event listener for the input change event
+        videoInput.addEventListener('change', function(event) {
+            // Get the selected file
+            const file = videoInput.files[0];
+
+            // Check if a file is selected
+            if (file) {
+                // Log the video name to the console
+                console.log('Selected video name:', file.name);
+
+                // Create a URL for the selected video file
+                const videoURL = URL.createObjectURL(file);
+
+                // Set the video player's source to the selected file
+                videoPlayer.src = videoURL;
+                videoPlayer.style.display = 'block';
+                started_flag = true;
+                current_src = file.name;
+
+                // Extract the filename without the extension
+                videoName = file.name.split('.')[0];
+
+                // // Load the corresponding CSV file
+                // fetch(videoName + '.csv')
+                //     .then(response => response.text())
+                //     .then(data => {
+                //         // data contains the CSV data
+                //         console.log(data);
+                //     })
+                //     .catch(error => console.error('Error:', error));
+
+            }
+        });
+
+
+
+        // Load JSON file
+        const jsonButton = document.getElementById('load_from_json');
+        const manualButton = document.getElementById('load_manually');
+        const top_div_start = document.getElementById('start_buttons');
+        const WSstartButton = document.getElementById('btn_start_ws');
+
+        const button = document.getElementById('paste_all');
+        const isWithinForm = button.closest('form') !== null;
+
+        console.log(isWithinForm); // true if the button is within a form, false otherwise
+
+        jsonButton.addEventListener('click', () => {
+
+        if (started_flag == true) {
+            var group_code = '';
+
+            group_code = videoName.substring(0, videoName.lastIndexOf('-'));
+
+            // log the group code to the console
+            console.log('Group code:', group_code);
+
+            load_picture_json('images_june4.json', group_code);
+        } else {
+            alert('Please select a video first');
+        }
+
+        });
+
+
+        manualButton.addEventListener('click', () => {
+        if (started_flag == true) {
+            top_div_start.remove();
+            jsonButton.remove();
+            manualButton.remove();
+
+            // Create 5 new div elements
+            for (let i = 0; i < 5; i++) {
+            var newDiv = document.createElement("div");
+
+            // Set the div's ID
+            newDiv.id = "msrc-div-" + i;
+
+            // Add a class to the div
+            newDiv.classList.add("msrc_class");
+
+            // Find the container div
+            var containerDiv = document.getElementById("manual_load");
+
+            // Add the new div to the container div
+            containerDiv.appendChild(newDiv);
+            }
+
+            // Create 5 new input elements
+            for (let i = 0; i < 5; i++) {
+            var newInput = document.createElement("input");
+
+            // Set the input's type
+            newInput.type = "text";
+
+            // Set the input's ID
+            newInput.id = "msrc-input-" + i;
+
+            // Set the input's placeholder
+            newInput.placeholder = "Enter the speaker name";
+
+            // Find the div to add the input to
+            var divToAddTo = document.getElementById("msrc-div-" + i);
+
+            // Add the input to the div
+            divToAddTo.appendChild(newInput);
+            }
+
+            // Create 5 new canvas elements
+            for (let i = 0; i < 5; i++) {
+            // Create a new canvas element
+            var newCanvas = document.createElement("canvas");
+
+            // Set the canvas's ID
+            newCanvas.id = "canvas-" + i;
+
+            // Add a class to the canvas
+            newCanvas.classList.add("canvas-class");
+
+            // Set the canvas's height and width
+            newCanvas.height = 80;
+            newCanvas.width = 80;
+
+            // Find the div to add the canvas to
+            var divToAddTo = document.getElementById("msrc-div-" + i);
+
+            // Add the canvas to the div
+            divToAddTo.appendChild(newCanvas);
+            }
+
+            // Create 5 new input elements
+            for (let i = 0; i < 5; i++) {
+
+            // Create a new button element
+            var newButton = document.createElement("button");
+
+            // Set the button's text
+            newButton.innerHTML = "Paste img";
+
+            // Set the button's ID
+            newButton.id = "mbtn-" + i;
+
+            // Add a class to the div
+            newButton.classList.add("mbtn_class");
+
+            // Set the button's style
+            newButton.style.height = "30px";
+
+            // Find the div to add the input to
+            var divToAddTo = document.getElementById("msrc-div-" + i);
+
+            // Add the input to the div
+            divToAddTo.appendChild(newButton);
+            }
+
+
+        document.getElementById('mbtn-0').addEventListener('click', async () => {
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (let item of clipboardItems) {
+                    if (item.types.includes('image/png')) {
+                        const blob = await item.getType('image/png');
+                        const img = new Image();
+                        img.src = URL.createObjectURL(blob);
+
+                        img.onload = () => {
+                            const canvas = document.getElementById('canvas-0');
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            URL.revokeObjectURL(img.src);
+                        };
+                        break;
+                    } else {
+                        alert('Clipboard does not contain an image.');
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                alert('Failed to read clipboard contents.');
+            }
+        })
+
+        document.getElementById('mbtn-1').addEventListener('click', async () => {
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (let item of clipboardItems) {
+                    if (item.types.includes('image/png')) {
+                        const blob = await item.getType('image/png');
+                        const img = new Image();
+                        img.src = URL.createObjectURL(blob);
+
+                        img.onload = () => {
+                            const canvas = document.getElementById('canvas-1');
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            URL.revokeObjectURL(img.src);
+                        };
+                        break;
+                    } else {
+                        alert('Clipboard does not contain an image.');
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                alert('Failed to read clipboard contents.');
+            }
+        })
+
+
+        document.getElementById('mbtn-2').addEventListener('click', async () => {
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (let item of clipboardItems) {
+                    if (item.types.includes('image/png')) {
+                        const blob = await item.getType('image/png');
+                        const img = new Image();
+                        img.src = URL.createObjectURL(blob);
+
+                        img.onload = () => {
+                            const canvas = document.getElementById('canvas-2');
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            URL.revokeObjectURL(img.src);
+                        };
+                        break;
+                    } else {
+                        alert('Clipboard does not contain an image.');
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                alert('Failed to read clipboard contents.');
+            }
+        })
+
+
+        document.getElementById('mbtn-3').addEventListener('click', async () => {
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (let item of clipboardItems) {
+                    if (item.types.includes('image/png')) {
+                        const blob = await item.getType('image/png');
+                        const img = new Image();
+                        img.src = URL.createObjectURL(blob);
+
+                        img.onload = () => {
+                            const canvas = document.getElementById('canvas-3');
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            URL.revokeObjectURL(img.src);
+                        };
+                        break;
+                    } else {
+                        alert('Clipboard does not contain an image.');
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                alert('Failed to read clipboard contents.');
+            }
+        })
+
+
+        document.getElementById('mbtn-4').addEventListener('click', async () => {
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (let item of clipboardItems) {
+                    if (item.types.includes('image/png')) {
+                        const blob = await item.getType('image/png');
+                        const img = new Image();
+                        img.src = URL.createObjectURL(blob);
+
+                        img.onload = () => {
+                            const canvas = document.getElementById('canvas-4');
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            URL.revokeObjectURL(img.src);
+                        };
+                        break;
+                    } else {
+                        alert('Clipboard does not contain an image.');
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                alert('Failed to read clipboard contents.');
+            }
+        })
+
+
+        } else {
+            alert('Please select a video first');
+        }
+
+        });
+
+
+
+        function load_picture_json(json_path, group_code){
+        fetch(json_path)
+            .then(response => response.json())
+            .then(data => {
+            const container = document.getElementById('image-container');
+
+            var group_data = data[group_code];
+
+            if (group_data){
+                // Log the length of group_data to the console
+                console.log("group data length", group_data.length);
+
+                group_data.forEach((element) => {
+
+                    var speaker_name = element['speaker_name'];
+                    var speaker_number = element['speaker_number'];
+                    var speaker_picture_data = element['image_64'];
+                    const speaker_picture = "data:image/png;base64," + speaker_picture_data;
+
+                    const img = document.createElement('img');
+                    img.src = speaker_picture; // The Base64 string is already in the correct format
+                    img.alt = `${speaker_name}`;
+                    img.width = 80;
+                    img.height = 80;
+
+                    // Create a caption element
+                    const caption = document.createElement('p');
+                    caption.classList.add(`src_${speaker_number}`);
+                    caption.textContent = `${speaker_number} - ${speaker_name}`;
+
+                    // Create a container for each image and its caption
+                    const div = document.createElement('div');
+                    div.classList.add('speakerIDcontainer');
+                    div.appendChild(img);
+                    div.appendChild(caption);
+
+                    // Append the container to the main container
+                    container.appendChild(div);
+
+                    top_div_start.remove();
+                    jsonButton.remove();
+                    manualButton.remove();
+                });
+                } else {
+                    console.log('No data found for this video');
+                    alert('No data found for this video');
+                }
+
+            })
+            .catch(error => console.error(' json Error:', error));
+        }
+
+
+        document.getElementById('paste_all').addEventListener('click', function(event) {
+        event.preventDefault(); // Correctly preventing the default action
+
+        if (started_flag == true) {
+            document.getElementById('Videotextbox').textContent = videoName;
+            html2canvas(document.querySelector("#image-container")).then(canvas => {
+                let link = document.createElement('a');
+                link.download = videoName + '.png';
+                link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                document.body.appendChild(link); // Append to body
+                link.click(); // Triggers the download
+                document.body.removeChild(link); // Clean up by removing the link
+            });
+        } else {
+            alert('Please select a video first');
+        }
+        });
+
+
+        function load_next_page() {
+        if (started_flag == true) {
+            console.log(current_src)
+            window.location.href = `video_ws4.html?text=${encodeURIComponent(current_src)}`;
+        } else {
+            alert('Please select a video first');
+        }
+        }
+    </script>
+</body>
+</html>

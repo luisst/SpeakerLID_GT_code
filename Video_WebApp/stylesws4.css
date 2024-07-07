@@ -103,6 +103,22 @@ tr:nth-child(even) {
     background-color: #f0f0f0;
 }
 
+#loadedimg{
+    width: 1120px;
+    height: 90px;
+    overflow: hidden;
+    position: relative;
+}
+
+#loadedimg img {
+    max-width: 100%;
+
+    height: 140%; /* Enlarge the image to effectively show only 80% of its height */
+    position: absolute; /* Position the image absolutely within its parent */
+    top: 0; /* Align the top edge of the image with the top edge of its container */
+    display: block; /* Removes any extra space below the image */
+}
+
 .src_0{
     align-self: flex-start;
     background-color: #EC7063;

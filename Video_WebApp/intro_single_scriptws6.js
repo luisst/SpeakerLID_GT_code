@@ -3,10 +3,6 @@ var videoName = '';
 var started_flag = false;
 let current_src = '';
 
-// document.getElementById('select-folder').addEventListener('click', async () => {
-
-// });
-
 // Select the input element
 const videoInput = document.getElementById('videoInput');
 // Select the video player element
@@ -53,8 +49,11 @@ const jsonButton = document.getElementById('load_from_json');
 const manualButton = document.getElementById('load_manually');
 const top_div_start = document.getElementById('start_buttons');
 const WSstartButton = document.getElementById('btn_start_ws');
-const pasteAllButton = document.getElementById('paste_all');
 
+const button = document.getElementById('paste_all');
+const isWithinForm = button.closest('form') !== null;
+
+console.log(isWithinForm); // true if the button is within a form, false otherwise
 
 jsonButton.addEventListener('click', () => {
 
@@ -354,7 +353,6 @@ function load_picture_json(json_path, group_code){
             top_div_start.remove();
             jsonButton.remove();
             manualButton.remove();
-            pasteAllButton.remove();
         });
         } else {
             console.log('No data found for this video');
@@ -365,18 +363,25 @@ function load_picture_json(json_path, group_code){
     .catch(error => console.error(' json Error:', error));
   }
 
-document.getElementById('paste_all').addEventListener('click', function() {
+
+document.getElementById('paste_all').addEventListener('click', function(event) {
+  event.preventDefault(); // Correctly preventing the default action
+
   if (started_flag == true) {
+    document.getElementById('Videotextbox').textContent = videoName;
     html2canvas(document.querySelector("#image-container")).then(canvas => {
         let link = document.createElement('a');
-        link.download = 'speakers_image.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        link.download = videoName + '.png';
+        link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        document.body.appendChild(link); // Append to body
+        link.click(); // Triggers the download
+        document.body.removeChild(link); // Clean up by removing the link
     });
   } else {
     alert('Please select a video first');
   }
 });
+
 
 function load_next_page() {
   if (started_flag == true) {

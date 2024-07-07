@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WaveSurfer Example</title>
-    <link rel="stylesheet" href="intro_stylesws5.css">
+    <link rel="stylesheet" href="intro_single_stylesws6.css">
     <link rel="shortcut icon" href="#">
 </head>
 <body>
@@ -21,9 +21,12 @@
                 </video>
             </div>
             <div class="colside">
-                <button class="myButton" id="paste_all" onclick="paste_all_speakers()"> Paste all speakers </button>
                 <br>
-                <button class="myButton" id="btn_start_ws" onclick="load_next_page()"> Start WS </button>
+                <button class="myButton" id="btn_start_ws" onclick="load_next_page()"> &#x270D Start WS </button>
+                <p id="Videotextbox">Video name</p>
+            </div>
+            <div> 
+                <button class="myButton" id="paste_all"> Download Speakers Image </button>
             </div>
 
         </div> <!-- top -->
@@ -32,11 +35,13 @@
                 <div id="waveform"></div>
             </div>
             <div id="start_buttons" style="display: flex; justify-content: center; align-items: center;">
-                <button id="select-video" style="height: 40px;">Select Video</button>
-                <button id="select-csv" style="height: 40px;">Select CSV</button>
                 <br>
-                &nbsp <p> First select folder: &nbsp</p>
-                <button id="select-folder" style="height: 40px;">START Root Folder</button>
+                &nbsp <p> &#x26F3 First select folder: &nbsp</p>
+                <!-- <button id="select-video" style="height: 40px;">&#x26F3 START: Select Video</button> -->
+                <label for="videoInput" class="custom-file-upload">
+                    Choosee Video
+                </label>
+                <input type="file" id="videoInput" accept="video/*">
                 &nbsp &nbsp &nbsp &nbsp &nbsp <p> Then, select one: &nbsp</p>
                 <button id="load_from_json" style="height: 40px;">Option A: Load from JSON</button>
                 &nbsp &nbsp &nbsp <p> or &nbsp</p> &nbsp &nbsp
@@ -45,7 +50,8 @@
             </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://unpkg.com/wavesurfer.js@7"></script>
-    <script src="intro_scriptws5.js"></script>
+    <script src="intro_single_scriptws6.js"></script>
 </body>
 </html>

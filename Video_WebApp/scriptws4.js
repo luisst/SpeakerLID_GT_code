@@ -91,34 +91,76 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
-  var group_code = '';
-
-
-  group_code = videoName.substring(0, videoName.lastIndexOf('-'));
-
-  // Log the group code
-  console.log(group_code);
 
   // Log video name
   console.log(videoName);
 
-  load_picture_json('images_june4.json', group_code);
-
-  // load_csv_file(csvFileContent);
+  findAndLoadImage(videoName);
 
   started_flag = true;
 
 });
 
 
+// Function to automatically look for a PNG image with the name equal to group_code
+function findAndLoadImage(full_video_name) {
+  // Assuming the existence of a function `imageExists` to check if the image file exists
+  // This is a placeholder and needs to be implemented based on the environment (Node.js, browser, etc.)
+  imageExists(`${full_video_name}.png`, (exists) => {
+    if (exists) {
+      // If the image exists, log success and potentially do something with the image
+      console.log(`Image found: ${full_video_name}.png`);
 
+      // Create a div element
+      let idivElement = document.createElement('div');
+      // Set the ID of the div
+      idivElement.id = 'loadedimg';
+
+      // Create an img element
+      let loadedimgElement = document.createElement('img');
+      // Set the src attribute of the img
+      loadedimgElement.src = 'G-C1L1P-Apr27-E-Irma_q2_03-08-377.png';
+
+      // Append the img element to the div
+      idivElement.appendChild(loadedimgElement);
+
+      let imageDiv = document.getElementById('image-container');
+      imageDiv.appendChild(idivElement);
+
+
+    } else {
+      // If the image does not exist, log the error
+      console.log(`Image not found: ${full_video_name}.png`);
+
+      var group_code = '';
+      group_code = full_video_name.substring(0, full_video_name.lastIndexOf('-'));
+
+      // Call the load_picture_json function as per the requirement
+      load_picture_json('images_june4.json', group_code);
+    }
+  });
+}
+
+// Placeholder for the imageExists function
+// This needs to be implemented based on specific environment requirements
+function imageExists(imagePath, callback) {
+  // Example implementation for a browser environment
+  // This would need to be adjusted for server-side (Node.js) or other environments
+  let img = new Image();
+  img.onload = () => callback(true);
+  img.onerror = () => callback(false);
+  img.src = imagePath;
+}
 
 // The URL path to the CSV file
-const csvFilePath = 'G-C1L1P-Apr27-E-Irma_q2_03-08-377.csv';
+const csvFilePath = 'csv_predictions/G-C1L1P-Apr27-E-Irma_q2_03-08-377.csv';
+
 
 let inputData = [];
 let outputData = [];
 let inputData_index = 0;
+let numberOfUniqueValues = 0;
+let total_samples = 0;
 
 var videoName = '';
 var started_flag = false;
@@ -137,6 +179,25 @@ fetch(csvFilePath)
       // Sort the list based on the second element, which is a float stored as a string
       inputData.sort((a, b) => parseFloat(a[1]) - parseFloat(b[1]));
 
+      // Using a Set to store unique values from the first column
+      const uniqueValues = new Set();
+
+      // Iterating through the array and adding the first column values to the Set
+      inputData.forEach(row => {
+          uniqueValues.add(row[0]);
+      });
+
+      // Getting the number of unique values
+      numberOfUniqueValues = uniqueValues.size;
+
+      total_samples = inputData.length;
+
+      console.log("Number of unique values: " + numberOfUniqueValues)
+
+      document.getElementById('tclustertotal').textContent = String(numberOfUniqueValues);
+
+      document.getElementById('tsampletotal').textContent = String(total_samples);
+
 
       inputData.forEach(subList => {
           subList.push(99);
@@ -146,81 +207,6 @@ fetch(csvFilePath)
       console.error('There was a problem with the fetch operation:', error);
   });
 
-
-// document.getElementById('select-folder').addEventListener('click', async () => {
-//     const directoryHandle = await window.showDirectoryPicker();
-//     const videoPaths = [];
-//     const videoFilenames = [];
-
-//     const csvPaths = [];
-//     const csvFilenames = [];
-//     const csvTextList = [];
-
-//     // Locate the 'my_videos' folder and get all the video file paths and filenames
-//     const myVideosFolder = await directoryHandle.getDirectoryHandle('input_mp4');
-//     for await (const [name, handle] of myVideosFolder.entries()) {
-//         if (handle.kind === 'file' && name.endsWith('.mp4')) {
-//             const videoFile = await handle.getFile();
-//             const videoUrl = URL.createObjectURL(videoFile);
-//             videoPaths.push(videoUrl);
-//             videoFilenames.push(name);
-//         }
-//     }
-
-
-//     // Select the first video (index 0) if available
-//     if (videoPaths.length > 0) {
-//         document.getElementById('video').src = videoPaths[0];
-//     } else {
-//         alert('No video files found in the "my_videos" folder.');
-//     }
-
-//     console.log(videoPaths[0]);
-//     console.log(videoFilenames[0]);
-
-
-//     // Locate the 'my_csvfiles' folder and get the CSV file
-//     const stg3_folder = await directoryHandle.getDirectoryHandle('STG_3');
-//     const exp_folder = await stg3_folder.getDirectoryHandle('STG3_EXP001-SHAS-DV-HDB');
-//     const myCsvFilesFolder = await exp_folder.getDirectoryHandle('final_csv');
-
-
-//     for await (const [name, handle] of myCsvFilesFolder.entries()) {
-//         if (handle.kind === 'file' && name.endsWith('.csv')) {
-//             const csvFile = await handle.getFile();
-//             const csvText = await csvFile.text();
-//             csvFilenames.push(csvFile.name);
-//             csvTextList.push(csvText);
-//         }
-//     }
-
-
-//   console.log(csvFilenames[0]);
-
-//   var videoFilename = videoFilenames[0];
-
-//   // Extract the filename without the extension
-//   videoName = videoFilename.split('.')[0];
-
-
-// });
-
-
-
-function load_csv_file(content_text) {
-
-  const rows = content_text.trim().split('\n');
-  inputData = rows.map(row => row.split('\t'));
-
-  // Sort the list based on the second element, which is a float stored as a string
-  inputData.sort((a, b) => parseFloat(a[1]) - parseFloat(b[1]));
-
-
-  inputData.forEach(subList => {
-      subList.push(99);
-  });
-
-}
 
 
 function load_picture_json(json_path, group_code){
@@ -278,13 +264,13 @@ const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0
 let currentRegion = null;
 let currentRow = null;
 
-let current_src = null;
+let current_src = 0;
 
 let assumption_flag = false;
 
 function nextSegment() {
   // Check if csvData is not empty
-  if (inputData.length > 0) {
+  if (inputData.length > 0 && inputData_index < inputData.length) {
     // Remove the last region if it exists
     if (currentRegion) {
       currentRegion.remove();
@@ -334,13 +320,26 @@ function nextSegment() {
     ws.renderer.scrollContainer.scrollLeft = scrollPosition;
 
     ws.media.currentTime = current_start_time;
+
+
+    // Write the current cluster number to the page 
+    document.getElementById('tclusternum').textContent = String(current_src);
+
+    // Write the current segment number to the page
+    document.getElementById('tsamplenum').textContent = String(inputData_index);
+
+    // Write the current segment start time to the page
+    document.getElementById('tstartt').textContent = current_start_time.toFixed(2);
+
+    // Write the current segment end time to the page
+    document.getElementById('tstopt').textContent = current_end_time.toFixed(2);
+
+
   } else {
-    console.log("No more data in csvData");
+    alert('No more data in csvData');
   }
 }
-// wsRegions.enableDragSelection({
-//   color: 'rgba(255, 0, 0, 0.1)',
-// })
+
 let prevRegion = null;
 let nxtRegion = null;
 
@@ -704,9 +703,6 @@ function download_csv_file() {
             csv += "\n";  
     });  
    
-    //display the created CSV data on the web browser   
-    //document.write(csv);  
-     
     var hiddenElement = document.createElement('a');  
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
     hiddenElement.target = '_blank';  
@@ -720,10 +716,3 @@ function download_csv_file() {
     hiddenElement.download = String(current_video_name) + '-' + mydate + '.csv';  
     hiddenElement.click();
 } 
-
-// window.onload = function() {
-
-//   setTimeout(function() {
-//     nextSegment();
-//   }, 2000);
-// };
