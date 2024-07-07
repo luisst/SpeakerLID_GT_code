@@ -1,0 +1,146 @@
+ body{
+  height: 560px;
+  width: 1120px;
+  margin: 0px;
+}
+
+p { font-family: Arial; }
+
+.myButton {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+video {
+    width: 600px;
+    height: 100%;
+}
+
+
+.top{
+    display:flex;
+}
+
+.colvideo {
+    float: left;
+    width: 600px;
+    padding: 5px;
+    /* margin-bottom: 30px; */
+}
+
+.colsidebot{
+    margin-top: 10px;
+}
+
+.colside {
+    font-family: Arial;
+    float: left;
+    flex-grow: 1; /* This will make colside take up the remaining space */
+
+}
+
+.bot2{
+    display:flex;
+}
+
+.colsidetop{
+    display:flex;
+}
+
+.colsidehalf{
+    width: 50%;
+    padding: 5px;
+}
+
+.speakerIDcontainer{
+    display: flex;
+    padding: 5px;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+#image-container{
+    display: flex;
+    background-color: #f0f0f0;
+}
+
+.src_0{
+    align-self: flex-start;
+    background-color: #EC7063;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.src_1{
+    align-self: flex-start;
+    background-color:#AF7AC5;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.src_2{
+    align-self: flex-start;
+    background-color:#5DADE2;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.src_3{
+    align-self: flex-start;
+    background-color:#52BE80;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.src_4{
+    align-self: flex-start;
+    background-color:#F5B041;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+
+#manual_load{
+    display: flex;
+}
+
+.msrc_class{
+    border: 1px solid black; /* Optional: To visualize the divisions */
+    height: 150px; /* Adjust as needed */
+    margin: 4px 5px;
+}
+
+.mbtn_class{
+    margin-top: 3px;
+    margin-bottom: 8px;
+    margin-left: 50px;
+    margin-right: 30px;
+}
+
+#imageCanvas {
+    display: block;
+}
+
+#btn_start_ws{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 100px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+}
+
+.canvas-class{
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-left: 45px;
+    margin-right: 5px;
+}
+

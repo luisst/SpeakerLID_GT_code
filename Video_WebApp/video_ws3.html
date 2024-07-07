@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveSurfer Example</title>
+    <link rel="stylesheet" href="stylesws.css">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="container">
+        <div id="image-container">
+            <div id="start_buttons" style="display: flex; justify-content: center; align-items: center;">
+            <br>
+            &nbsp <p> First select folder: &nbsp</p>
+            <button id="select-folder" style="height: 40px;">START Root Folder</button>
+            &nbsp &nbsp &nbsp &nbsp &nbsp <p> Then, select one: &nbsp</p>
+            <button id="load_from_json" style="height: 40px;">Option A: Load from JSON</button>
+            &nbsp &nbsp &nbsp <p> or &nbsp</p> &nbsp &nbsp
+            <button id="load_manually" style="height: 40px;">Option B: Load speakers manually</button>
+            </div>
+            <div id="manual_load">
+
+            </div>
+        </div>
+        <div class="top">
+            <div class="colvideo">
+                <video id="video" controls>
+
+                </video>
+            </div>
+            <div class="colside">
+                <div class="colsidetop">
+                    <div class="colsidehalf" id="half1">
+                        <p> Cluster 1 / Total </p>
+                        <p> Sample 1 Start: XXX - Stop: XXX </p>
+                        <br>
+                        <button class="myButton" onclick="download_csv_file()"> Download CSV </button>
+                    </div>
+                    <div class="colsidehalf" id="half2">
+                        <table id="myTable">
+                        <tr>
+                            <th>Src</th>
+                            <th>Start</th>
+                            <th>End</th>
+                        </tr>
+                        <tr>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                        </tr>
+                        <tr>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                        </tr>
+                        <tr>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                        </tr>
+                        <tr>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                        </tr>
+                        <tr>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                        </tr>
+                        <tr>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                        </tr>
+                        </table>
+                    <div class="colsidebot">
+                        <label>
+                            <input type="checkbox" id="loopBox" checked="${loop}" />
+                            <label>
+                                Loop region &nbsp
+                                <span class="kbdB">X</span>
+                            </label>
+                        </label>
+                        <br>
+                        <label style="padding-top: 8px;">
+                            Zoom: <input type="range" min="10" max="300" value="100" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            </div> <!-- colside -->
+        </div> <!-- top -->
+        <div class="bottom">
+            <div id="bot1">
+                <div id="waveform"></div>
+            </div>
+            <div class="bot2" style="text-align:right">
+                <button class="myButton" id="playPauseButton">&#x23F8; &nbsp<span class="kbdB">V</span>&nbsp </button>
+                <p>&nbsp &nbsp</p>
+
+                <button class="myButton" id="b0" onclick="change_0()">&#x2604; S0 &nbsp<span class="kbdB">Y</span>&nbsp</button>
+                <button class="myButton" id="b1" onclick="change_1()">&#x2604; S1 &nbsp<span class="kbdB">U</span>&nbsp</button>
+                <button class="myButton" id="b2" onclick="change_2()">&#x2604; S2 &nbsp<span class="kbdB">I</span>&nbsp</button>
+                <button class="myButton" id="b3" onclick="change_3()">&#x2604; S3 &nbsp<span class="kbdB">O</span>&nbsp</button>
+                <button class="myButton" id="b4" onclick="change_4()">&#x2604; S4 &nbsp<span class="kbdB">P</span>&nbsp</button>
+                <p>&nbsp &nbsp &nbsp</p>
+
+                <button class="myButton" onclick="aroundPlaySegment()">&#x23EF; Seg. &nbsp<span class="kbdB">H</span>&nbsp</button>
+                <button class="myButton" onclick="nextSegment()">&#x1F3A6; Next Seg. &nbsp<span class="kbdB">J</span>&nbsp</button>
+                <button class="myButton" onclick="add_segment_table()">&#x23F1; Done &nbsp<span class="kbdB">K</span>&nbsp</button>
+
+                <p>&nbsp &nbsp</p>
+                <button class="myButton" onclick="undoLastEntry()">&#x238C; Undo &nbsp<span class="kbdB">B</span>&nbsp</button>
+                <button class="myButton" id="eraseAllButton">&#x1F480; Erase All &nbsp</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/timeline.min.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+    <script src="scriptws.js"></script>
+</body>
+</html>

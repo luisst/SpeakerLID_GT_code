@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveSurfer Example</title>
+    <link rel="stylesheet" href="intro_stylesws5.css">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="container">
+        <div id="image-container">
+
+            <div id="manual_load">
+
+            </div>
+        </div>
+        <div class="top">
+            <div class="colvideo">
+                <video id="video" controls>
+                </video>
+            </div>
+            <div class="colside">
+                <button class="myButton" id="paste_all" onclick="paste_all_speakers()"> Paste all speakers </button>
+                <br>
+                <button class="myButton" id="btn_start_ws" onclick="load_next_page()"> Start WS </button>
+            </div>
+
+        </div> <!-- top -->
+        <div class="bottom">
+            <div id="bot1">
+                <div id="waveform"></div>
+            </div>
+            <div id="start_buttons" style="display: flex; justify-content: center; align-items: center;">
+                <button id="select-video" style="height: 40px;">Select Video</button>
+                <button id="select-csv" style="height: 40px;">Select CSV</button>
+                <br>
+                &nbsp <p> First select folder: &nbsp</p>
+                <button id="select-folder" style="height: 40px;">START Root Folder</button>
+                &nbsp &nbsp &nbsp &nbsp &nbsp <p> Then, select one: &nbsp</p>
+                <button id="load_from_json" style="height: 40px;">Option A: Load from JSON</button>
+                &nbsp &nbsp &nbsp <p> or &nbsp</p> &nbsp &nbsp
+                <button id="load_manually" style="height: 40px;">Option B: Load speakers manually</button>
+                </div>
+            </div>
+    </div>
+
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <script src="intro_scriptws5.js"></script>
+</body>
+</html>
