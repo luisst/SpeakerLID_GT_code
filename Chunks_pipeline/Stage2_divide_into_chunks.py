@@ -30,7 +30,7 @@ azure_flag = args.azure_flag
 
 chunk_duration = 1.0 # seconds  
 minimum_chunk_duration = 0.7 # seconds
-step_length = 0.2 # seconds
+step_length = 0.3 # seconds
 verbose = True
 
 

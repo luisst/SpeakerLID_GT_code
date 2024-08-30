@@ -339,13 +339,14 @@
         let loop = true
         var wsRegions = null;
         var ws = null;
+        var videoName = '';
 
         document.addEventListener('DOMContentLoaded', function () {
 
         const current_src_url = getParameterByName('text');
         // const current_src_url = 'G-C1L1P-Apr27-E-Irma_q2_03-08-377.mp4';
         document.getElementById('video').src = current_src_url;
-        const videoName = current_src_url.split('/').pop().split('.')[0];
+        videoName = current_src_url.split('/').pop().split('.')[0];
 
         ws = WaveSurfer.create({
             container: '#waveform',
@@ -428,6 +429,11 @@
 
         findAndLoadImage(videoName);
 
+        // The URL path to the CSV file
+        const csvFilePath = `csv_predictions/${videoName}_pred.csv`;
+
+        loadCSV(csvFilePath);
+
         started_flag = true;
 
         });
@@ -450,7 +456,7 @@
             // Create an img element
             let loadedimgElement = document.createElement('img');
             // Set the src attribute of the img
-            loadedimgElement.src = 'G-C1L1P-Apr27-E-Irma_q2_03-08-377.png';
+            loadedimgElement.src = `${full_video_name}.png`;
 
             // Append the img element to the div
             idivElement.appendChild(loadedimgElement);
@@ -483,8 +489,6 @@
         img.src = imagePath;
         }
 
-        // The URL path to the CSV file
-        const csvFilePath = 'csv_predictions/G-C1L1P-Apr27-E-Irma_q2_03-08-377.csv';
 
 
         let inputData = [];
@@ -493,50 +497,55 @@
         let numberOfUniqueValues = 0;
         let total_samples = 0;
 
-        var videoName = '';
         var started_flag = false;
 
-        fetch(csvFilePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.text();
-        })
-        .then(data => {
-            const rows = data.trim().split('\n');
-            inputData = rows.map(row => row.split('\t'));
+        function loadCSV(csvFilePath) {
 
-            // Sort the list based on the second element, which is a float stored as a string
-            inputData.sort((a, b) => parseFloat(a[1]) - parseFloat(b[1]));
+            // Log the video name
+            console.log(csvFilePath, 'this is the video name');
 
-            // Using a Set to store unique values from the first column
-            const uniqueValues = new Set();
+            fetch(csvFilePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                const rows = data.trim().split('\n');
+                inputData = rows.map(row => row.split('\t'));
 
-            // Iterating through the array and adding the first column values to the Set
-            inputData.forEach(row => {
-                uniqueValues.add(row[0]);
+                // Sort the list based on the second element, which is a float stored as a string
+                inputData.sort((a, b) => parseFloat(a[1]) - parseFloat(b[1]));
+
+                // Using a Set to store unique values from the first column
+                const uniqueValues = new Set();
+
+                // Iterating through the array and adding the first column values to the Set
+                inputData.forEach(row => {
+                    uniqueValues.add(row[0]);
+                });
+
+                // Getting the number of unique values
+                numberOfUniqueValues = uniqueValues.size;
+
+                total_samples = inputData.length;
+
+                console.log("Number of unique values: " + numberOfUniqueValues)
+
+                document.getElementById('tclustertotal').textContent = String(numberOfUniqueValues);
+
+                document.getElementById('tsampletotal').textContent = String(total_samples);
+
+
+                inputData.forEach(subList => {
+                    subList.push(99);
+                });
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
             });
-
-            // Getting the number of unique values
-            numberOfUniqueValues = uniqueValues.size;
-
-            total_samples = inputData.length;
-
-            console.log("Number of unique values: " + numberOfUniqueValues)
-
-            document.getElementById('tclustertotal').textContent = String(numberOfUniqueValues);
-
-            document.getElementById('tsampletotal').textContent = String(total_samples);
-
-
-            inputData.forEach(subList => {
-                subList.push(99);
-            });
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
+        }
 
 
 

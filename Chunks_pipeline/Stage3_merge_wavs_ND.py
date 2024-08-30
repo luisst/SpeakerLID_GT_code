@@ -48,6 +48,8 @@ minimum_chunk_duration = 0.7 # seconds
 step_length = 0.3 # seconds
 gap_duration = 0.4
 
+concatenated_nums = []
+
 verbose = True
 
 label_subfolders = [f for f in stg3_pred_folders.iterdir() if f.is_dir()]
@@ -157,6 +159,9 @@ for current_pred_label_path in label_subfolders:
             first_file = value[0]
             last_file = value[-1]
 
+            print(f'\tNumber of concatenated: {len(value)}')
+            concatenated_nums.append(len(value))
+
             # Get the start and stop times
             start_time = first_file.split('_')[0]
             stop_time = last_file.split('_')[1]
@@ -184,3 +189,22 @@ for current_pred_label_path in label_subfolders:
                             stop_time_csv = stop_time)
                            
             print(f'\t\tCurrent Merged wav: {output_filename}')
+
+###
+print(f'\n\n\n *** Summary ***')
+print(f'Stats of concatenated files:')
+avg_length = sum(concatenated_nums) / len(concatenated_nums)
+std_dev = (sum([(x - avg_length) ** 2 for x in concatenated_nums]) / len(concatenated_nums)) ** 0.5
+
+print(f'Average length: {avg_length:.2f}')
+print(f'Standard deviation: {std_dev:.2f}')
+print(f'Minimum length: {min(concatenated_nums)}')
+print(f'Maximum length: {max(concatenated_nums)}')
+
+### Plot histogram of concatenated files
+import matplotlib.pyplot as plt
+plt.hist(concatenated_nums, bins=8)
+plt.title('Histogram of concatenated files')
+plt.xlabel('Number of concatenated files')
+plt.ylabel('Frequency')
+plt.show()
