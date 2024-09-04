@@ -1,16 +1,26 @@
 #! /bin/bash
 export MOVE_ON=true
+export PREDICT_ONLY=true
 #### Root folder from dropbox 
 export ROOT_PATH="/home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs"
 export SRC_PATH=$(pwd)
 
 export EXP_NAME="EXP001"
-export DATASET_NAME="TestAO-IrmaND"
+export DATASET_NAME="TestAO-Irmast4"
 # export DATASET_NAME="TestAO-Liz"
 
 export SHAS_NAME="SHAS"
-export FEAT_NAME="DV"
-export METHOD_NAME="TDA"
+export FEAT_NAME="DVn1"
+export METHOD_NAME="TDAn1"
+
+## Segmentation Parameters
+export seg_ln="1.0"
+export step_size="0.3"
+export gap_size="0.4"
+
+## Minium number of nodes and consecutive segments
+export nodes_th="1"
+export consc_th="1"
 
 echo -e "\t>>>>> TDA Keppler Mapper Chunks SCRIPT <<<<<"
 
@@ -24,9 +34,9 @@ export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
 
-# if [ "$MOVE_ON" = true ]; then
-# source STG2_DVECTORS.sh
-# fi
+if [ "$MOVE_ON" = true ]; then
+source STG2_DVECTORS.sh
+fi
 
 #### Stage 3 Unsupervised Method
 export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG_3/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
@@ -49,7 +59,7 @@ export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_
 
 cd $SRC_PATH
 if [ "$MOVE_ON" = true ]; then
-source STG3_META_TDA2.sh
+source STG3_META_TDA.sh
 fi
 
 ### Stage 4 Metrics
@@ -67,7 +77,7 @@ export pred_ext="csv"
 
 ## Add Azure comparison
 
-#### Get Back to where you once belonged
-# cp $SRC_PATH/EXP001B_TDA_script_luis.sh $current_stg3/script_contents.txt
-# conda activate
-# cd $SRC_PATH
+### Get Back to where you once belonged
+cp $SRC_PATH/EXP001Bst4_TDA_script_luis.sh $current_stg3/script_contents.txt
+conda activate
+cd $SRC_PATH

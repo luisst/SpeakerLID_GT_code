@@ -17,11 +17,14 @@ def valid_path(path):
 base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','VAD_aolme','TestAO-Liz')
 stg3_pred_folders_ex = base_path_ex.joinpath('Testset_stage3','HDBSCAN_pred_output')
 stg3_merged_wavs_ex = base_path_ex.joinpath('Testset_stage3','merged_wavs')
-
 stg3_separated_wavs_ex = base_path_ex.joinpath('Testset_stage3','separated_LONG_wav')
 stg3_outliers_ex = base_path_ex.joinpath('Testset_stage3','outliers_wavs')
-
 stg1_long_wavs_ex = base_path_ex.joinpath('Testset_stage1','input_wav')
+
+seg_ln_ex = '1.0'
+step_size_ex = '0.2'
+gap_size_ex = '0.4'
+consc_th_ex = 2
 
 parser = argparse.ArgumentParser()
 
@@ -31,6 +34,10 @@ parser.add_argument('--stg3_separated_wavs', type=valid_path, default=stg3_separ
 parser.add_argument('--stg3_merged_wavs', type=valid_path, default=stg3_merged_wavs_ex, help='Merged wavs folder path')
 parser.add_argument('--stg3_outliers', type=valid_path, default=stg3_outliers_ex, help='Outliers wavs folder path')
 
+parser.add_argument('--ln', type=float, default=seg_ln_ex, help='Stg2 chunks length ihn seconds')
+parser.add_argument('--st', type=float, default=step_size_ex, help='Stg2 chunks step_size in seconds')
+parser.add_argument('--gap', type=float, default=gap_size_ex, help='Stg2 chunks gap in seconds')
+parser.add_argument('--consc_th', type=int, default=consc_th_ex, help='Stg3 consecutive chunks threshold')
 
 args = parser.parse_args()
 
@@ -42,11 +49,12 @@ output_wav_folder_outliers = args.stg3_outliers
 
 original_wav_files = args.stg1_long_wavs
 
+chunk_duration = float(args.ln)
+minimum_chunk_duration = chunk_duration - 0.1 # seconds
+step_length = float(args.st) 
+gap_duration = float(args.gap) 
 
-chunk_duration = 1.0 # seconds  
-minimum_chunk_duration = 0.7 # seconds
-step_length = 0.3 # seconds
-gap_duration = 0.4
+consecutive_threshold = int(args.consc_th)
 
 concatenated_nums = []
 
@@ -108,41 +116,32 @@ for current_pred_label_path in label_subfolders:
             stop_time = segments[-2]
 
             # Append the tuple to the list
-            time_tuples.append((start_time, stop_time, str(wav_file.stem)))
-
-
-        # Initialize an empty dictionary to store the successive files
-        successive_files = {}
-
-        # Initialize a key counter
-        key_counter = 0
+            time_tuples.append((start_time, stop_time))
 
         # Sort the time_tuples list by start_time
         time_tuples.sort(key=lambda x: float(x[0]))
 
-        # Iterate over the sorted list
-        for i in range(len(time_tuples) - 1):
-            # Get the current and next tuples
-            current_tuple = time_tuples[i]
-            next_tuple = time_tuples[i + 1]
-            # Calculate the time gap between the current and next tuples
-            time_gap = float(next_tuple[0]) - float(current_tuple[1])
+        merged_segments = []
+        counts_segments = []
+        current_start, current_stop = time_tuples[0]
+        current_start = float(current_start)
+        current_stop = float(current_stop)
+        current_count = 1
 
-            # Check if the time gap is greater than or equal to the desired gap duration
-            if  gap_duration >= time_gap:
-                # If the time gap is sufficient, add the file paths to the dictionary
-                current_file = f"{current_tuple[0]}_{current_tuple[1]}_{current_tuple[2]}"
-                next_file = f"{next_tuple[0]}_{next_tuple[1]}_{next_tuple[2]}"
-
-                # If the key already exists in the dictionary, append the next file to its value
-                if key_counter in successive_files:
-                    successive_files[key_counter].append(str(next_file))
-                # Otherwise, create a new key with the current and next files as its value
-                else:
-                    successive_files[key_counter] = [str(current_file), str(next_file)]
-            # If the time gap is not sufficient, increment the key counter
+        for start, stop in time_tuples[1:]:
+            start = float(start)
+            stop = float(stop)
+            if start - current_stop <= gap_duration:
+                current_stop = stop
+                current_count += 1
             else:
-                key_counter += 1
+                merged_segments.append((current_start, current_stop))
+                counts_segments.append(current_count)
+                current_start, current_stop = start, stop
+                current_count = 1
+
+        merged_segments.append((current_start, current_stop))
+        counts_segments.append(current_count)
 
         # # Print the dictionary
         # print(f'\n')
@@ -154,17 +153,15 @@ for current_pred_label_path in label_subfolders:
         print(f'{current_predicted_label}\tMerging files in subfolder - {sub_folder}')
 
         # Iterate over the dictionary and merge the first star_time and last stop_time
-        for key, value in successive_files.items():
-            # Get the first and last files in the list
-            first_file = value[0]
-            last_file = value[-1]
-
-            print(f'\tNumber of concatenated: {len(value)}')
-            concatenated_nums.append(len(value))
-
+        for idx_seg, current_merged_timestamps in enumerate(merged_segments):
             # Get the start and stop times
-            start_time = first_file.split('_')[0]
-            stop_time = last_file.split('_')[1]
+            start_time = current_merged_timestamps[0]
+            stop_time = current_merged_timestamps[1]
+
+            if counts_segments[idx_seg] < consecutive_threshold:
+                if verbose:
+                    print(f'\t\tSkipping segment {start_time} - {stop_time} due to low count')
+                continue
 
             # Create the output filename
             output_filename = f"{sub_folder}_{current_predicted_label}_{start_time}_{stop_time}.wav"
@@ -185,26 +182,20 @@ for current_pred_label_path in label_subfolders:
             # Merge the input files into the output file
             ffmpeg_split_audio(original_wav_path,
                                current_merged_wav_path,
-                            start_time_csv = start_time,
-                            stop_time_csv = stop_time)
+                            start_time_csv = str(start_time),
+                            stop_time_csv = str(stop_time))
                            
             print(f'\t\tCurrent Merged wav: {output_filename}')
 
 ###
 print(f'\n\n\n *** Summary ***')
 print(f'Stats of concatenated files:')
-avg_length = sum(concatenated_nums) / len(concatenated_nums)
-std_dev = (sum([(x - avg_length) ** 2 for x in concatenated_nums]) / len(concatenated_nums)) ** 0.5
+import pickle
 
-print(f'Average length: {avg_length:.2f}')
-print(f'Standard deviation: {std_dev:.2f}')
-print(f'Minimum length: {min(concatenated_nums)}')
-print(f'Maximum length: {max(concatenated_nums)}')
+counts_pickle_path = Path.joinpath(output_merged_audio.parent, 'counts_segments.pkl')
 
-### Plot histogram of concatenated files
-import matplotlib.pyplot as plt
-plt.hist(concatenated_nums, bins=8)
-plt.title('Histogram of concatenated files')
-plt.xlabel('Number of concatenated files')
-plt.ylabel('Frequency')
-plt.show()
+# Open a file in binary write mode
+with open(str(counts_pickle_path), 'wb') as file:
+    # Serialize the list and write it to the file
+    pickle.dump(counts_segments, file)
+

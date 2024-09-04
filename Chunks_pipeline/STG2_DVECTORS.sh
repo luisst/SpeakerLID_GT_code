@@ -18,7 +18,9 @@ cd $HDBSCAN_LOCATION
 
 echo -e "\t>>>>> Divide into chunks: $STG2_CHUNKS_WAVS"
 python3 ${SRC_PATH}/Stage2_divide_into_chunks.py --stg1_wavs $STG1_WAVS\
- --stg1_final_csv $STG1_FINAL_CSV  --stg2_chunks_wavs $STG2_CHUNKS_WAVS 
+ --stg1_final_csv $STG1_FINAL_CSV \
+ --stg2_chunks_wavs $STG2_CHUNKS_WAVS \
+ --ln $seg_ln --st $step_size 
 
 # Check if the Python script was successful
 if [ $? -ne 0 ]; then

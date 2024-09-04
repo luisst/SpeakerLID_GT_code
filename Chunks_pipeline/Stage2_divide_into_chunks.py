@@ -14,11 +14,15 @@ base_path_ex = Path.home().joinpath('Dropbox','DATASETS_AUDIO','TestAO-Liz')
 audio_folder_ex = base_path_ex.joinpath('Testset_stage1','input_wavs')
 csv_folder_ex = base_path_ex.joinpath('Testset_stage1','input_csv')
 chunks_WAV_ex = base_path_ex.joinpath('Testset_stage2','wav_chunks')
+seg_ln_ex = '1.0'
+step_size_ex = '0.2'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--stg1_wavs', type=valid_path, default=audio_folder_ex, help='Stg1 WAVs folder path')
 parser.add_argument('--stg1_final_csv', type=valid_path, default=csv_folder_ex, help='Stg1 VAD csvs folder path')
 parser.add_argument('--stg2_chunks_wavs', type=valid_path, default=chunks_WAV_ex, help='Stg2 chunks wavs folder path')
+parser.add_argument('--ln', type=float, default=seg_ln_ex, help='Stg2 chunks length ihn seconds')
+parser.add_argument('--st', type=float, default=step_size_ex, help='Stg2 chunks step_size in seconds')
 parser.add_argument('--azure_flag', type=bool, default=False, help='Flag to indicate csv line columns')
 
 args = parser.parse_args()
@@ -28,9 +32,9 @@ csv_folder = args.stg1_final_csv
 chunks_wav_folder = args.stg2_chunks_wavs
 azure_flag = args.azure_flag
 
-chunk_duration = 1.0 # seconds  
-minimum_chunk_duration = 0.7 # seconds
-step_length = 0.3 # seconds
+chunk_duration = float(args.ln)
+minimum_chunk_duration = chunk_duration - 0.1 # seconds
+step_length = float(args.st) 
 verbose = True
 
 

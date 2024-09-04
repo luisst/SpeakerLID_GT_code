@@ -39,8 +39,6 @@ python3 ${SRC_PATH}/folder_verify.py $VAD_metric_folder
 export VAD_pred_ext="txt"
 export shas_method="shas"
 
-source STG2_DVECTORS.sh
-
 python3 ${SRC_PATH}/Stage1b_metric_vad.py --csv_pred_folder $STG1_FINAL_CSV\
  --GT_csv_folder $STG1_GT_CSV\
  --audios_folder $STG1_WAVS\

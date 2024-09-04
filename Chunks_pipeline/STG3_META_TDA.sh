@@ -32,7 +32,8 @@ cd $HDBSCAN_LOCATION
 echo -e "\n\t>>>>> Output from TDA Keppler Mapper pred: $STG3_TDA_PRED_OUTPUT\n"
 
 python3 ${HDBSCAN_LOCATION}/main_TDA_pred_output.py --input_feats_pickle $STG2_FEATS_PICKLE\
- --output_pred_folder $STG3_TDA_PRED_OUTPUT --run_params $RUN_PARAMS --exp_name $RUN_ID
+ --output_pred_folder $STG3_TDA_PRED_OUTPUT\
+ --run_params $RUN_PARAMS --exp_name $RUN_ID --nodes_th $nodes_th
 
 # Check if the Python script was successful
 if [ $? -ne 0 ]; then
@@ -44,9 +45,10 @@ fi
 ## Join the predictions chunks into a merged wav files
 echo -e "\n\t>>>>> Merged WAVs: $STG3_MERGED_WAVS\n"
 
-python3 ${SRC_PATH}/Stage3_merge_wavs_per_folder.py --stg1_long_wavs $STG1_WAVS\
+python3 ${SRC_PATH}/Stage3_merge_wavs_ND.py --stg1_long_wavs $STG1_WAVS\
  --stg3_pred_folders $STG3_TDA_PRED_OUTPUT --stg3_separated_wavs $STG3_SEPARATED_WAVS\
- --stg3_merged_wavs $STG3_MERGED_WAVS --stg3_outliers $STG3_OUTLIERS_WAVS 
+ --stg3_merged_wavs $STG3_MERGED_WAVS --stg3_outliers $STG3_OUTLIERS_WAVS\
+ --ln $seg_ln --st $step_size --gap $gap_size --consc_th $consc_th
 
 # Check if the Python script was successful
 if [ $? -ne 0 ]; then
