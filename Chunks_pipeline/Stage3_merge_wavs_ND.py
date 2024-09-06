@@ -56,7 +56,7 @@ gap_duration = float(args.gap)
 
 consecutive_threshold = int(args.consc_th)
 
-concatenated_nums = []
+counts_segments = []
 
 verbose = True
 
@@ -97,7 +97,7 @@ for current_pred_label_path in label_subfolders:
     ############################### 2) Create DICT successive files (per long audio) 
 
     for sub_folder in set(base_names):
-        print(f'\n{current_predicted_label}\tInside subfolder - {sub_folder}')
+        # print(f'\n{current_predicted_label}\tInside subfolder - {sub_folder}')
         current_sub_directory = output_separated_wavs.joinpath(current_predicted_label, sub_folder)
 
         # List all .wav files in the sub - directory
@@ -122,7 +122,6 @@ for current_pred_label_path in label_subfolders:
         time_tuples.sort(key=lambda x: float(x[0]))
 
         merged_segments = []
-        counts_segments = []
         current_start, current_stop = time_tuples[0]
         current_start = float(current_start)
         current_stop = float(current_stop)
@@ -140,8 +139,10 @@ for current_pred_label_path in label_subfolders:
                 current_start, current_stop = start, stop
                 current_count = 1
 
-        merged_segments.append((current_start, current_stop))
-        counts_segments.append(current_count)
+        # Add the last segment only if it hasn't been added in the loop
+        if not merged_segments or merged_segments[-1] != (current_start, current_stop):
+            merged_segments.append((current_start, current_stop))
+            counts_segments.append(current_count)
 
         # # Print the dictionary
         # print(f'\n')
@@ -150,7 +151,7 @@ for current_pred_label_path in label_subfolders:
         ############################### 3) (inner loop) FOR EACH DICT-> Merge successive files
 
         # sub_folder is the long wav file name
-        print(f'{current_predicted_label}\tMerging files in subfolder - {sub_folder}')
+        # print(f'{current_predicted_label}\tMerging files in subfolder - {sub_folder}')
 
         # Iterate over the dictionary and merge the first star_time and last stop_time
         for idx_seg, current_merged_timestamps in enumerate(merged_segments):
@@ -185,7 +186,7 @@ for current_pred_label_path in label_subfolders:
                             start_time_csv = str(start_time),
                             stop_time_csv = str(stop_time))
                            
-            print(f'\t\tCurrent Merged wav: {output_filename}')
+            # print(f'\t\tCurrent Merged wav: {output_filename}')
 
 ###
 print(f'\n\n\n *** Summary ***')

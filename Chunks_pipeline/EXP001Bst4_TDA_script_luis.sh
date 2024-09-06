@@ -10,13 +10,13 @@ export DATASET_NAME="TestAO-Irmast4"
 # export DATASET_NAME="TestAO-Liz"
 
 export SHAS_NAME="SHAS"
-export FEAT_NAME="DVn1"
-export METHOD_NAME="TDAn1"
+export FEAT_NAME="DVn3"
+export METHOD_NAME="TDAn3"
 
 ## Segmentation Parameters
-export seg_ln="1.0"
-export step_size="0.3"
-export gap_size="0.4"
+export seg_ln="1.6"
+export step_size="0.4"
+export gap_size="0.5"
 
 ## Minium number of nodes and consecutive segments
 export nodes_th="1"
@@ -34,9 +34,9 @@ export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
 
-if [ "$MOVE_ON" = true ]; then
-source STG2_DVECTORS.sh
-fi
+# if [ "$MOVE_ON" = true ]; then
+# source STG2_DVECTORS.sh
+# fi
 
 #### Stage 3 Unsupervised Method
 export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG_3/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"

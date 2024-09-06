@@ -104,9 +104,6 @@ for current_wav_path in merged_wav_folder.iterdir():
 
         current_wav_name = current_wav_path.name
 
-        # Print the name of the file
-        print(f'Filename: {current_wav_name}')
-
         value_to_store = [current_wav_name, predicted_label, start_time, end_time, current_duration]
 
         # Check if the origin_wav_filename is new
@@ -154,7 +151,7 @@ for current_wav_path in merged_wavs_files:
     output_file_path = output_folder.joinpath(f'{current_wav_path.stem}.wav')
 
     # Print the output file
-    print(f'Label {predicted_label}: {output_file_path.name}')
+    # print(f'Label {predicted_label}: {output_file_path.name}')
 
     # Copy the file
     shutil.copy(str(current_wav_path), str(output_file_path))
@@ -176,7 +173,7 @@ if tda_flag:
     with open(str(counts_pickle_path), 'rb') as file:
         # Deserialize the list from the file
         counts_segments = pickle.load(file)
-
+    
     counts2_avg = sum(counts_segments) / len(counts_segments)
     std2 = (sum([(x - counts2_avg) ** 2 for x in counts_segments]) / len(counts_segments)) ** 0.5
     title_cnc2_merged=f'CNC seg merged {len(counts_segments)}| Avg:{counts2_avg:.2f}, Std:{std2:.2f}| {min(counts_segments)} - {max(counts_segments)}'
