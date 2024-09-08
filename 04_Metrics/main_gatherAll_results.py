@@ -4,8 +4,8 @@ import pandas as pd
 from pyannote.metrics.detection import DetectionAccuracy, DetectionErrorRate, DetectionPrecision, DetectionRecall
 from pyannote.core import Segment
 
-from utilities_pyannote_methods_formats import vad_format, select_method
 from utilities_functions import find_audio_duration
+from utilities_pyannote_methods_formats import vad_format, select_method
 from utilities_pyannote_metrics import matching_basename_pathlib_gt_pred
 
 import warnings

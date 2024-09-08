@@ -160,8 +160,6 @@ for current_pred_label_path in label_subfolders:
             stop_time = current_merged_timestamps[1]
 
             if counts_segments[idx_seg] < consecutive_threshold:
-                if verbose:
-                    print(f'\t\tSkipping segment {start_time} - {stop_time} due to low count')
                 continue
 
             # Create the output filename

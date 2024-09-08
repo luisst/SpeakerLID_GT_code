@@ -10,13 +10,13 @@ export DATASET_NAME="TestAO-Irmast4"
 # export DATASET_NAME="TestAO-Liz"
 
 export SHAS_NAME="SHAS"
-export FEAT_NAME="DVn3"
-export METHOD_NAME="TDAn3"
+export FEAT_NAME="DVn1"
+export METHOD_NAME="TDAn1"
 
 ## Segmentation Parameters
-export seg_ln="1.6"
-export step_size="0.4"
-export gap_size="0.5"
+export seg_ln="1.0"
+export step_size="0.3"
+export gap_size="0.4"
 
 ## Minium number of nodes and consecutive segments
 export nodes_th="1"
@@ -57,10 +57,10 @@ export min_samples="5"
 # export min_samples="5"
 export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
 
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-source STG3_META_TDA.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+# source STG3_META_TDA.sh
+# fi
 
 ### Stage 4 Metrics
 export STG1_GT_CSV="${ROOT_PATH}/${DATASET_NAME}/GT_final/"
@@ -70,10 +70,10 @@ export STG4_METRIC_RUNNAME="${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_${METHOD_N
 export pred_suffix_added="pred"
 export pred_ext="csv"
 
-# cd $SRC_PATH
-# if [ "$MOVE_ON" = true ]; then
-#     source STG4_ENTROPY.sh
-# fi
+cd $SRC_PATH
+if [ "$MOVE_ON" = true ]; then
+    source STG4_ENTROPY.sh
+fi
 
 ## Add Azure comparison
 

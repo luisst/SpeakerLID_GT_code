@@ -345,6 +345,9 @@ def log_and_print_entropy(metric_output_folder,
         session_dict = {}
         paths_dicts = {}
 
+        IOU_list = []
+        overlap_GT_list = []
+
         log_print(f'Entropy for {method_type}', file=mylog)
 
         for idx, current_match in enumerate(ch_matches):
@@ -384,7 +387,7 @@ def log_and_print_entropy(metric_output_folder,
                                                            method_type, mylog, \
                                                     min_overlap_percentage, extra_verbose)
 
-                    IOU_list, overlap_GT_list, \
+                    current_IOU_list, current_overlap_GT_list, \
                         session_dict, paths_dicts = generate_IOU_overlap_lists(session_dict, \
                                                                                 paths_dicts, \
                                                                                 matched_segments_list, \
@@ -395,12 +398,16 @@ def log_and_print_entropy(metric_output_folder,
                                                                                 json_path, \
                                                                                 verbose=False)
 
-                if verbose:
-                        log_print(f'\n\nIOU_list:', file=mylog)
-                        log_print([round(i, 2) for i in IOU_list], pprint_flag=True, file=mylog)
-                        log_print(f'overlap_GT_list:', file=mylog)
-                        log_print([round(i, 2) for i in overlap_GT_list], pprint_flag=True, file=mylog)
 
+                    IOU_list.extend(current_IOU_list)
+                    overlap_GT_list.extend(current_overlap_GT_list)        
+
+
+                # if verbose:
+                        # log_print(f'\n out-loop IOU_list:', file=mylog)
+                        # log_print([round(i, 2) for i in IOU_list], pprint_flag=True, file=mylog)
+                        # log_print(f'overlap_GT_list:', file=mylog)
+                        # log_print([round(i, 2) for i in overlap_GT_list], pprint_flag=True, file=mylog)
 
                 ## Print the summary of the metrics for IOU and overlap_GT_list
                 print_metrics_summary(IOU_list, overlap_GT_list, mylog)
@@ -409,7 +416,7 @@ def log_and_print_entropy(metric_output_folder,
         ## Print the entropy details of the session_dict
         print_entropy_details(session_dict, mylog)
 
-        print_entropy_details(paths_dicts, mylog, extra_heading='PATHS DICTS')
+        # print_entropy_details(paths_dicts, mylog, extra_heading='PATHS DICTS')
 
         # Print the average entropy of the session_dict
         entropy_values = [calculate_entropy(current_value) for current_value in session_dict.values()]
