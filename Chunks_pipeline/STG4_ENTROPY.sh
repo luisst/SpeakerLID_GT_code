@@ -18,6 +18,8 @@ export min_overlap_percentage="0.3"
 echo -e "\n\t>>>>> Using the CSV files from: $STG3_FINAL_CSV \n"
 echo -e "\n\t>>>>> Results stored in: $STG4_METRICS\n"
 
+export RUN_PARAMS="pca0_mcs0_ms0_0"
+
 python3 ${SRC_PATH}/Stage4_entropy_single.py --csv_pred_folder $STG3_FINAL_CSV\
  --GT_csv_folder $STG1_GT_CSV --metric_output_folder $STG4_METRICS\
  --pred_suffix $pred_suffix_added --pred_extensions $pred_ext\

@@ -24,6 +24,8 @@ def single_pred(csv_pred_folder,
     method_matches = matching_basename_pathlib_gt_pred(GT_csv_folder, csv_pred_folder, 
             gt_suffix_added='GT', pred_suffix_added=suffix_ext_list[1],
             gt_ext = 'csv', pred_ext = suffix_ext_list[0])
+    
+    print(f'>>> method_matches:\n{method_matches}')
 
     log_and_print_entropy(metric_output_folder,
                           method_type,
@@ -53,25 +55,18 @@ def azure_multiple_wavs(csv_pred_folder,
 
 
     # Read all txt files in the method_folder
-    all_azure_files = list(csv_pred_folder.glob('*.txt'))
+    all_azure_files = list(csv_pred_folder.glob('**/*.txt'))
 
     # Check if there are files in the folder
     if len(all_azure_files) == 0:
         print(f'WARNING!!! \t No files found in {csv_pred_folder}')
 
-    # Create a folder for each file in all_azure_files
-    for azure_file in all_azure_files:
-        azure_folder = csv_pred_folder.joinpath(azure_file.stem)
-        azure_folder.mkdir(exist_ok=True, parents=True)
-
-        # Move the file to the folder
-        azure_file.rename(azure_folder.joinpath(azure_file.name))
-
-
     # Iterate over all folders in the method_folder
     for azure_part_folder in csv_pred_folder.iterdir():
         if azure_part_folder.is_dir():
             current_azure_run = f'{run_name}-{azure_part_folder.stem}'
+
+            print(f'>>> inside Azure folder: {azure_part_folder}')
 
             single_pred(azure_part_folder, 
                         GT_csv_folder,
@@ -83,6 +78,8 @@ def azure_multiple_wavs(csv_pred_folder,
                         verbose=verbose,
                         extra_verbose=extra_verbose,
                         min_overlap_percentage=min_overlap_percentage)
+        else:
+            print(f'WARNING!!! \t {azure_part_folder} is not a folder')
 
 
 def run_single_pred(csv_pred_folder, 

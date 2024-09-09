@@ -5,7 +5,7 @@ export SRC_PATH=$(pwd)
 
 export EXP_NAME="EXP002"
 # export DATASET_NAME="TestAO-Liz"
-export DATASET_NAME="TestAO-Irma"
+export DATASET_NAME="TestAO-Kri"
 export SHAS_NAME="xx"
 export FEAT_NAME="xx"
 export METHOD_NAME="Azure"

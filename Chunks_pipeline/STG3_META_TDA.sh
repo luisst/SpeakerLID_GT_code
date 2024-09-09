@@ -60,7 +60,8 @@ fi
 ## Create the final csv file
 echo -e "\n\t>>>>> Output Final CSV prediction: $STG3_FINAL_CSV\n"
 
-python3 ${SRC_PATH}/Stage3b_create_csv_from_merged.py --stg3_merged_wavs $STG3_MERGED_WAVS\
+python3 ${SRC_PATH}/Stage3b_create_csv_from_merged.py --stg1_final_csv $STG1_FINAL_CSV\
+    --stg3_merged_wavs $STG3_MERGED_WAVS\
  --stg4_final_csv $STG3_FINAL_CSV --stg4_separated_merged_wavs $STG3_SEPARATED_MERGED_WAVS
 
 # Check if the Python script was successful

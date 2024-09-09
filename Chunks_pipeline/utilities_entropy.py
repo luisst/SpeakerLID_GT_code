@@ -32,6 +32,8 @@ def unpack_line(line, method_type):
         current_pred_text, \
         current_pred_prob = line.strip().split('\t')
 
+        current_wav_name = 'Ignored'
+
     elif method_type == 'shas':
         current_wav_name, \
         current_pred_start, \
@@ -236,6 +238,8 @@ def print_metrics_summary(IOU_list, overlap_GT_list, mylog):
         percentage_zeros_overlap_GT = (overlap_GT_list.count(0.0) / len(overlap_GT_list)) * 100
         log_print(f'percentage_zeros_IOU: {percentage_zeros_IOU:.2f}% \t percentage_zeros_overlap_GT: {percentage_zeros_overlap_GT:.2f}%', file=mylog)
 
+        return average_IOU, average_overlap_percentage
+
 
 def print_entropy_details(session_dict, mylog, extra_heading=''):
 
@@ -348,6 +352,9 @@ def log_and_print_entropy(metric_output_folder,
         IOU_list = []
         overlap_GT_list = []
 
+        avg_iou_list = []
+        avg_overlap_list = []
+
         log_print(f'Entropy for {method_type}', file=mylog)
 
         for idx, current_match in enumerate(ch_matches):
@@ -410,8 +417,9 @@ def log_and_print_entropy(metric_output_folder,
                         # log_print([round(i, 2) for i in overlap_GT_list], pprint_flag=True, file=mylog)
 
                 ## Print the summary of the metrics for IOU and overlap_GT_list
-                print_metrics_summary(IOU_list, overlap_GT_list, mylog)
-
+                current_average_IOU, current_average_overlap_percentage = print_metrics_summary(IOU_list, overlap_GT_list, mylog)
+                avg_iou_list.append(current_average_IOU)
+                avg_overlap_list.append(current_average_overlap_percentage)
 
         ## Print the entropy details of the session_dict
         print_entropy_details(session_dict, mylog)
@@ -427,6 +435,12 @@ def log_and_print_entropy(metric_output_folder,
         log_print(f'---------------------------------------', file=mylog)
         log_print(f'Count no-overlap: {no_overlap_tuple[0]}', file=mylog)
         log_print(f'Seconds no-overlap: {no_overlap_tuple[1]:.2f}s', file=mylog)
+
+
+        log_print(f'---------------------------------------', file=mylog)
+        all_avg_iou = sum(avg_iou_list) / len(avg_iou_list)
+        all_avg_overlap = sum(avg_overlap_list) / len(avg_overlap_list)
+        log_print(f'All average_IOU: {all_avg_iou:.2f} \t All average_overlap_percentage: {all_avg_overlap:.2f}%', file=mylog)  
 
         # Calculate the percentage of no-overlap seconds
         no_overlap_percentage = (no_overlap_tuple[1] / total_pred_seconds) * 100
