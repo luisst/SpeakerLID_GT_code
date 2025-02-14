@@ -1,6 +1,0 @@
-Running shas method with filtered_SHASfilt_thres-24_seg0.3 run name
-
-Running shas method with filtered_SHASfilt_thres-27_seg0.25 run name
-
-Running shas method with filtered_SHASfilt_thres-29_seg0.25 run name
-

@@ -8,7 +8,7 @@ python3 ${SRC_PATH}/folder_verify.py $STG2_CHUNKS_WAVS
 python3 ${SRC_PATH}/folder_verify.py $STG2_MFCC_FILES
 
 cd $HDBSCAN_LOCATION
-conda activate metaSR
+conda activate metaSR2
 
 cd ~/Dropbox/SpeechFall2022/SpeakerLID_GT_code/utls
 pip install -e .

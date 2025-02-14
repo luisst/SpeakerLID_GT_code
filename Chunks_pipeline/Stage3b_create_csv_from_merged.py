@@ -272,7 +272,11 @@ for csv_file_path in csv_files:
     iou_value = calculate_iou(no_overlaps_segments, current_vad_time_intervals)
     iou_list.append(iou_value)
     
-iou_avg = sum(iou_list) / len(iou_list) * 100
+if len(iou_list) == 0:
+    iou_avg = 0
+else:
+    iou_avg = sum(iou_list) / len(iou_list) * 100
+
 title_vad4_merged=f'VAD overlaps merged. IoU: {iou_avg:.2f}'
 ### 5) Plot histograms of the four lists    
 

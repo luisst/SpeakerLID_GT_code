@@ -1,0 +1,951 @@
+	>>>>> TDA Keppler Mapper Chunks SCRIPT <<<<<
+Obtaining file:///home/luis/Dropbox/SpeechFall2022/SpeakerLID_GT_code/utls
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Installing collected packages: utls
+  Attempting uninstall: utls
+    Found existing installation: utls 0.2.0
+    Uninstalling utls-0.2.0:
+      Successfully uninstalled utls-0.2.0
+  Running setup.py develop for utls
+Successfully installed utls-0.2.0
+	>>>>> Installed utls library
+
+	>>>>> Output from TDA Keppler Mapper pred: /home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs/TestAO-Irmadb/STG_3/STG3_EXP010-SHAS-DV-TDA1/TDA_pred_output
+
+run_params: pca16_mcs5_ms5_leaf
+pca_elem: 16
+min_cluster_size: 5
+min_samples: 5
+hdb_mode: leaf
+KeplerMapper(verbose=2)
+..Composing projection pipeline of length 2:
+	Projections: PCA(n_components=16)
+		TSNE(n_iter=900, perplexity=15, verbose=False)
+	Distance matrices: False
+False
+	Scalers: MinMaxScaler()
+MinMaxScaler()
+..Projecting on data shaped (1949, 256)
+
+..Projecting data using: 
+	PCA(n_components=16)
+
+
+..Scaling with: MinMaxScaler()
+
+..Projecting on data shaped (1949, 16)
+
+..Projecting data using: 
+	TSNE(n_iter=900, perplexity=15, verbose=2)
+
+[t-SNE] Computing 46 nearest neighbors...
+[t-SNE] Indexed 1949 samples in 0.000s...
+[t-SNE] Computed neighbors for 1949 samples in 0.194s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 1949
+[t-SNE] Computed conditional probabilities for sample 1949 / 1949
+[t-SNE] Mean sigma: 0.205361
+[t-SNE] Computed conditional probabilities in 0.049s
+[t-SNE] Iteration 50: error = 86.2232513, gradient norm = 0.0333403 (50 iterations in 0.203s)
+[t-SNE] Iteration 100: error = 86.2135620, gradient norm = 0.0388861 (50 iterations in 0.202s)
+[t-SNE] Iteration 150: error = 84.9486389, gradient norm = 0.0448635 (50 iterations in 0.159s)
+[t-SNE] Iteration 200: error = 84.8223724, gradient norm = 0.0275938 (50 iterations in 0.138s)
+[t-SNE] Iteration 250: error = 84.8221741, gradient norm = 0.0292847 (50 iterations in 0.150s)
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 84.822174
+[t-SNE] Iteration 300: error = 2.5091674, gradient norm = 0.0015643 (50 iterations in 0.150s)
+[t-SNE] Iteration 350: error = 2.2103808, gradient norm = 0.0006509 (50 iterations in 0.137s)
+[t-SNE] Iteration 400: error = 2.0912211, gradient norm = 0.0003827 (50 iterations in 0.197s)
+[t-SNE] Iteration 450: error = 2.0292513, gradient norm = 0.0002646 (50 iterations in 0.160s)
+[t-SNE] Iteration 500: error = 1.9916055, gradient norm = 0.0002108 (50 iterations in 0.140s)
+[t-SNE] Iteration 550: error = 1.9676931, gradient norm = 0.0001619 (50 iterations in 0.164s)
+[t-SNE] Iteration 600: error = 1.9508502, gradient norm = 0.0001532 (50 iterations in 0.169s)
+[t-SNE] Iteration 650: error = 1.9386222, gradient norm = 0.0001113 (50 iterations in 0.170s)
+[t-SNE] Iteration 700: error = 1.9293548, gradient norm = 0.0001146 (50 iterations in 0.207s)
+[t-SNE] Iteration 750: error = 1.9227860, gradient norm = 0.0001025 (50 iterations in 0.147s)
+[t-SNE] Iteration 800: error = 1.9180714, gradient norm = 0.0000935 (50 iterations in 0.138s)
+[t-SNE] Iteration 850: error = 1.9137821, gradient norm = 0.0000708 (50 iterations in 0.139s)
+[t-SNE] Iteration 900: error = 1.9101089, gradient norm = 0.0000748 (50 iterations in 0.212s)
+[t-SNE] KL divergence after 900 iterations: 1.910109
+
+..Scaling with: MinMaxScaler()
+
+Mapping on data shaped (1949, 256) using lens shaped (1949, 2)
+
+Minimal points in hypercube before clustering: 5
+Creating 4 hypercubes.
+   > Found 4 clusters in hypercube 0. Samples n# 1276
+   > Found 4 clusters in hypercube 1. Samples n# 1362
+   > Found 7 clusters in hypercube 2. Samples n# 1332
+   > Found 5 clusters in hypercube 3. Samples n# 1266
+
+Created 13 edges and 20 nodes in 0:00:02.940629.
+Wrote visualization to: /home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs/TestAO-Irmadb/STG_3/STG3_EXP010-SHAS-DV-TDA1/TDA_pred_output/EXP010_TestAO-Irmadb_TDA1_TDA_Hdbscan.html
+index 271: Found 1.0 -> prev [1.0]
+index 447: Found 0.99 -> prev [1.0]
+index 577: Found 1.0 -> prev [1.0]
+index 578: Found 1.0 -> prev [1.0]
+index 579: Found 1.0 -> prev [1.0]
+index 22: Found 0.85 -> prev [0.85]
+index 23: Found 0.8 -> prev [0.8]
+index 27: Found 0.84 -> prev [0.84]
+index 28: Found 0.92 -> prev [0.92]
+index 30: Found 0.8 -> prev [0.8]
+index 112: Found 0.79 -> prev [0.79]
+index 113: Found 0.79 -> prev [0.79]
+index 116: Found 0.93 -> prev [0.93]
+index 118: Found 0.8 -> prev [0.79]
+index 123: Found 0.84 -> prev [0.85]
+index 124: Found 1.0 -> prev [1.0]
+index 125: Found 0.83 -> prev [0.83]
+index 137: Found 0.84 -> prev [0.84]
+index 138: Found 0.83 -> prev [0.83]
+index 212: Found 0.84 -> prev [0.84]
+index 217: Found 0.84 -> prev [0.84]
+index 297: Found 0.79 -> prev [0.79]
+index 305: Found 0.88 -> prev [0.91]
+index 307: Found 0.81 -> prev [0.81]
+index 308: Found 0.81 -> prev [0.81]
+index 380: Found 0.82 -> prev [0.82]
+index 549: Found 0.82 -> prev [0.82]
+index 628: Found 0.9 -> prev [0.9]
+index 649: Found 0.84 -> prev [0.84]
+index 656: Found 0.8 -> prev [0.8]
+index 705: Found 0.84 -> prev [0.84]
+index 743: Found 0.81 -> prev [0.81]
+index 745: Found 0.83 -> prev [0.81]
+index 783: Found 0.79 -> prev [0.79]
+index 784: Found 0.84 -> prev [0.84]
+index 785: Found 0.82 -> prev [0.82]
+index 862: Found 0.87 -> prev [0.87]
+index 885: Found 0.84 -> prev [0.84]
+index 886: Found 0.8 -> prev [0.8]
+index 902: Found 0.81 -> prev [0.81]
+index 906: Found 0.79 -> prev [0.79]
+index 907: Found 0.81 -> prev [0.81]
+index 908: Found 0.81 -> prev [0.81]
+index 912: Found 0.81 -> prev [0.81]
+index 918: Found 0.79 -> prev [0.79]
+index 919: Found 0.91 -> prev [0.91]
+index 923: Found 0.92 -> prev [0.92]
+index 924: Found 1.0 -> prev [1.0]
+index 925: Found 1.0 -> prev [1.0]
+index 926: Found 1.0 -> prev [1.0]
+index 931: Found 0.81 -> prev [0.81]
+index 941: Found 0.84 -> prev [0.84]
+index 942: Found 0.79 -> prev [0.79]
+index 944: Found 0.87 -> prev [0.87]
+index 945: Found 0.86 -> prev [0.86]
+index 946: Found 0.8 -> prev [0.8]
+index 965: Found 0.83 -> prev [0.83]
+index 971: Found 0.8 -> prev [0.8]
+index 972: Found 1.0 -> prev [1.0]
+index 973: Found 0.94 -> prev [0.94]
+index 974: Found 0.88 -> prev [0.88]
+index 975: Found 0.82 -> prev [0.82]
+index 983: Found 0.81 -> prev [0.81]
+index 984: Found 0.86 -> prev [0.86]
+index 987: Found 0.8 -> prev [0.8]
+index 1006: Found 0.81 -> prev [0.81]
+index 1010: Found 0.83 -> prev [0.83]
+index 1121: Found 0.82 -> prev [0.82]
+index 1122: Found 0.8 -> prev [0.8]
+index 1143: Found 0.96 -> prev [0.96]
+index 1144: Found 1.0 -> prev [1.0]
+index 1145: Found 1.0 -> prev [1.0]
+index 1146: Found 1.0 -> prev [1.0]
+index 1147: Found 0.96 -> prev [0.96]
+index 1293: Found 0.91 -> prev [0.91]
+index 1294: Found 0.9 -> prev [0.9]
+index 1295: Found 0.87 -> prev [0.87]
+index 1296: Found 0.9 -> prev [0.9]
+index 1297: Found 0.83 -> prev [0.83]
+index 1298: Found 0.89 -> prev [0.89]
+index 1299: Found 0.97 -> prev [0.97]
+index 1421: Found 0.85 -> prev [0.85]
+index 1422: Found 0.98 -> prev [0.98]
+index 1423: Found 0.93 -> prev [0.93]
+index 1424: Found 1.0 -> prev [1.0]
+index 1425: Found 1.0 -> prev [1.0]
+index 1426: Found 0.85 -> prev [0.85]
+index 1435: Found 0.97 -> prev [0.97]
+index 1436: Found 0.93 -> prev [0.93]
+index 1447: Found 0.8 -> prev [0.8]
+index 1448: Found 0.82 -> prev [0.82]
+index 1469: Found 0.81 -> prev [0.81]
+index 1499: Found 0.81 -> prev [0.81]
+index 1531: Found 0.82 -> prev [0.82]
+index 1532: Found 0.85 -> prev [0.85]
+index 1568: Found 0.79 -> prev [0.79]
+index 1621: Found 0.87 -> prev [0.87]
+index 1638: Found 0.83 -> prev [0.83]
+index 1639: Found 0.83 -> prev [0.83]
+index 1640: Found 0.81 -> prev [0.81]
+index 1641: Found 0.82 -> prev [0.82]
+index 1647: Found 0.87 -> prev [0.87]
+index 1715: Found 0.8 -> prev [0.8]
+index 1722: Found 0.94 -> prev [0.94]
+index 1723: Found 0.86 -> prev [0.86]
+index 1724: Found 0.79 -> prev [0.79]
+index 1725: Found 0.82 -> prev [0.82]
+index 1735: Found 0.83 -> prev [0.83]
+index 1781: Found 0.97 -> prev [0.97]
+index 1782: Found 1.0 -> prev [1.0]
+index 1783: Found 0.79 -> prev [0.79]
+index 1787: Found 0.8 -> prev [0.8]
+index 1788: Found 0.87 -> prev [0.87]
+index 1789: Found 0.8 -> prev [0.8]
+index 1791: Found 0.82 -> prev [0.82]
+index 1798: Found 0.87 -> prev [0.87]
+index 1799: Found 0.94 -> prev [0.94]
+index 1800: Found 0.9 -> prev [0.9]
+index 1940: Found 0.83 -> prev [0.83]
+index 1941: Found 0.98 -> prev [0.98]
+index 1942: Found 0.93 -> prev [0.93]
+index 1943: Found 0.86 -> prev [0.86]
+index 1112: Found 0.9 -> prev [0.89]
+index 1129: Found 0.97 -> prev [0.9]
+index 1625: Found 0.9 -> prev [0.91]
+index 89: Found 0.94 -> prev [0.94]
+index 499: Found 0.92 -> prev [0.92]
+index 500: Found 0.94 -> prev [0.94]
+index 510: Found 0.92 -> prev [0.92]
+index 511: Found 0.94 -> prev [0.94]
+index 512: Found 0.92 -> prev [0.92]
+index 514: Found 0.93 -> prev [0.93]
+index 515: Found 0.94 -> prev [0.94]
+index 516: Found 0.94 -> prev [0.94]
+index 517: Found 0.94 -> prev [0.94]
+index 554: Found 0.92 -> prev [0.92]
+index 878: Found 0.91 -> prev [0.9]
+index 1188: Found 0.92 -> prev [0.92]
+index 1259: Found 0.92 -> prev [0.92]
+index 1539: Found 0.93 -> prev [0.93]
+index 1541: Found 0.94 -> prev [0.94]
+index 1542: Found 0.95 -> prev [0.95]
+index 1571: Found 0.96 -> prev [0.96]
+index 1572: Found 1.0 -> prev [1.0]
+index 1573: Found 1.0 -> prev [1.0]
+index 1576: Found 1.0 -> prev [1.0]
+index 1628: Found 0.93 -> prev [0.93]
+index 1629: Found 0.97 -> prev [0.97]
+index 1630: Found 0.95 -> prev [0.95]
+index 1728: Found 0.91 -> prev [0.91]
+index 1730: Found 0.91 -> prev [0.91]
+index 1775: Found 0.93 -> prev [0.93]
+index 1777: Found 1.0 -> prev [1.0]
+index 1778: Found 0.92 -> prev [0.92]
+index 1806: Found 0.92 -> prev [0.92]
+index 1813: Found 0.93 -> prev [0.93]
+index 1814: Found 0.92 -> prev [0.92]
+index 1833: Found 0.92 -> prev [0.92]
+index 1834: Found 0.92 -> prev [0.92]
+index 1837: Found 0.92 -> prev [0.92]
+index 1839: Found 0.92 -> prev [0.92]
+index 1861: Found 0.94 -> prev [0.94]
+index 1863: Found 1.0 -> prev [1.0]
+index 1947: Found 0.91 -> prev [0.91]
+index 22: Found 0.85 -> prev [0.85, 0.85]
+index 23: Found 0.8 -> prev [0.8, 0.8]
+index 27: Found 0.84 -> prev [0.84, 0.84]
+index 28: Found 0.92 -> prev [0.92, 0.92]
+index 30: Found 0.8 -> prev [0.8, 0.8]
+index 74: Found 0.82 -> prev [0.82]
+index 116: Found 0.93 -> prev [0.93, 0.93]
+index 123: Found 0.85 -> prev [0.85, 0.84]
+index 124: Found 1.0 -> prev [1.0, 1.0]
+index 125: Found 0.83 -> prev [0.83, 0.83]
+index 137: Found 0.84 -> prev [0.84, 0.84]
+index 138: Found 0.83 -> prev [0.83, 0.83]
+index 212: Found 0.84 -> prev [0.84, 0.84]
+index 217: Found 0.84 -> prev [0.84, 0.84]
+index 305: Found 0.91 -> prev [0.91, 0.88]
+index 307: Found 0.81 -> prev [0.81, 0.81]
+index 308: Found 0.81 -> prev [0.81, 0.81]
+index 380: Found 0.82 -> prev [0.82, 0.82]
+index 549: Found 0.82 -> prev [0.82, 0.82]
+index 628: Found 0.9 -> prev [0.9, 0.9]
+index 649: Found 0.84 -> prev [0.84, 0.84]
+index 650: Found 0.8 -> prev [0.79]
+index 656: Found 0.8 -> prev [0.8, 0.8]
+index 705: Found 0.84 -> prev [0.84, 0.84]
+index 743: Found 0.81 -> prev [0.81, 0.81]
+index 745: Found 0.81 -> prev [0.81, 0.83]
+index 784: Found 0.84 -> prev [0.84, 0.84]
+index 785: Found 0.82 -> prev [0.82, 0.82]
+index 862: Found 0.87 -> prev [0.87, 0.87]
+index 885: Found 0.84 -> prev [0.84, 0.84]
+index 886: Found 0.8 -> prev [0.8, 0.8]
+index 902: Found 0.81 -> prev [0.81, 0.81]
+index 907: Found 0.81 -> prev [0.81, 0.81]
+index 908: Found 0.81 -> prev [0.81, 0.81]
+index 912: Found 0.81 -> prev [0.81, 0.81]
+index 919: Found 0.91 -> prev [0.91, 0.91]
+index 923: Found 0.92 -> prev [0.92, 0.92]
+index 924: Found 1.0 -> prev [1.0, 1.0]
+index 925: Found 1.0 -> prev [1.0, 1.0]
+index 926: Found 1.0 -> prev [1.0, 1.0]
+index 931: Found 0.81 -> prev [0.81, 0.81]
+index 941: Found 0.84 -> prev [0.84, 0.84]
+index 944: Found 0.87 -> prev [0.87, 0.87]
+index 945: Found 0.86 -> prev [0.86, 0.86]
+index 946: Found 0.8 -> prev [0.8, 0.8]
+index 965: Found 0.83 -> prev [0.83, 0.83]
+index 971: Found 0.8 -> prev [0.8, 0.8]
+index 972: Found 1.0 -> prev [1.0, 1.0]
+index 973: Found 0.94 -> prev [0.94, 0.94]
+index 974: Found 0.88 -> prev [0.88, 0.88]
+index 975: Found 0.82 -> prev [0.82, 0.82]
+index 983: Found 0.81 -> prev [0.81, 0.81]
+index 984: Found 0.86 -> prev [0.86, 0.86]
+index 987: Found 0.8 -> prev [0.8, 0.8]
+index 1006: Found 0.81 -> prev [0.81, 0.81]
+index 1010: Found 0.83 -> prev [0.83, 0.83]
+index 1121: Found 0.82 -> prev [0.82, 0.82]
+index 1122: Found 0.8 -> prev [0.8, 0.8]
+index 1143: Found 0.96 -> prev [0.96, 0.96]
+index 1144: Found 1.0 -> prev [1.0, 1.0]
+index 1145: Found 1.0 -> prev [1.0, 1.0]
+index 1146: Found 1.0 -> prev [1.0, 1.0]
+index 1147: Found 0.96 -> prev [0.96, 0.96]
+index 1293: Found 0.91 -> prev [0.91, 0.91]
+index 1294: Found 0.9 -> prev [0.9, 0.9]
+index 1295: Found 0.87 -> prev [0.87, 0.87]
+index 1296: Found 0.9 -> prev [0.9, 0.9]
+index 1297: Found 0.83 -> prev [0.83, 0.83]
+index 1298: Found 0.89 -> prev [0.89, 0.89]
+index 1299: Found 0.97 -> prev [0.97, 0.97]
+index 1300: Found 0.8 -> prev [0.78]
+index 1421: Found 0.85 -> prev [0.85, 0.85]
+index 1422: Found 0.98 -> prev [0.98, 0.98]
+index 1423: Found 0.93 -> prev [0.93, 0.93]
+index 1424: Found 1.0 -> prev [1.0, 1.0]
+index 1425: Found 1.0 -> prev [1.0, 1.0]
+index 1426: Found 0.85 -> prev [0.85, 0.85]
+index 1435: Found 0.97 -> prev [0.97, 0.97]
+index 1436: Found 0.93 -> prev [0.93, 0.93]
+index 1447: Found 0.8 -> prev [0.8, 0.8]
+index 1448: Found 0.82 -> prev [0.82, 0.82]
+index 1469: Found 0.81 -> prev [0.81, 0.81]
+index 1499: Found 0.81 -> prev [0.81, 0.81]
+index 1531: Found 0.82 -> prev [0.82, 0.82]
+index 1532: Found 0.85 -> prev [0.85, 0.85]
+index 1564: Found 0.8 -> prev [0.8]
+index 1621: Found 0.87 -> prev [0.87, 0.87]
+index 1638: Found 0.83 -> prev [0.83, 0.83]
+index 1639: Found 0.83 -> prev [0.83, 0.83]
+index 1640: Found 0.81 -> prev [0.81, 0.81]
+index 1641: Found 0.82 -> prev [0.82, 0.82]
+index 1647: Found 0.87 -> prev [0.87, 0.87]
+index 1715: Found 0.8 -> prev [0.8, 0.8]
+index 1722: Found 0.94 -> prev [0.94, 0.94]
+index 1723: Found 0.86 -> prev [0.86, 0.86]
+index 1725: Found 0.82 -> prev [0.82, 0.82]
+index 1735: Found 0.83 -> prev [0.83, 0.83]
+index 1781: Found 0.97 -> prev [0.97, 0.97]
+index 1782: Found 1.0 -> prev [1.0, 1.0]
+index 1787: Found 0.8 -> prev [0.8, 0.8]
+index 1788: Found 0.87 -> prev [0.87, 0.87]
+index 1789: Found 0.8 -> prev [0.8, 0.8]
+index 1791: Found 0.82 -> prev [0.82, 0.82]
+index 1798: Found 0.87 -> prev [0.87, 0.87]
+index 1799: Found 0.94 -> prev [0.94, 0.94]
+index 1800: Found 0.9 -> prev [0.9, 0.9]
+index 1940: Found 0.83 -> prev [0.83, 0.83]
+index 1941: Found 0.98 -> prev [0.98, 0.98]
+index 1942: Found 0.93 -> prev [0.93, 0.93]
+index 1943: Found 0.86 -> prev [0.86, 0.86]
+index 348: Found 1.0 -> prev [1.0]
+index 351: Found 1.0 -> prev [1.0]
+index 353: Found 1.0 -> prev [1.0]
+index 358: Found 1.0 -> prev [1.0]
+index 359: Found 1.0 -> prev [1.0]
+index 389: Found 0.98 -> prev [1.0]
+index 392: Found 0.98 -> prev [1.0]
+index 586: Found 1.0 -> prev [0.99]
+index 587: Found 1.0 -> prev [0.98]
+index 588: Found 1.0 -> prev [1.0]
+index 589: Found 1.0 -> prev [0.99]
+index 1366: Found 1.0 -> prev [0.98]
+index 1373: Found 1.0 -> prev [1.0]
+index 1376: Found 1.0 -> prev [1.0]
+index 201: Found 0.95 -> prev [0.91]
+index 202: Found 0.99 -> prev [0.96]
+index 224: Found 0.95 -> prev [0.93]
+index 403: Found 1.0 -> prev [0.96]
+index 404: Found 1.0 -> prev [1.0]
+index 406: Found 1.0 -> prev [1.0]
+index 489: Found 1.0 -> prev [0.96]
+index 490: Found 0.99 -> prev [0.95]
+index 1112: Found 0.93 -> prev [0.89, 0.9]
+index 1125: Found 0.96 -> prev [0.95]
+index 1126: Found 1.0 -> prev [1.0]
+index 1127: Found 0.97 -> prev [1.0]
+index 1128: Found 0.94 -> prev [0.99]
+index 22: Found 0.85 -> prev [0.85, 0.85, 0.85]
+index 23: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 27: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 28: Found 0.92 -> prev [0.92, 0.92, 0.92]
+index 30: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 111: Found 0.79 -> prev [0.79]
+index 112: Found 0.79 -> prev [0.79, 0.79]
+index 113: Found 0.79 -> prev [0.79, 0.79]
+index 116: Found 0.93 -> prev [0.93, 0.93, 0.93]
+index 118: Found 0.8 -> prev [0.79, 0.8]
+index 123: Found 0.84 -> prev [0.85, 0.84, 0.85]
+index 124: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 125: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 137: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 138: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 160: Found 0.8 -> prev [0.8]
+index 212: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 217: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 297: Found 0.79 -> prev [0.79, 0.79]
+index 305: Found 0.88 -> prev [0.91, 0.88, 0.91]
+index 307: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 308: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 380: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 549: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 628: Found 0.9 -> prev [0.9, 0.9, 0.9]
+index 649: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 650: Found 0.8 -> prev [0.79, 0.8]
+index 656: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 705: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 743: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 745: Found 0.83 -> prev [0.81, 0.83, 0.81]
+index 783: Found 0.79 -> prev [0.79, 0.79]
+index 784: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 785: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 862: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 885: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 886: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 902: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 906: Found 0.79 -> prev [0.79, 0.79]
+index 907: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 908: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 912: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 917: Found 0.86 -> prev [0.86]
+index 918: Found 0.79 -> prev [0.79, 0.79]
+index 919: Found 0.91 -> prev [0.91, 0.91, 0.91]
+index 923: Found 0.92 -> prev [0.92, 0.92, 0.92]
+index 924: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 925: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 926: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 931: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 941: Found 0.84 -> prev [0.84, 0.84, 0.84]
+index 942: Found 0.79 -> prev [0.79, 0.79]
+index 944: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 945: Found 0.86 -> prev [0.86, 0.86, 0.86]
+index 946: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 965: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 971: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 972: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 973: Found 0.94 -> prev [0.94, 0.94, 0.94]
+index 974: Found 0.88 -> prev [0.88, 0.88, 0.88]
+index 975: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 983: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 984: Found 0.86 -> prev [0.86, 0.86, 0.86]
+index 987: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 1006: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 1010: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 1121: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 1122: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 1143: Found 0.96 -> prev [0.96, 0.96, 0.96]
+index 1144: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 1145: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 1146: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 1147: Found 0.96 -> prev [0.96, 0.96, 0.96]
+index 1293: Found 0.91 -> prev [0.91, 0.91, 0.91]
+index 1294: Found 0.9 -> prev [0.9, 0.9, 0.9]
+index 1295: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 1296: Found 0.9 -> prev [0.9, 0.9, 0.9]
+index 1297: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 1298: Found 0.89 -> prev [0.89, 0.89, 0.89]
+index 1299: Found 0.97 -> prev [0.97, 0.97, 0.97]
+index 1421: Found 0.85 -> prev [0.85, 0.85, 0.85]
+index 1422: Found 0.98 -> prev [0.98, 0.98, 0.98]
+index 1423: Found 0.93 -> prev [0.93, 0.93, 0.93]
+index 1424: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 1425: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 1426: Found 0.85 -> prev [0.85, 0.85, 0.85]
+index 1435: Found 0.97 -> prev [0.97, 0.97, 0.97]
+index 1436: Found 0.93 -> prev [0.93, 0.93, 0.93]
+index 1447: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 1448: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 1469: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 1499: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 1531: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 1532: Found 0.85 -> prev [0.85, 0.85, 0.85]
+index 1568: Found 0.79 -> prev [0.79, 0.79]
+index 1621: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 1638: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 1639: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 1640: Found 0.81 -> prev [0.81, 0.81, 0.81]
+index 1641: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 1647: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 1715: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 1722: Found 0.94 -> prev [0.94, 0.94, 0.94]
+index 1723: Found 0.86 -> prev [0.86, 0.86, 0.86]
+index 1724: Found 0.79 -> prev [0.79, 0.79]
+index 1725: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 1735: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 1781: Found 0.97 -> prev [0.97, 0.97, 0.97]
+index 1782: Found 1.0 -> prev [1.0, 1.0, 1.0]
+index 1783: Found 0.79 -> prev [0.79, 0.79]
+index 1787: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 1788: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 1789: Found 0.8 -> prev [0.8, 0.8, 0.8]
+index 1791: Found 0.82 -> prev [0.82, 0.82, 0.82]
+index 1798: Found 0.87 -> prev [0.87, 0.87, 0.87]
+index 1799: Found 0.94 -> prev [0.94, 0.94, 0.94]
+index 1800: Found 0.9 -> prev [0.9, 0.9, 0.9]
+index 1940: Found 0.83 -> prev [0.83, 0.83, 0.83]
+index 1941: Found 0.98 -> prev [0.98, 0.98, 0.98]
+index 1942: Found 0.93 -> prev [0.93, 0.93, 0.93]
+index 1943: Found 0.86 -> prev [0.86, 0.86, 0.86]
+Index 38: [1.0] -> avg: 1.0
+Index 39: [1.0] -> avg: 1.0
+Index 613: [1.0] -> avg: 1.0
+Index 697: [1.0] -> avg: 1.0
+Index 1679: [1.0] -> avg: 1.0
+Index 271: [1.0, 1.0] -> avg: 1.0
+Index 447: [1.0, 0.99] -> avg: 0.995
+Index 577: [1.0, 1.0] -> avg: 1.0
+Index 578: [1.0, 1.0] -> avg: 1.0
+Index 579: [1.0, 1.0] -> avg: 1.0
+Index 43: [0.88] -> avg: 0.88
+Index 44: [0.88] -> avg: 0.88
+Index 81: [0.9] -> avg: 0.9
+Index 82: [0.9] -> avg: 0.9
+Index 84: [0.9] -> avg: 0.9
+Index 85: [0.91] -> avg: 0.91
+Index 89: [0.94, 0.94] -> avg: 0.94
+Index 172: [0.89] -> avg: 0.89
+Index 174: [0.9] -> avg: 0.9
+Index 296: [0.88] -> avg: 0.88
+Index 330: [0.88] -> avg: 0.88
+Index 467: [0.9] -> avg: 0.9
+Index 469: [0.88] -> avg: 0.88
+Index 470: [0.88] -> avg: 0.88
+Index 499: [0.92, 0.92] -> avg: 0.92
+Index 500: [0.94, 0.94] -> avg: 0.94
+Index 501: [0.91] -> avg: 0.91
+Index 510: [0.92, 0.92] -> avg: 0.92
+Index 511: [0.94, 0.94] -> avg: 0.94
+Index 512: [0.92, 0.92] -> avg: 0.92
+Index 513: [0.91] -> avg: 0.91
+Index 514: [0.93, 0.93] -> avg: 0.93
+Index 515: [0.94, 0.94] -> avg: 0.94
+Index 516: [0.94, 0.94] -> avg: 0.94
+Index 517: [0.94, 0.94] -> avg: 0.94
+Index 554: [0.92, 0.92] -> avg: 0.92
+Index 878: [0.9, 0.91] -> avg: 0.905
+Index 950: [0.9] -> avg: 0.9
+Index 1095: [0.88] -> avg: 0.88
+Index 1096: [0.9] -> avg: 0.9
+Index 1097: [0.89] -> avg: 0.89
+Index 1112: [0.89, 0.9, 0.93] -> avg: 0.9066666666666667
+Index 1129: [0.9, 0.97] -> avg: 0.935
+Index 1185: [0.89] -> avg: 0.89
+Index 1186: [0.91] -> avg: 0.91
+Index 1188: [0.92, 0.92] -> avg: 0.92
+Index 1193: [0.92] -> avg: 0.92
+Index 1259: [0.92, 0.92] -> avg: 0.92
+Index 1261: [0.9] -> avg: 0.9
+Index 1456: [0.89] -> avg: 0.89
+Index 1473: [0.91] -> avg: 0.91
+Index 1474: [0.91] -> avg: 0.91
+Index 1475: [0.9] -> avg: 0.9
+Index 1520: [0.89] -> avg: 0.89
+Index 1523: [0.89] -> avg: 0.89
+Index 1539: [0.93, 0.93] -> avg: 0.93
+Index 1541: [0.94, 0.94] -> avg: 0.94
+Index 1542: [0.95, 0.95] -> avg: 0.95
+Index 1571: [0.96, 0.96] -> avg: 0.96
+Index 1572: [1.0, 1.0] -> avg: 1.0
+Index 1573: [1.0, 1.0] -> avg: 1.0
+Index 1576: [1.0, 1.0] -> avg: 1.0
+Index 1577: [0.9] -> avg: 0.9
+Index 1582: [0.88] -> avg: 0.88
+Index 1625: [0.91, 0.9] -> avg: 0.905
+Index 1628: [0.93, 0.93] -> avg: 0.93
+Index 1629: [0.97, 0.97] -> avg: 0.97
+Index 1630: [0.95, 0.95] -> avg: 0.95
+Index 1631: [0.88] -> avg: 0.88
+Index 1657: [0.88] -> avg: 0.88
+Index 1658: [0.9] -> avg: 0.9
+Index 1662: [0.92] -> avg: 0.92
+Index 1663: [0.92] -> avg: 0.92
+Index 1728: [0.91, 0.91] -> avg: 0.91
+Index 1729: [0.9] -> avg: 0.9
+Index 1730: [0.91, 0.91] -> avg: 0.91
+Index 1731: [0.89] -> avg: 0.89
+Index 1733: [0.88] -> avg: 0.88
+Index 1739: [0.88] -> avg: 0.88
+Index 1741: [0.89] -> avg: 0.89
+Index 1773: [0.89] -> avg: 0.89
+Index 1775: [0.93, 0.93] -> avg: 0.93
+Index 1777: [1.0, 1.0] -> avg: 1.0
+Index 1778: [0.92, 0.92] -> avg: 0.92
+Index 1805: [0.89] -> avg: 0.89
+Index 1806: [0.92, 0.92] -> avg: 0.92
+Index 1807: [0.9] -> avg: 0.9
+Index 1808: [0.89] -> avg: 0.89
+Index 1809: [0.89] -> avg: 0.89
+Index 1813: [0.93, 0.93] -> avg: 0.93
+Index 1814: [0.92, 0.92] -> avg: 0.92
+Index 1817: [0.91] -> avg: 0.91
+Index 1819: [0.9] -> avg: 0.9
+Index 1830: [0.89] -> avg: 0.89
+Index 1832: [0.9] -> avg: 0.9
+Index 1833: [0.92, 0.92] -> avg: 0.92
+Index 1834: [0.92, 0.92] -> avg: 0.92
+Index 1836: [0.9] -> avg: 0.9
+Index 1837: [0.92, 0.92] -> avg: 0.92
+Index 1839: [0.92, 0.92] -> avg: 0.92
+Index 1841: [0.91] -> avg: 0.91
+Index 1861: [0.94, 0.94] -> avg: 0.94
+Index 1862: [0.9] -> avg: 0.9
+Index 1863: [1.0, 1.0] -> avg: 1.0
+Index 1864: [0.9] -> avg: 0.9
+Index 1907: [0.88] -> avg: 0.88
+Index 1908: [0.9] -> avg: 0.9
+Index 1909: [0.89] -> avg: 0.89
+Index 1928: [0.89] -> avg: 0.89
+Index 1947: [0.91, 0.91] -> avg: 0.91
+Index 1948: [0.88] -> avg: 0.88
+Index 22: [0.85, 0.85, 0.85, 0.85] -> avg: 0.85
+Index 23: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 27: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 28: [0.92, 0.92, 0.92, 0.92] -> avg: 0.92
+Index 29: [0.78] -> avg: 0.78
+Index 30: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 74: [0.82, 0.82] -> avg: 0.82
+Index 112: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 113: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 116: [0.93, 0.93, 0.93, 0.93] -> avg: 0.93
+Index 117: [0.79] -> avg: 0.79
+Index 118: [0.79, 0.8, 0.8] -> avg: 0.7966666666666667
+Index 123: [0.85, 0.84, 0.85, 0.84] -> avg: 0.845
+Index 124: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 125: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 137: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 138: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 211: [0.79] -> avg: 0.79
+Index 212: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 217: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 297: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 305: [0.91, 0.88, 0.91, 0.88] -> avg: 0.895
+Index 306: [0.79] -> avg: 0.79
+Index 307: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 308: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 310: [0.78] -> avg: 0.78
+Index 311: [0.78] -> avg: 0.78
+Index 312: [0.78] -> avg: 0.78
+Index 380: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 549: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 628: [0.9, 0.9, 0.9, 0.9] -> avg: 0.9
+Index 649: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 650: [0.79, 0.8, 0.8] -> avg: 0.7966666666666667
+Index 656: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 705: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 743: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 745: [0.81, 0.83, 0.81, 0.83] -> avg: 0.8200000000000001
+Index 783: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 784: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 785: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 862: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 885: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 886: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 902: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 906: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 907: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 908: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 912: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 918: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 919: [0.91, 0.91, 0.91, 0.91] -> avg: 0.91
+Index 923: [0.92, 0.92, 0.92, 0.92] -> avg: 0.92
+Index 924: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 925: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 926: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 931: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 941: [0.84, 0.84, 0.84, 0.84] -> avg: 0.84
+Index 942: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 943: [0.79] -> avg: 0.79
+Index 944: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 945: [0.86, 0.86, 0.86, 0.86] -> avg: 0.86
+Index 946: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 965: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 971: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 972: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 973: [0.94, 0.94, 0.94, 0.94] -> avg: 0.94
+Index 974: [0.88, 0.88, 0.88, 0.88] -> avg: 0.88
+Index 975: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 983: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 984: [0.86, 0.86, 0.86, 0.86] -> avg: 0.86
+Index 987: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 1006: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 1010: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 1079: [0.79] -> avg: 0.79
+Index 1121: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 1122: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 1143: [0.96, 0.96, 0.96, 0.96] -> avg: 0.96
+Index 1144: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 1145: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 1146: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 1147: [0.96, 0.96, 0.96, 0.96] -> avg: 0.96
+Index 1293: [0.91, 0.91, 0.91, 0.91] -> avg: 0.91
+Index 1294: [0.9, 0.9, 0.9, 0.9] -> avg: 0.9
+Index 1295: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 1296: [0.9, 0.9, 0.9, 0.9] -> avg: 0.9
+Index 1297: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 1298: [0.89, 0.89, 0.89, 0.89] -> avg: 0.89
+Index 1299: [0.97, 0.97, 0.97, 0.97] -> avg: 0.97
+Index 1300: [0.78, 0.8] -> avg: 0.79
+Index 1421: [0.85, 0.85, 0.85, 0.85] -> avg: 0.85
+Index 1422: [0.98, 0.98, 0.98, 0.98] -> avg: 0.98
+Index 1423: [0.93, 0.93, 0.93, 0.93] -> avg: 0.93
+Index 1424: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 1425: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 1426: [0.85, 0.85, 0.85, 0.85] -> avg: 0.85
+Index 1435: [0.97, 0.97, 0.97, 0.97] -> avg: 0.97
+Index 1436: [0.93, 0.93, 0.93, 0.93] -> avg: 0.93
+Index 1447: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 1448: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 1469: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 1499: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 1531: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 1532: [0.85, 0.85, 0.85, 0.85] -> avg: 0.85
+Index 1564: [0.8, 0.8] -> avg: 0.8
+Index 1567: [0.79] -> avg: 0.79
+Index 1568: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 1621: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 1638: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 1639: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 1640: [0.81, 0.81, 0.81, 0.81] -> avg: 0.81
+Index 1641: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 1647: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 1665: [0.78] -> avg: 0.78
+Index 1715: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 1722: [0.94, 0.94, 0.94, 0.94] -> avg: 0.94
+Index 1723: [0.86, 0.86, 0.86, 0.86] -> avg: 0.86
+Index 1724: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 1725: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 1735: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 1781: [0.97, 0.97, 0.97, 0.97] -> avg: 0.97
+Index 1782: [1.0, 1.0, 1.0, 1.0] -> avg: 1.0
+Index 1783: [0.79, 0.79, 0.79] -> avg: 0.79
+Index 1787: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 1788: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 1789: [0.8, 0.8, 0.8, 0.8] -> avg: 0.8
+Index 1791: [0.82, 0.82, 0.82, 0.82] -> avg: 0.82
+Index 1798: [0.87, 0.87, 0.87, 0.87] -> avg: 0.87
+Index 1799: [0.94, 0.94, 0.94, 0.94] -> avg: 0.94
+Index 1800: [0.9, 0.9, 0.9, 0.9] -> avg: 0.9
+Index 1913: [0.79] -> avg: 0.79
+Index 1940: [0.83, 0.83, 0.83, 0.83] -> avg: 0.83
+Index 1941: [0.98, 0.98, 0.98, 0.98] -> avg: 0.98
+Index 1942: [0.93, 0.93, 0.93, 0.93] -> avg: 0.93
+Index 1943: [0.86, 0.86, 0.86, 0.86] -> avg: 0.86
+Index 694: [1.0] -> avg: 1.0
+Index 111: [0.79, 0.79] -> avg: 0.79
+Index 917: [0.86, 0.86] -> avg: 0.86
+Index 201: [0.91, 0.95] -> avg: 0.9299999999999999
+Index 202: [0.96, 0.99] -> avg: 0.975
+Index 224: [0.93, 0.95] -> avg: 0.94
+Index 403: [0.96, 1.0] -> avg: 0.98
+Index 404: [1.0, 1.0] -> avg: 1.0
+Index 405: [0.95] -> avg: 0.95
+Index 406: [1.0, 1.0] -> avg: 1.0
+Index 420: [0.91] -> avg: 0.91
+Index 438: [0.92] -> avg: 0.92
+Index 489: [0.96, 1.0] -> avg: 0.98
+Index 490: [0.95, 0.99] -> avg: 0.97
+Index 1125: [0.95, 0.96] -> avg: 0.955
+Index 1126: [1.0, 1.0] -> avg: 1.0
+Index 1127: [1.0, 0.97] -> avg: 0.985
+Index 1128: [0.99, 0.94] -> avg: 0.965
+Index 1139: [1.0] -> avg: 1.0
+Index 1140: [1.0] -> avg: 1.0
+Index 1141: [0.91] -> avg: 0.91
+Index 1115: [1.0] -> avg: 1.0
+Index 1116: [1.0] -> avg: 1.0
+Index 1131: [1.0] -> avg: 1.0
+Index 1133: [1.0] -> avg: 1.0
+Index 1136: [0.99] -> avg: 0.99
+Index 1138: [1.0] -> avg: 1.0
+Index 1397: [1.0] -> avg: 1.0
+Index 1398: [1.0] -> avg: 1.0
+Index 1399: [1.0] -> avg: 1.0
+Index 1515: [1.0] -> avg: 1.0
+Index 1516: [1.0] -> avg: 1.0
+Index 348: [1.0, 1.0] -> avg: 1.0
+Index 351: [1.0, 1.0] -> avg: 1.0
+Index 353: [1.0, 1.0] -> avg: 1.0
+Index 358: [1.0, 1.0] -> avg: 1.0
+Index 359: [1.0, 1.0] -> avg: 1.0
+Index 160: [0.8, 0.8] -> avg: 0.8
+Index 387: [0.98] -> avg: 0.98
+Index 389: [1.0, 0.98] -> avg: 0.99
+Index 392: [1.0, 0.98] -> avg: 0.99
+Index 393: [0.99] -> avg: 0.99
+Index 394: [0.98] -> avg: 0.98
+Index 586: [0.99, 1.0] -> avg: 0.995
+Index 587: [0.98, 1.0] -> avg: 0.99
+Index 588: [1.0, 1.0] -> avg: 1.0
+Index 589: [0.99, 1.0] -> avg: 0.995
+Index 609: [0.98] -> avg: 0.98
+Index 1366: [0.98, 1.0] -> avg: 0.99
+Index 1373: [1.0, 1.0] -> avg: 1.0
+Index 1376: [1.0, 1.0] -> avg: 1.0
+Index 1378: [0.98] -> avg: 0.98
+Index 605: [1.0] -> avg: 1.0
+Index 606: [1.0] -> avg: 1.0
+Index 1234: [1.0] -> avg: 1.0
+Index 1535: [1.0] -> avg: 1.0
+Index 1669: [1.0] -> avg: 1.0
+Index 1670: [1.0] -> avg: 1.0
+Index 1254: [1.0] -> avg: 1.0
+Index 1255: [1.0] -> avg: 1.0
+Index 1256: [1.0] -> avg: 1.0
+Index 1853: [1.0] -> avg: 1.0
+Index 1854: [1.0] -> avg: 1.0
+Index 1855: [1.0] -> avg: 1.0
+Index 687: [1.0] -> avg: 1.0
+Index 709: [1.0] -> avg: 1.0
+Index 710: [0.99] -> avg: 0.99
+Index 711: [1.0] -> avg: 1.0
+Index 712: [1.0] -> avg: 1.0
+Index 1757: [1.0] -> avg: 1.0
+Index 347: [0.99] -> avg: 0.99
+Index 1708: [1.0] -> avg: 1.0
+Index 1709: [1.0] -> avg: 1.0
+Index 1710: [1.0] -> avg: 1.0
+Index 289: [0.97] -> avg: 0.97
+Index 583: [0.98] -> avg: 0.98
+Index 591: [0.97] -> avg: 0.97
+Index 592: [0.97] -> avg: 0.97
+Index 623: [0.97] -> avg: 0.97
+Index 1171: [0.97] -> avg: 0.97
+Index 1367: [0.99] -> avg: 0.99
+Index 1368: [0.98] -> avg: 0.98
+Index 1374: [0.97] -> avg: 0.97
+Index 1377: [0.97] -> avg: 0.97
+Index 1843: [0.98] -> avg: 0.98
+Index 110: [0.92] -> avg: 0.92
+Index 203: [0.93] -> avg: 0.93
+Index 215: [0.92] -> avg: 0.92
+Index 402: [0.93] -> avg: 0.93
+Index 491: [0.92] -> avg: 0.92
+Index 1132: [0.93] -> avg: 0.93
+Index 1158: [0.92] -> avg: 0.92
+Node list len: 20
+Node dict len: 8
+nodes_th: 1
+len(my_representative_nodes): 5
+
+
+Connected nodes ['cube0_cluster1', 'cube1_cluster0'] 	 current_group_len: 2 
+ current_unique_name: cube0_cluster1
+
+
+Processing node cube0_cluster1 - lbl: 0
+len: 2 - connected nodes: 2
+
+
+Connected nodes ['cube3_cluster3', 'cube0_cluster2', 'cube1_cluster3', 'cube1_cluster2'] 	 current_group_len: 4 
+ current_unique_name: cube0_cluster2
+
+
+Processing node cube0_cluster2 - lbl: 1
+len: 4 - connected nodes: 4
+
+
+Connected nodes ['cube2_cluster3', 'cube1_cluster1', 'cube0_cluster3', 'cube3_cluster4'] 	 current_group_len: 4 
+ current_unique_name: cube0_cluster3
+
+
+Processing node cube0_cluster3 - lbl: 2
+len: 4 - connected nodes: 4
+
+
+Connected nodes ['cube2_cluster2', 'cube3_cluster1'] 	 current_group_len: 2 
+ current_unique_name: cube2_cluster2
+
+
+Processing node cube2_cluster2 - lbl: 3
+len: 2 - connected nodes: 2
+
+
+Connected nodes ['cube2_cluster4', 'cube3_cluster2'] 	 current_group_len: 2 
+ current_unique_name: cube2_cluster4
+
+
+Processing node cube2_cluster4 - lbl: 4
+len: 2 - connected nodes: 2
+
+
+	Number of Connected Components: 4
+-------------------------------------------------
+	Processing single nodes 6
+
+
+Processing single node cube0_cluster0 - lbl: 5
+
+Processing single node cube2_cluster0 - lbl: 6
+
+Processing single node cube2_cluster1 - lbl: 7
+
+Processing single node cube2_cluster5 - lbl: 8
+
+Processing single node cube2_cluster6 - lbl: 9
+
+Processing single node cube3_cluster0 - lbl: 10
+
+	>>>>> Merged WAVs: /home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs/TestAO-Irmadb/STG_3/STG3_EXP010-SHAS-DV-TDA1/merged_wavs
+
+
+
+Copied wavs from lbl: 4
+
+
+Copied wavs from lbl: 6
+
+
+Copied wavs from lbl: 7
+
+
+Copied wavs from lbl: 3
+
+
+Copied wavs from lbl: 5
+
+
+Copied wavs from lbl: 9
+
+
+Copied wavs from lbl: 2
+
+
+Copied wavs from lbl: 0
+
+
+Copied wavs from lbl: 10
+
+
+Copied wavs from lbl: 8
+
+
+Copied wavs from lbl: 1
+
+
+
+ *** Summary ***
+Stats of concatenated files:
+
+	>>>>> Output Final CSV prediction: /home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs/TestAO-Irmadb/STG_3/STG3_EXP010-SHAS-DV-TDA1/final_csv
+
+
+
+	*** Copy merged wavs into separated folders ***
+
+

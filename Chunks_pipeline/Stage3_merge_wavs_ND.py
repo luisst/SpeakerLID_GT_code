@@ -91,7 +91,7 @@ for current_pred_label_path in label_subfolders:
         dst_file = dst_folder.joinpath(wav_file.name)
         shutil.copy(str(wav_file), str(dst_file))
 
-    print(f'\n\nCopied wavs from lbl: {current_predicted_label}')
+    # print(f'\n\nCopied wavs from lbl: {current_predicted_label}')
 
 
     ############################### 2) Create DICT successive files (per long audio) 
@@ -187,8 +187,8 @@ for current_pred_label_path in label_subfolders:
             # print(f'\t\tCurrent Merged wav: {output_filename}')
 
 ###
-print(f'\n\n\n *** Summary ***')
-print(f'Stats of concatenated files:')
+# print(f'\n\n\n *** Summary ***')
+# print(f'Stats of concatenated files:')
 import pickle
 
 counts_pickle_path = Path.joinpath(output_merged_audio.parent, 'counts_segments.pkl')

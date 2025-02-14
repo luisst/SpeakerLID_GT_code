@@ -4,13 +4,26 @@ export MOVE_ON=true
 export ROOT_PATH="/home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs"
 export SRC_PATH=$(pwd)
 
-export EXP_NAME="EXP001"
-export DATASET_NAME="TestAO-Irma"
+export EXP_NAME="EXP010C"
+export DATASET_NAME="TestAO-Irmadb"
 # export DATASET_NAME="TestAO-Liz"
 
 export SHAS_NAME="SHAS"
 export FEAT_NAME="DV"
-export METHOD_NAME="TDA"
+export METHOD_NAME="TDA6"
+
+## Segmentation Parameters
+export seg_ln="1.0"
+export step_size="0.3"
+export gap_size="0.4"
+
+## Minium number of nodes and consecutive segments
+export nodes_th="1"
+export consc_th="1"
+
+## Keppler Mapper parameters
+export KM_N_CUBES="4"
+export KM_OVERLAP="0.4"
 
 echo -e "\t>>>>> TDA Keppler Mapper Chunks SCRIPT <<<<<"
 
@@ -34,23 +47,25 @@ export STG3_MERGED_WAVS="${current_stg3}/merged_wavs"
 export STG3_FINAL_CSV="${current_stg3}/final_csv"
 
 
-## TDA Projection PCA 
 export pca_elem="16"
 
-## TDA HDBSCAN parameters
+# ## TDA HDBSCAN parameters
+# export min_cluster_size="9"
+# export hdb_mode="eom"
+# export min_samples="5"
+
+# ## TDA Projection PCA 
 export min_cluster_size="5"
-export hdb_mode="eom"
+export hdb_mode="leaf"
 export min_samples="5"
 
-# export min_cluster_size="5"
-# export hdb_mode="leaf"
-# export min_samples="5"
 export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
 
-# cd $SRC_PATH
-# if [ "$MOVE_ON" = true ]; then
-# source STG3_META_TDA.sh
-# fi
+
+cd $SRC_PATH
+if [ "$MOVE_ON" = true ]; then
+source STG3_META_TDA.sh
+fi
 
 ### Stage 4 Metrics
 export STG1_GT_CSV="${ROOT_PATH}/${DATASET_NAME}/GT_final/"

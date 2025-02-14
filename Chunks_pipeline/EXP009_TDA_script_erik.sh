@@ -5,7 +5,7 @@ export PREDICT_ONLY=true
 export ROOT_PATH="/home/luis/Dropbox/DATASETS_AUDIO/Erik_runs"
 export SRC_PATH=$(pwd)
 
-export EXP_NAME="EXP010"
+export EXP_NAME="EXP009"
 export DATASET_NAME="G-C1RGAFA-Mar15-Cls-1-Ugesh_01-04"
 
 export SHAS_NAME="SHAS"

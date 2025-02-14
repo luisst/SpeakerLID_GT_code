@@ -1,0 +1,537 @@
+	>>>>> TDA Keppler Mapper Chunks SCRIPT <<<<<
+Obtaining file:///home/luis/Dropbox/SpeechFall2022/SpeakerLID_GT_code/utls
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Installing collected packages: utls
+  Attempting uninstall: utls
+    Found existing installation: utls 0.2.0
+    Uninstalling utls-0.2.0:
+      Successfully uninstalled utls-0.2.0
+  Running setup.py develop for utls
+Successfully installed utls-0.2.0
+	>>>>> Installed utls library
+
+	>>>>> Output from TDA Keppler Mapper pred: /home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs/TestAO-Irmadb/STG_3/STG3_EXP010-SHAS-DV-TDAn0/TDA_pred_output
+
+run_params: pca16_mcs5_ms5_leaf
+pca_elem: 16
+min_cluster_size: 5
+min_samples: 5
+hdb_mode: leaf
+KeplerMapper(verbose=2)
+..Composing projection pipeline of length 2:
+	Projections: PCA(n_components=16)
+		TSNE(n_iter=900, perplexity=15, verbose=False)
+	Distance matrices: False
+False
+	Scalers: MinMaxScaler()
+MinMaxScaler()
+..Projecting on data shaped (1949, 256)
+
+..Projecting data using: 
+	PCA(n_components=16)
+
+
+..Scaling with: MinMaxScaler()
+
+..Projecting on data shaped (1949, 16)
+
+..Projecting data using: 
+	TSNE(n_iter=900, perplexity=15, verbose=2)
+
+[t-SNE] Computing 46 nearest neighbors...
+[t-SNE] Indexed 1949 samples in 0.000s...
+[t-SNE] Computed neighbors for 1949 samples in 0.119s...
+[t-SNE] Computed conditional probabilities for sample 1000 / 1949
+[t-SNE] Computed conditional probabilities for sample 1949 / 1949
+[t-SNE] Mean sigma: 0.206003
+[t-SNE] Computed conditional probabilities in 0.022s
+[t-SNE] Iteration 50: error = 86.2383347, gradient norm = 0.0007930 (50 iterations in 0.172s)
+[t-SNE] Iteration 100: error = 85.0345535, gradient norm = 0.0026066 (50 iterations in 0.127s)
+[t-SNE] Iteration 150: error = 84.8672485, gradient norm = 0.0000168 (50 iterations in 0.108s)
+[t-SNE] Iteration 200: error = 84.8672256, gradient norm = 0.0000151 (50 iterations in 0.104s)
+[t-SNE] Iteration 250: error = 84.8672256, gradient norm = 0.0000152 (50 iterations in 0.161s)
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 84.867226
+[t-SNE] Iteration 300: error = 3.0907431, gradient norm = 0.0321132 (50 iterations in 0.169s)
+[t-SNE] Iteration 350: error = 2.5016837, gradient norm = 0.0202820 (50 iterations in 0.177s)
+[t-SNE] Iteration 400: error = 2.2727110, gradient norm = 0.0182182 (50 iterations in 0.175s)
+[t-SNE] Iteration 450: error = 2.1433289, gradient norm = 0.0163210 (50 iterations in 0.170s)
+[t-SNE] Iteration 500: error = 2.0633261, gradient norm = 0.0150272 (50 iterations in 0.143s)
+[t-SNE] Iteration 550: error = 2.0112393, gradient norm = 0.0130933 (50 iterations in 0.157s)
+[t-SNE] Iteration 600: error = 1.9760046, gradient norm = 0.0115920 (50 iterations in 0.135s)
+[t-SNE] Iteration 650: error = 1.9507329, gradient norm = 0.0106150 (50 iterations in 0.135s)
+[t-SNE] Iteration 700: error = 1.9318099, gradient norm = 0.0096723 (50 iterations in 0.126s)
+[t-SNE] Iteration 750: error = 1.9181099, gradient norm = 0.0083689 (50 iterations in 0.114s)
+[t-SNE] Iteration 800: error = 1.9075341, gradient norm = 0.0075211 (50 iterations in 0.115s)
+[t-SNE] Iteration 850: error = 1.8991600, gradient norm = 0.0069069 (50 iterations in 0.195s)
+[t-SNE] Iteration 900: error = 1.8919098, gradient norm = 0.0062173 (50 iterations in 0.188s)
+[t-SNE] KL divergence after 900 iterations: 1.891910
+
+..Scaling with: MinMaxScaler()
+
+Mapping on data shaped (1949, 2) using lens shaped (1949, 2)
+
+Minimal points in hypercube before clustering: 5
+Creating 144 hypercubes.
+Cube_0 is empty. Samples n# 3
+
+1 - 144   > Fitting a model on 18 samples
+   > Found 0 clusters in hypercube 1. Samples n# 18
+
+2 - 144   > Fitting a model on 24 samples
+   > Found 2 clusters in hypercube 2. Samples n# 24
+
+3 - 144   > Fitting a model on 35 samples
+   > Found 2 clusters in hypercube 3. Samples n# 35
+
+4 - 144   > Fitting a model on 56 samples
+   > Found 4 clusters in hypercube 4. Samples n# 56
+
+5 - 144   > Fitting a model on 43 samples
+   > Found 0 clusters in hypercube 5. Samples n# 43
+
+6 - 144   > Fitting a model on 27 samples
+   > Found 2 clusters in hypercube 6. Samples n# 27
+
+7 - 144   > Fitting a model on 11 samples
+   > Found 0 clusters in hypercube 7. Samples n# 11
+
+8 - 144   > Fitting a model on 9 samples
+   > Found 0 clusters in hypercube 8. Samples n# 9
+
+9 - 144   > Fitting a model on 45 samples
+   > Found 3 clusters in hypercube 9. Samples n# 45
+
+10 - 144   > Fitting a model on 62 samples
+   > Found 2 clusters in hypercube 10. Samples n# 62
+
+11 - 144   > Fitting a model on 67 samples
+   > Found 2 clusters in hypercube 11. Samples n# 67
+
+12 - 144   > Fitting a model on 72 samples
+   > Found 4 clusters in hypercube 12. Samples n# 72
+
+13 - 144   > Fitting a model on 62 samples
+   > Found 3 clusters in hypercube 13. Samples n# 62
+
+14 - 144   > Fitting a model on 58 samples
+   > Found 4 clusters in hypercube 14. Samples n# 58
+
+15 - 144   > Fitting a model on 34 samples
+   > Found 0 clusters in hypercube 15. Samples n# 34
+
+16 - 144   > Fitting a model on 11 samples
+   > Found 0 clusters in hypercube 16. Samples n# 11
+Cube_17 is empty. Samples n# 2
+Cube_18 is empty. Samples n# 3
+
+19 - 144   > Fitting a model on 27 samples
+   > Found 2 clusters in hypercube 19. Samples n# 27
+
+20 - 144   > Fitting a model on 53 samples
+   > Found 4 clusters in hypercube 20. Samples n# 53
+
+21 - 144   > Fitting a model on 65 samples
+   > Found 3 clusters in hypercube 21. Samples n# 65
+
+22 - 144   > Fitting a model on 69 samples
+   > Found 3 clusters in hypercube 22. Samples n# 69
+
+23 - 144   > Fitting a model on 74 samples
+   > Found 4 clusters in hypercube 23. Samples n# 74
+
+24 - 144   > Fitting a model on 73 samples
+   > Found 4 clusters in hypercube 24. Samples n# 73
+
+25 - 144   > Fitting a model on 61 samples
+   > Found 2 clusters in hypercube 25. Samples n# 61
+
+26 - 144   > Fitting a model on 46 samples
+   > Found 4 clusters in hypercube 26. Samples n# 46
+
+27 - 144   > Fitting a model on 33 samples
+   > Found 4 clusters in hypercube 27. Samples n# 33
+
+28 - 144   > Fitting a model on 9 samples
+   > Found 0 clusters in hypercube 28. Samples n# 9
+Cube_29 is empty. Samples n# 3
+
+30 - 144   > Fitting a model on 37 samples
+   > Found 3 clusters in hypercube 30. Samples n# 37
+
+31 - 144   > Fitting a model on 56 samples
+   > Found 4 clusters in hypercube 31. Samples n# 56
+
+32 - 144   > Fitting a model on 62 samples
+   > Found 4 clusters in hypercube 32. Samples n# 62
+
+33 - 144   > Fitting a model on 64 samples
+   > Found 5 clusters in hypercube 33. Samples n# 64
+
+34 - 144   > Fitting a model on 68 samples
+   > Found 4 clusters in hypercube 34. Samples n# 68
+
+35 - 144   > Fitting a model on 67 samples
+   > Found 4 clusters in hypercube 35. Samples n# 67
+
+36 - 144   > Fitting a model on 49 samples
+   > Found 4 clusters in hypercube 36. Samples n# 49
+
+37 - 144   > Fitting a model on 45 samples
+   > Found 2 clusters in hypercube 37. Samples n# 45
+
+38 - 144   > Fitting a model on 30 samples
+   > Found 2 clusters in hypercube 38. Samples n# 30
+
+39 - 144   > Fitting a model on 10 samples
+   > Found 0 clusters in hypercube 39. Samples n# 10
+Cube_40 is empty. Samples n# 2
+
+41 - 144   > Fitting a model on 7 samples
+   > Found 0 clusters in hypercube 41. Samples n# 7
+
+42 - 144   > Fitting a model on 29 samples
+   > Found 0 clusters in hypercube 42. Samples n# 29
+
+43 - 144   > Fitting a model on 50 samples
+   > Found 4 clusters in hypercube 43. Samples n# 50
+
+44 - 144   > Fitting a model on 55 samples
+   > Found 4 clusters in hypercube 44. Samples n# 55
+
+45 - 144   > Fitting a model on 55 samples
+   > Found 2 clusters in hypercube 45. Samples n# 55
+
+46 - 144   > Fitting a model on 62 samples
+   > Found 4 clusters in hypercube 46. Samples n# 62
+
+47 - 144   > Fitting a model on 53 samples
+   > Found 2 clusters in hypercube 47. Samples n# 53
+
+48 - 144   > Fitting a model on 59 samples
+   > Found 2 clusters in hypercube 48. Samples n# 59
+
+49 - 144   > Fitting a model on 50 samples
+   > Found 3 clusters in hypercube 49. Samples n# 50
+
+50 - 144   > Fitting a model on 35 samples
+   > Found 2 clusters in hypercube 50. Samples n# 35
+
+51 - 144   > Fitting a model on 15 samples
+   > Found 0 clusters in hypercube 51. Samples n# 15
+Cube_52 is empty. Samples n# 2
+
+53 - 144   > Fitting a model on 17 samples
+   > Found 0 clusters in hypercube 53. Samples n# 17
+
+54 - 144   > Fitting a model on 24 samples
+   > Found 2 clusters in hypercube 54. Samples n# 24
+
+55 - 144   > Fitting a model on 37 samples
+   > Found 2 clusters in hypercube 55. Samples n# 37
+
+56 - 144   > Fitting a model on 44 samples
+   > Found 3 clusters in hypercube 56. Samples n# 44
+
+57 - 144   > Fitting a model on 56 samples
+   > Found 3 clusters in hypercube 57. Samples n# 56
+
+58 - 144   > Fitting a model on 67 samples
+   > Found 4 clusters in hypercube 58. Samples n# 67
+
+59 - 144   > Fitting a model on 52 samples
+   > Found 5 clusters in hypercube 59. Samples n# 52
+
+60 - 144   > Fitting a model on 55 samples
+   > Found 2 clusters in hypercube 60. Samples n# 55
+
+61 - 144   > Fitting a model on 46 samples
+   > Found 3 clusters in hypercube 61. Samples n# 46
+
+62 - 144   > Fitting a model on 34 samples
+   > Found 4 clusters in hypercube 62. Samples n# 34
+
+63 - 144   > Fitting a model on 19 samples
+   > Found 2 clusters in hypercube 63. Samples n# 19
+Cube_64 is empty. Samples n# 1
+
+65 - 144   > Fitting a model on 27 samples
+   > Found 0 clusters in hypercube 65. Samples n# 27
+
+66 - 144   > Fitting a model on 38 samples
+   > Found 0 clusters in hypercube 66. Samples n# 38
+
+67 - 144   > Fitting a model on 34 samples
+   > Found 3 clusters in hypercube 67. Samples n# 34
+
+68 - 144   > Fitting a model on 47 samples
+   > Found 0 clusters in hypercube 68. Samples n# 47
+
+69 - 144   > Fitting a model on 58 samples
+   > Found 2 clusters in hypercube 69. Samples n# 58
+
+70 - 144   > Fitting a model on 77 samples
+   > Found 4 clusters in hypercube 70. Samples n# 77
+
+71 - 144   > Fitting a model on 74 samples
+   > Found 4 clusters in hypercube 71. Samples n# 74
+
+72 - 144   > Fitting a model on 77 samples
+   > Found 4 clusters in hypercube 72. Samples n# 77
+
+73 - 144   > Fitting a model on 56 samples
+   > Found 0 clusters in hypercube 73. Samples n# 56
+
+74 - 144   > Fitting a model on 33 samples
+   > Found 3 clusters in hypercube 74. Samples n# 33
+
+75 - 144   > Fitting a model on 14 samples
+   > Found 0 clusters in hypercube 75. Samples n# 14
+
+76 - 144   > Fitting a model on 9 samples
+   > Found 0 clusters in hypercube 76. Samples n# 9
+
+77 - 144   > Fitting a model on 25 samples
+   > Found 2 clusters in hypercube 77. Samples n# 25
+
+78 - 144   > Fitting a model on 38 samples
+   > Found 2 clusters in hypercube 78. Samples n# 38
+
+79 - 144   > Fitting a model on 45 samples
+   > Found 3 clusters in hypercube 79. Samples n# 45
+
+80 - 144   > Fitting a model on 58 samples
+   > Found 3 clusters in hypercube 80. Samples n# 58
+
+81 - 144   > Fitting a model on 47 samples
+   > Found 3 clusters in hypercube 81. Samples n# 47
+
+82 - 144   > Fitting a model on 58 samples
+   > Found 3 clusters in hypercube 82. Samples n# 58
+
+83 - 144   > Fitting a model on 64 samples
+   > Found 3 clusters in hypercube 83. Samples n# 64
+
+84 - 144   > Fitting a model on 62 samples
+   > Found 3 clusters in hypercube 84. Samples n# 62
+
+85 - 144   > Fitting a model on 55 samples
+   > Found 2 clusters in hypercube 85. Samples n# 55
+
+86 - 144   > Fitting a model on 26 samples
+   > Found 3 clusters in hypercube 86. Samples n# 26
+
+87 - 144   > Fitting a model on 5 samples
+   > Found 0 clusters in hypercube 87. Samples n# 5
+
+88 - 144   > Fitting a model on 14 samples
+   > Found 0 clusters in hypercube 88. Samples n# 14
+
+89 - 144   > Fitting a model on 36 samples
+   > Found 2 clusters in hypercube 89. Samples n# 36
+
+90 - 144   > Fitting a model on 53 samples
+   > Found 0 clusters in hypercube 90. Samples n# 53
+
+91 - 144   > Fitting a model on 58 samples
+   > Found 3 clusters in hypercube 91. Samples n# 58
+
+92 - 144   > Fitting a model on 53 samples
+   > Found 4 clusters in hypercube 92. Samples n# 53
+
+93 - 144   > Fitting a model on 54 samples
+   > Found 5 clusters in hypercube 93. Samples n# 54
+
+94 - 144   > Fitting a model on 52 samples
+   > Found 3 clusters in hypercube 94. Samples n# 52
+
+95 - 144   > Fitting a model on 54 samples
+   > Found 4 clusters in hypercube 95. Samples n# 54
+
+96 - 144   > Fitting a model on 48 samples
+   > Found 3 clusters in hypercube 96. Samples n# 48
+
+97 - 144   > Fitting a model on 37 samples
+   > Found 2 clusters in hypercube 97. Samples n# 37
+
+98 - 144   > Fitting a model on 18 samples
+   > Found 2 clusters in hypercube 98. Samples n# 18
+Cube_99 is empty. Samples n# 2
+
+100 - 144   > Fitting a model on 12 samples
+   > Found 0 clusters in hypercube 100. Samples n# 12
+
+101 - 144   > Fitting a model on 39 samples
+   > Found 2 clusters in hypercube 101. Samples n# 39
+
+102 - 144   > Fitting a model on 76 samples
+   > Found 3 clusters in hypercube 102. Samples n# 76
+
+103 - 144   > Fitting a model on 83 samples
+   > Found 3 clusters in hypercube 103. Samples n# 83
+
+104 - 144   > Fitting a model on 57 samples
+   > Found 4 clusters in hypercube 104. Samples n# 57
+
+105 - 144   > Fitting a model on 50 samples
+   > Found 4 clusters in hypercube 105. Samples n# 50
+
+106 - 144   > Fitting a model on 55 samples
+   > Found 3 clusters in hypercube 106. Samples n# 55
+
+107 - 144   > Fitting a model on 79 samples
+   > Found 6 clusters in hypercube 107. Samples n# 79
+
+108 - 144   > Fitting a model on 69 samples
+   > Found 4 clusters in hypercube 108. Samples n# 69
+
+109 - 144   > Fitting a model on 43 samples
+   > Found 0 clusters in hypercube 109. Samples n# 43
+
+110 - 144   > Fitting a model on 12 samples
+   > Found 0 clusters in hypercube 110. Samples n# 12
+Cube_111 is empty. Samples n# 2
+
+112 - 144   > Fitting a model on 7 samples
+   > Found 0 clusters in hypercube 112. Samples n# 7
+
+113 - 144   > Fitting a model on 33 samples
+   > Found 3 clusters in hypercube 113. Samples n# 33
+
+114 - 144   > Fitting a model on 63 samples
+   > Found 5 clusters in hypercube 114. Samples n# 63
+
+115 - 144   > Fitting a model on 79 samples
+   > Found 6 clusters in hypercube 115. Samples n# 79
+
+116 - 144   > Fitting a model on 56 samples
+   > Found 4 clusters in hypercube 116. Samples n# 56
+
+117 - 144   > Fitting a model on 49 samples
+   > Found 4 clusters in hypercube 117. Samples n# 49
+
+118 - 144   > Fitting a model on 42 samples
+   > Found 2 clusters in hypercube 118. Samples n# 42
+
+119 - 144   > Fitting a model on 58 samples
+   > Found 4 clusters in hypercube 119. Samples n# 58
+
+120 - 144   > Fitting a model on 58 samples
+   > Found 4 clusters in hypercube 120. Samples n# 58
+
+121 - 144   > Fitting a model on 32 samples
+   > Found 2 clusters in hypercube 121. Samples n# 32
+Cube_122 is empty. Samples n# 1
+Cube_123 is empty. Samples n# 1
+
+124 - 144   > Fitting a model on 7 samples
+   > Found 0 clusters in hypercube 124. Samples n# 7
+
+125 - 144   > Fitting a model on 29 samples
+   > Found 2 clusters in hypercube 125. Samples n# 29
+
+126 - 144   > Fitting a model on 54 samples
+   > Found 4 clusters in hypercube 126. Samples n# 54
+
+127 - 144   > Fitting a model on 43 samples
+   > Found 4 clusters in hypercube 127. Samples n# 43
+
+128 - 144   > Fitting a model on 31 samples
+   > Found 3 clusters in hypercube 128. Samples n# 31
+
+129 - 144   > Fitting a model on 18 samples
+   > Found 0 clusters in hypercube 129. Samples n# 18
+
+130 - 144   > Fitting a model on 19 samples
+   > Found 0 clusters in hypercube 130. Samples n# 19
+
+131 - 144   > Fitting a model on 18 samples
+   > Found 0 clusters in hypercube 131. Samples n# 18
+Cube_132 is empty. Samples n# 3
+
+Created 362 edges and 294 nodes in 0:00:00.200789.
+Wrote visualization to: /home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs/TestAO-Irmadb/STG_3/STG3_EXP010-SHAS-DV-TDAn0/TDA_pred_output/EXP010_TestAO-Irmadb_TDAn0_TDA_Hdbscan.html
+Node list len: 294
+Node dict len: 193
+nodes_th: 1
+len(my_representative_nodes): 53
+
+
+	Number of Connected Components: 53
+{1: (10, 54),
+ 2: (10, 46),
+ 3: (2, 10),
+ 4: (8, 51),
+ 5: (4, 19),
+ 6: (4, 15),
+ 7: (8, 39),
+ 8: (2, 9),
+ 9: (25, 140),
+ 10: (7, 33),
+ 11: (5, 38),
+ 12: (3, 12),
+ 13: (3, 8),
+ 14: (4, 8),
+ 15: (12, 90),
+ 16: (2, 11),
+ 17: (4, 8),
+ 18: (2, 8),
+ 19: (2, 13),
+ 20: (7, 28),
+ 21: (2, 13),
+ 22: (4, 24),
+ 23: (9, 76),
+ 24: (6, 29),
+ 25: (3, 10),
+ 26: (3, 16),
+ 27: (4, 21),
+ 28: (5, 24),
+ 29: (6, 30),
+ 30: (11, 66),
+ 31: (2, 17),
+ 32: (5, 17),
+ 33: (9, 34),
+ 34: (2, 20),
+ 35: (11, 65),
+ 36: (3, 18),
+ 37: (4, 8),
+ 38: (2, 8),
+ 39: (12, 47),
+ 40: (2, 12),
+ 41: (5, 17),
+ 42: (4, 16),
+ 43: (6, 32),
+ 44: (3, 29),
+ 45: (2, 6),
+ 46: (6, 18),
+ 47: (6, 29),
+ 48: (4, 7),
+ 49: (2, 10),
+ 50: (2, 17),
+ 51: (2, 8),
+ 52: (2, 13),
+ 53: (2, 6)}
+
+
+-------------------------------------------------
+	Processing single nodes 19
+
+{54: (1, 5),
+ 55: (1, 6),
+ 56: (1, 18),
+ 57: (1, 6),
+ 58: (1, 7),
+ 59: (1, 6),
+ 60: (1, 7),
+ 61: (1, 8),
+ 62: (1, 8),
+ 63: (1, 7),
+ 64: (1, 14),
+ 65: (1, 5),
+ 66: (1, 6),
+ 67: (1, 7),
+ 68: (1, 8),
+ 69: (1, 5),
+ 70: (1, 7),
+ 71: (1, 7),
+ 72: (1, 8)}

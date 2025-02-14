@@ -58,11 +58,12 @@ output_folder_audio.mkdir(parents=True, exist_ok=True)
 output_folder_video.mkdir(parents=True, exist_ok=True)
 
 # Iterate over each WAV file in the input folder
-for input_file in input_folder.glob("*.mpeg"):
-    output_file_video = output_folder_video / input_file.name
-    convert_mpeg_to_mp4(input_file, output_file_video)
-    print(f"\n\n\t\tConverted {input_file.name} to {output_file_video.name}")
+for input_file in input_folder.glob("*.mp4"):
+    # output_file_video = output_folder_video / input_file.name
+    # convert_mpeg_to_mp4(input_file, output_file_video)
+    # print(f"\n\n\t\tConverted {input_file.name} to {output_file_video.name}")
 
-    # output_file_audio = output_folder_audio / input_file.name
-    # convert_audio(input_file, output_file_audio)
-    # print(f"\n\n\t\tConverted {input_file.name} to {output_file_audio.name}")
+    output_filename_audio = input_file.stem + ".wav"
+    output_path_audio = output_folder_audio / output_filename_audio 
+    # convert_audio(input_file, output_path_audio)
+    print(f"\n\n\t\tConverted {input_file.name} to {output_path_audio.name}")
