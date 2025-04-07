@@ -22,7 +22,7 @@ source STG1_SHAS.sh
 
 #### Stage 2 Feature Extraction
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
-export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
+export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats"
 
 if [ "$MOVE_ON" = true ]; then
     source STG2_DVECTORS.sh

@@ -7,6 +7,8 @@ import json
 import matplotlib
 import matplotlib.pyplot as plt
 
+from utilities_pyannote_metrics import matching_basename_pathlib_gt_pred
+
 font = {'family' : 'monospace',
         'weight' : 'normal',
         'size'   : 17}
@@ -20,7 +22,6 @@ def compute_histogram_bins(data, desired_bin_size):
     n_bins = int((max_boundary - min_boundary) / desired_bin_size) + 1
     bins = np.linspace(min_boundary, max_boundary, n_bins)
     return bins
-
 
 
 def unpack_line(line, method_type):
@@ -457,3 +458,36 @@ def log_and_print_entropy(metric_output_folder,
         log_print(f'Run Params: {run_params}', file=mylog)
     
 
+
+def single_pred(csv_pred_folder, 
+                GT_csv_folder,
+                metric_output_folder,
+                method_type,
+                run_name,
+                run_params,
+                suffix_ext_list,
+                verbose=False,
+                extra_verbose=False,
+                min_overlap_percentage=0.3):
+
+    verbose = False
+    extra_verbose = False
+
+    method_matches = matching_basename_pathlib_gt_pred(GT_csv_folder, csv_pred_folder, 
+            gt_suffix_added='GT', pred_suffix_added=suffix_ext_list[1],
+            gt_ext = 'csv', pred_ext = suffix_ext_list[0])
+    
+    log_and_print_entropy(metric_output_folder,
+                          method_type,
+                          run_name,
+                          run_params,
+                          method_matches,
+                          min_overlap_percentage,
+                          extra_verbose,
+                          verbose)
+
+    create_histogram(metric_output_folder,
+                     method_type,
+                     run_name,
+                     method_matches,
+                     cdf_flag=True)        

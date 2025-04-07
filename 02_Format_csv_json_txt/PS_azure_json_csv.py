@@ -100,10 +100,10 @@ def write_2_csv(*args, **kwargs):
 
 
 
-root_dir = Path.home().joinpath('Dropbox') / r'DATASETS_AUDIO\interviews_wavs\little_test'
+root_dir = Path.home().joinpath('Dropbox') / r'DATASETS_AUDIO\VAD_aolme\TestSet_for_VAD\new_azure_31'
 
-current_input_folder = root_dir.joinpath('json_raw_v3.3')
-output_folder_csv_pth = root_dir.joinpath('final_csv_v3.3')
+current_input_folder = root_dir.joinpath('json_raw_31')
+output_folder_csv_pth = root_dir.joinpath('final_csv_31')
 
 transcript_pth_list = sorted(list(current_input_folder.glob('*.json')))
 
@@ -142,11 +142,13 @@ for current_json_pth in transcript_pth_list:
         list_text.append(str(current_entry['nBest'][0]['display']))
         list_prob.append(str(current_entry['nBest'][0]['confidence']))
         list_speaker.append(str(current_entry['speaker']))
-        list_language.append(str(current_entry['locale']))
+        # list_language.append(str(current_entry['locale']))
 
 
 
-    columns = ['speaker', 'start_time', 'end_time', 'prediction', 'prob', 'language']
+    # columns = ['speaker', 'start_time', 'end_time', 'prediction', 'prob', 'language']
+    columns = ['speaker', 'start_time', 'end_time', 'prediction', 'prob']
 
-    write_2_csv(list_speaker, list_start_time, list_end_time, list_text ,list_prob, list_language, \
+    # write_2_csv(list_speaker, list_start_time, list_end_time, list_text ,list_prob, list_language, \
+    write_2_csv(list_speaker, list_start_time, list_end_time, list_text ,list_prob, \
             path=current_output_pth, cols = columns, txt_flag =  True, time_format=False)

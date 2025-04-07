@@ -32,3 +32,27 @@ if [ $? -ne 0 ]; then
     echo "Move on: $MOVE_ON"
     return 1
 fi
+
+python3 ${SRC_PATH}/Stage4_extra_metrics.py --csv_pred_folder $STG3_FINAL_CSV\
+ --GT_csv_folder $STG1_GT_CSV --metric_output_folder $STG4_METRICS\
+ --pred_suffix $pred_suffix_added --pred_extensions $pred_ext\
+ --run_name $STG4_METRIC_RUNNAME
+
+# Check if the Python script was successful
+if [ $? -ne 0 ]; then
+    export MOVE_ON=false
+    echo "Move on: $MOVE_ON"
+    return 1
+fi
+
+python3 ${SRC_PATH}/Stage4_clustering_metrics.py --csv_pred_folder $STG3_FINAL_CSV\
+ --GT_csv_folder $STG1_GT_CSV --metric_output_folder $STG4_METRICS\
+ --pred_suffix $pred_suffix_added --pred_extensions $pred_ext\
+ --run_name $STG4_METRIC_RUNNAME
+
+# Check if the Python script was successful
+if [ $? -ne 0 ]; then
+    export MOVE_ON=false
+    echo "Move on: $MOVE_ON"
+    return 1
+fi

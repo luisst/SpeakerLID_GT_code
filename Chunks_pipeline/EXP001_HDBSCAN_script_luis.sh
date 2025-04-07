@@ -10,7 +10,7 @@ export DATASET_NAME="TestAO-Irmadb"
 # export DATASET_NAME="TestAO-Liz"
 export SHAS_NAME="SHAS"
 export FEAT_NAME="DV"
-export METHOD_NAME="umap1H9"
+export METHOD_NAME="umap1H10"
 
 ## Segmentation Parameters
 export seg_ln="1.0"
@@ -28,7 +28,7 @@ export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas
 
 #### Stage 2 Feature Extraction
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
-export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pkl"
+export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pickle"
 
 # if [ "$MOVE_ON" = true ]; then
 # source STG2_DVECTORS.sh
@@ -51,10 +51,10 @@ export min_samples="5"
 
 export RUN_PARAMS="pca${pca_elem}_mcs${min_cluster_size}_ms${min_samples}_${hdb_mode}"
 
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-source STG3_META_HDB.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+# source STG3_META_HDB.sh
+# fi
 
 
 #### Stage 4 Metrics
@@ -66,10 +66,10 @@ export pred_suffix_added="pred"
 export pred_ext="csv"
 
 
-# cd $SRC_PATH
-# if [ "$MOVE_ON" = true ]; then
-#     source STG4_ENTROPY.sh
-# fi
+cd $SRC_PATH
+if [ "$MOVE_ON" = true ]; then
+    source STG4_ENTROPY.sh
+fi
 
 ## Add Azure comparison
 

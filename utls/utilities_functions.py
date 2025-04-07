@@ -251,7 +251,6 @@ def calculate_duration_in_folder(videos_folder_pth, wav_flag = False, return_lis
     for current_video_pth in folder_videos_list:
         # obtain total time of video
         current_length_seconds = get_total_video_length(current_video_pth)
-        print(f'\tNow media: {current_video_pth.name}')
         list_names.append(current_video_pth.name)
         list_lengths.append(current_length_seconds)
 
