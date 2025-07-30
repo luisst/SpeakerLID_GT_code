@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse
 import os
 from utilities_pyannote_metrics import matching_basename_pathlib_gt_pred
-from utilities_entropy import log_and_print_entropy, create_histogram, single_pred
+from utilities_entropy import log_and_print_entropy, create_histogram
 
 
 def valid_path(path):
@@ -58,30 +58,21 @@ print(f' main suffix: {suffix_ext_list[1]} \t main ext: {suffix_ext_list[0]}')
 verbose = False
 extra_verbose = False
 #### ---------------------- ####
+method_matches = matching_basename_pathlib_gt_pred(GT_csv_folder, csv_pred_folder, 
+        gt_suffix_added='GT', pred_suffix_added=suffix_ext_list[1],
+        gt_ext = 'csv', pred_ext = suffix_ext_list[0])
 
-# Read all txt files in the method_folder
-all_azure_files = list(csv_pred_folder.glob('**/*.txt'))
+log_and_print_entropy(metric_output_folder,
+                        'azure',
+                        run_name,
+                        run_params,
+                        method_matches,
+                        min_overlap_percentage,
+                        extra_verbose,
+                        verbose)
 
-# Check if there are files in the folder
-if len(all_azure_files) == 0:
-    print(f'WARNING!!! \t No files found in {csv_pred_folder}')
-
-# Iterate over all folders in the method_folder
-for azure_part_folder in csv_pred_folder.iterdir():
-    if azure_part_folder.is_dir():
-        current_azure_run = f'{run_name}-{azure_part_folder.stem}'
-
-        print(f'>>> inside Azure folder: {azure_part_folder}')
-
-        single_pred(azure_part_folder, 
-                    GT_csv_folder,
-                    metric_output_folder,
+create_histogram(metric_output_folder,
                     'azure',
-                    current_azure_run,
-                    run_params,
-                    suffix_ext_list,
-                    verbose=verbose,
-                    extra_verbose=extra_verbose,
-                    min_overlap_percentage=min_overlap_percentage)
-    else:
-        print(f'WARNING!!! \t {azure_part_folder} is not a folder')
+                    run_name,
+                    method_matches,
+                    cdf_flag=True)    

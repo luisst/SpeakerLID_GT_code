@@ -9,49 +9,6 @@ from utilities_pyannote_metrics import matching_basename_pathlib_gt_pred
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score, fowlkes_mallows_score
 
 
-def write_txt_report(report_path, run_name, results, indexes_dict, confusion_matrix, speaker_metrics):
-    with open(report_path, 'w', encoding='utf-8') as f:
-        f.write(f"==== DIARIZATION REPORT: {run_name} ====\n\n")
-
-        # Overall Metrics
-        f.write("== OVERALL METRICS ==\n")
-        f.write(f"Weighted Cluster Purity: {results['overall']['weighted_purity']:.4f}\n")
-        f.write(f"Weighted Speaker Coverage: {results['overall']['weighted_coverage']:.4f}\n")
-        f.write(f"F1 Score: {results['overall']['f1_score']:.4f}\n\n")
-
-        # Per-Cluster Purity
-        f.write("== PER-CLUSTER PURITY ==\n")
-        for cluster_id, info in results['per_cluster_purity'].items():
-            f.write(f"Cluster {cluster_id}: Purity = {info['purity']:.4f}, Dominant Speaker = {info['dominant_speaker']}, Duration = {info['duration']:.2f}s\n")
-        f.write("\n")
-
-        # Per-Speaker Coverage
-        f.write("== PER-SPEAKER COVERAGE ==\n")
-        for speaker_id, info in results['per_speaker_coverage'].items():
-            f.write(f"Speaker {speaker_id}: Coverage = {info['coverage']:.4f}, Primary Cluster = {info['primary_cluster']}, "
-                    f"In Primary = {info['in_primary_cluster']:.4f}, Duration = {info['total_duration']:.2f}s\n")
-        f.write("\n")
-
-        # Clustering Metrics
-        f.write("== CLUSTERING METRICS ==\n")
-        f.write(f"Adjusted Rand Index (ARI): {indexes_dict['ARI']:.4f}\n")
-        f.write(f"Normalized Mutual Information (NMI): {indexes_dict['NMI']:.4f}\n")
-        f.write(f"Fowlkes-Mallows Index: {indexes_dict['Fowlkes-Mallows']:.4f}\n")
-        f.write(f"Valid segments evaluated: {indexes_dict['valid_segments']}\n\n")
-
-        # Confusion Matrix
-        if confusion_matrix is not None and not confusion_matrix.empty:
-            f.write("== CONFUSION MATRIX ==\n")
-            f.write(confusion_matrix.to_string())
-            f.write("\n\n")
-
-        # Speaker Metrics
-        if speaker_metrics is not None and not speaker_metrics.empty:
-            f.write("== SPEAKER-LEVEL METRICS ==\n")
-            f.write(speaker_metrics.to_string(index=False))
-            f.write("\n")
-
-
 def calculate_confusion_matrix(y_true, y_pred):
     """
     Calculate a confusion matrix between speakers and clusters.
@@ -195,13 +152,20 @@ method_matches = matching_basename_pathlib_gt_pred(GT_csv_folder, csv_pred_folde
 
 #### ---------------------- ####
 
+overall_metrics_list = []
+indexes_list = []
+confusion_matrix_list = []
+speaker_info_list = []
+pred_file_list = []
+
+method_name = run_name.split('_')[0]
+
 for current_gt, current_pred in method_matches:
     print(f'Processing GT: {current_gt.stem} \t Prediction: {current_pred.stem}')
 
-    method_name = run_name.split('_')[0]
     pred_name_stem = current_pred.stem
-    output_run_name = f'{pred_name_stem}-{method_name}'
     pred_clusters= defaultdict(list)
+    pred_file_list.append(current_pred.stem)
 
     with open(current_pred, 'r', newline='') as file:
         reader = csv.DictReader(file, delimiter='\t', fieldnames=['filename', 'cluster_id', 'start_time', 'end_time', 'duration'])
@@ -328,6 +292,7 @@ for current_gt, current_pred in method_matches:
         'per_cluster_purity': cluster_purity,
         'per_speaker_coverage': speaker_coverage
     }
+    overall_metrics_list.append(results)
 
     ##### ---------------------- ####
     # Convert gt_timeline segments into y_true and y_pred
@@ -367,13 +332,91 @@ for current_gt, current_pred in method_matches:
         'valid_segments': len(y_true)
     }
 
+    indexes_list.append(indexes_dict)
+
     confusion_matrix = calculate_confusion_matrix(y_true, y_pred)
     speaker_metrics = calculate_speaker_level_metrics(confusion_matrix)
 
-    # Create output file path
-    report_file = metric_output_folder / f"{output_run_name}_report.txt"
+    confusion_matrix_list.append(confusion_matrix)
+    speaker_info_list.append(speaker_metrics)
 
-    # Write the full text report
-    write_txt_report(report_file, output_run_name, results, indexes_dict, confusion_matrix, speaker_metrics)
+# Create output file path
+report_file = metric_output_folder / f"{method_name}_clustering_report.txt"
 
-    print(f"\n✅ Report written to: {report_file}\n")
+with open(report_file, 'w', encoding='utf-8') as f:
+
+    for idx, current_results in enumerate(overall_metrics_list):
+        current_matrix = confusion_matrix_list[idx] 
+        current_speaker_metrics = speaker_info_list[idx]
+        current_indexes = indexes_list[idx]
+
+        f.write(f"==== DIARIZATION REPORT: {pred_file_list[idx]} ====\n")
+
+        # Overall Metrics
+        f.write("== OVERALL METRICS ==\n")
+        f.write(f"Weighted Cluster Purity: {current_results['overall']['weighted_purity']:.4f}\n")
+        f.write(f"Weighted Speaker Coverage: {current_results['overall']['weighted_coverage']:.4f}\n")
+        f.write(f"F1 Score: {current_results['overall']['f1_score']:.4f}\n\n")
+
+        # Per-Cluster Purity
+        f.write("== PER-CLUSTER PURITY ==\n")
+        for cluster_id, info in current_results['per_cluster_purity'].items():
+            f.write(f"Cluster {cluster_id}: Purity = {info['purity']:.4f}, Dominant Speaker = {info['dominant_speaker']}, Duration = {info['duration']:.2f}s\n")
+        f.write("\n")
+
+        # Per-Speaker Coverage
+        f.write("== PER-SPEAKER COVERAGE ==\n")
+        for speaker_id, info in current_results['per_speaker_coverage'].items():
+            f.write(f"Speaker {speaker_id}: Coverage = {info['coverage']:.4f}, Primary Cluster = {info['primary_cluster']}, "
+                    f"In Primary = {info['in_primary_cluster']:.4f}, Duration = {info['total_duration']:.2f}s\n")
+        f.write("\n")
+
+        # Clustering Metrics
+        f.write("== CLUSTERING METRICS ==\n")
+        f.write(f"Adjusted Rand Index (ARI): {current_indexes['ARI']:.4f}\n")
+        f.write(f"Normalized Mutual Information (NMI): {current_indexes['NMI']:.4f}\n")
+        f.write(f"Fowlkes-Mallows Index: {current_indexes['Fowlkes-Mallows']:.4f}\n")
+        f.write(f"Valid segments evaluated: {current_indexes['valid_segments']}\n\n")
+
+        # Confusion Matrix
+        if current_matrix is not None and not current_matrix.empty:
+            f.write("== CONFUSION MATRIX ==\n")
+            f.write(current_matrix.to_string())
+            f.write("\n\n")
+
+        # Speaker Metrics
+        if current_speaker_metrics is not None and not current_speaker_metrics.empty:
+            f.write("== SPEAKER-LEVEL METRICS ==\n")
+            f.write(current_speaker_metrics.to_string(index=False))
+            f.write("\n")
+        
+        f.write("========================================\n\n\n")
+
+    # Write the overall metrics average
+    f.write("\n\n\n== AVERAGE OVERALL METRICS ==\n")
+    avg_weighted_purity = sum(res['overall']['weighted_purity'] for res in overall_metrics_list) / len(overall_metrics_list)
+    avg_weighted_coverage = sum(res['overall']['weighted_coverage'] for res in overall_metrics_list) / len(overall_metrics_list)
+    avg_f1_score = sum(res['overall']['f1_score'] for res in overall_metrics_list) / len(overall_metrics_list)
+
+    f.write(f"Average Weighted Cluster Purity: {avg_weighted_purity:.4f}\n")
+    f.write(f"Average Weighted Speaker Coverage: {avg_weighted_coverage:.4f}\n")
+    f.write(f"Average F1 Score: {avg_f1_score:.4f}\n")
+    f.write("========================================\n")
+
+    # Write the average clustering metrics
+    f.write("== AVERAGE CLUSTERING METRICS ==\n")
+    avg_ari = sum(index['ARI'] for index in indexes_list) / len(indexes_list)
+    avg_nmi = sum(index['NMI'] for index in indexes_list) / len(indexes_list)
+    avg_fm = sum(index['Fowlkes-Mallows'] for index in indexes_list) / len(indexes_list)
+
+    avg_valid_segments = sum(index['valid_segments'] for index in indexes_list) / len(indexes_list)
+
+    f.write(f"Average Adjusted Rand Index (ARI): {avg_ari:.4f}\n")
+    f.write(f"Average Normalized Mutual Information (NMI): {avg_nmi:.4f}\n")
+    f.write(f"Average Fowlkes-Mallows Index: {avg_fm:.4f}\n")
+    f.write(f"Average Valid Segments Evaluated: {avg_valid_segments:.4f}\n")
+    f.write("========================================\n")
+    f.write("== END OF REPORT ==\n")
+
+
+print(f"\n✅ Report written to: {report_file}\n")

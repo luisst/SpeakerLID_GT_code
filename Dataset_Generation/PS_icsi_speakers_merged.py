@@ -19,7 +19,30 @@ def merge_csv_files(input_folder: str, output_folder: str):
         if len(files) > 1:  # Only merge if multiple files exist
             dfs = [pd.read_csv(f, sep="\t", header=0, index_col=None) for f in files]
             merged_df = pd.concat(dfs, ignore_index=True)
-            merged_df.to_csv(output_path / f"{base_name}.csv", index=False)
+            merged_df = merged_df.sort_values(by='starttime')
+            merged_df = merged_df.rename(columns={
+            'participant': 'speaker_id',
+            'starttime': 'start_time',
+            'endtime': 'end_time',
+            'transcription': 'transcription'
+        })
+
+            # Filter out rows with 'hmm' and at the same time, transcription length is less than 20 chars
+            merged_df = merged_df[~((merged_df['transcription'].str.contains('hmm', case=False, na=False)) & 
+                        (merged_df['transcription'].str.len() < 20))]
+
+            merged_df = merged_df[~((merged_df['transcription'].str.contains('um', case=False, na=False)) & 
+                        (merged_df['transcription'].str.len() < 20))]
+
+            merged_df = merged_df[~((merged_df['transcription'].str.contains('uh', case=False, na=False)) & 
+                        (merged_df['transcription'].str.len() < 20))]
+
+            merged_df = merged_df[~((merged_df['transcription'].str.contains('@ @', case=False, na=False)) & 
+                        (merged_df['transcription'].str.len() < 20))]
+
+            merged_df = merged_df[~((merged_df['transcription'].str.len() < 2))]
+
+            merged_df.to_csv(output_path / f"{base_name}.csv", index=False, sep="\t")
             print(f"Merged {len(files)} files into {base_name}.csv")
 
 if __name__ == "__main__":

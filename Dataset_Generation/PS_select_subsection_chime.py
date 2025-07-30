@@ -171,9 +171,9 @@ def print_rejected_segments_before_1000(rejected_file):
 
 # Example usage
 if __name__ == "__main__":
-    base_path = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\CHIME6\aolme_base\output_base\S02')
-    approved_csv_path = base_path / 'approved_S02_U02.CH1.csv' 
-    rejected_csv_path = base_path / 'skipped_S02_U02.CH1.csv' 
+    base_path = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\CHIME6\aolme_base\output_base\S09')
+    approved_csv_path = base_path / 'approved_S09_U06.CH1.csv' 
+    rejected_csv_path = base_path / 'skipped_S09_U06.CH1.csv' 
     # main(str(approved_csv_path), str(rejected_csv_path))
     # plot_start_time_histogram(str(approved_csv_path), str(rejected_csv_path))
     plot_segment_density(approved_csv_path, rejected_csv_path)

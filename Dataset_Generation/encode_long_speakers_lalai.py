@@ -41,8 +41,8 @@ def process_audio_files(input_path, output_path):
         
         output_wav = output_path / f"{speaker}_combined.wav"
 
-        # # Export combined audio to WAV at float32 format
-        # combined_audio.export(output_wav, format="wav")
+        # Export combined audio to WAV at float32 format
+        combined_audio.export(output_wav, format="wav")
         
         output_csv = output_path / f"{speaker}_metadata.csv"
         with output_csv.open(mode='w', newline='') as csv_file:
@@ -53,7 +53,7 @@ def process_audio_files(input_path, output_path):
         print(f"Processed: {output_wav} and {output_csv}")
 
 # Example usage
-input_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\SD_interviews_TTS3\TTS_long')
-output_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\SD_interviews_TTS3\TTS_long\output_combined2')
+input_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\TTS3_dt\input_raw_TTS3_wavs\IDs')
+output_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\TTS3_dt\input_raw_TTS3_wavs\output_combined')
 
 process_audio_files(input_folder, output_folder)

@@ -11,11 +11,11 @@ def convert_naming(current_wav_name):
     speaker_ID = current_wav_name.split('_')[-2]
     return speaker_ID + '/' + current_wav_name
 
-root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','AOLME_SD_Collection','03_Final_samples','Interviews_output','Speakers_folder')
+root_dir = Path.home().joinpath('Dropbox','DATASETS_AUDIO','Dvectors','tts3_test_pairs','tts3_fix_feats')
 
-all_wavs_pth_list = sorted(list(root_dir.rglob('*.wav')))
+all_wavs_pth_list = sorted(list(root_dir.rglob('*.pkl')))
 
-output_pairs_aolme_pth = root_dir.joinpath('test_pair_aolme_interviews.txt') 
+output_pairs_aolme_pth = root_dir.joinpath('test_pairs_tts3.txt') 
 
 new_file = open(output_pairs_aolme_pth, "w")
 
@@ -52,7 +52,7 @@ for current_speaker, current_speaker_list in speakers_dict.items():
         if key != current_speaker:
             all_candidates_list.extend(speakers_dict[key])
     
-    print(f'This is my list of all candidates: {all_candidates_list}')
+    # print(f'This is my list of all candidates: {all_candidates_list}')
 
     while len(rand_audios) < entries_to_add:
         candidate_audio = random.choice(all_candidates_list)
@@ -63,18 +63,23 @@ for current_speaker, current_speaker_list in speakers_dict.items():
         else:
             print(f'Tried name: {candidate_audio}')
 
-    print(f'comb_list: {len(comb_list)}\t rand_audios: {len(rand_audios)}') 
+    # print(f'comb_list: {len(comb_list)}\t rand_audios: {len(rand_audios)}') 
 
     for idx in range(0, len(rand_audios)):
-        current_pos1 = convert_naming(comb_list[idx][0])
-        current_pos2 = convert_naming(comb_list[idx][1])
+        # current_pos1 = convert_naming(comb_list[idx][0])
+        # current_pos2 = convert_naming(comb_list[idx][1])
+        current_pos1 = comb_list[idx][0]
+        current_pos2 = comb_list[idx][1]
 
         new_file.write(f'1 {current_pos1} {current_pos2}\n') 
         inter_idx = int(idx%2)
         print(f'This is my index: {inter_idx}')
 
-        current_neg1 = convert_naming(comb_list[inter_idx][0])
-        current_neg2 = convert_naming(rand_audios[idx])
+        # current_neg1 = convert_naming(comb_list[inter_idx][0])
+        # current_neg2 = convert_naming(rand_audios[idx])
+
+        current_neg1 = comb_list[inter_idx][0]
+        current_neg2 = rand_audios[idx]
 
         new_file.write(f'0 {current_neg1} {current_neg2}\n') 
 

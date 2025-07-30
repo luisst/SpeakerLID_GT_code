@@ -31,7 +31,8 @@ def unpack_line(line, method_type):
         current_pred_start, \
         current_pred_end, \
         current_pred_text, \
-        current_pred_prob = line.strip().split('\t')
+        current_pred_prob, \
+        current_lang = line.strip().split('\t')
 
         current_wav_name = 'Ignored'
 
@@ -78,7 +79,7 @@ def plot_histograms(input_list_all, hist_path, method_type, desired_bin_size=1.0
         plt.savefig(hist_path, dpi=300)
 
         if cdf_flag:
-                cdf_hist_path = hist_path.parent.joinpath(f'CDF_{hist_path.name}.png')
+                cdf_hist_path = hist_path.parent.joinpath(f'CDF_{hist_path.name}')
                 plt.figure(figsize=(10, 10))    
                 n, output_bins2, patches = plt.hist(x = input_list_all, bins=bins, color='g',
                                                 alpha=0.7, rwidth=0.85, cumulative=True)

@@ -148,11 +148,11 @@ def process_json_and_extract_audio(json_file, output_folder, location_audio_file
 
             try:
 
-                if duration < 2.0:
-                    # print(f"Skipping segment: {data['start_time']} to {data['end_time']} (too short)")
-                    skipped_short_segments += 1
-                    skipped_lines.append(["Too short", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
-                    continue
+                # if duration < 2.0:
+                #     # print(f"Skipping segment: {data['start_time']} to {data['end_time']} (too short)")
+                #     skipped_short_segments += 1
+                #     skipped_lines.append(["Too short", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
+                #     continue
 
                 if "inaudible" in data['words'].lower():
                     # print(f"Skipping segment due to 'inaudible' in transcript: {data['start_time']} to {data['end_time']}")
@@ -162,10 +162,28 @@ def process_json_and_extract_audio(json_file, output_folder, location_audio_file
                 if "[" in data['words'].lower() and len(data['words']) < 40:
                     print(f'{data["words"]}')
                     # print(f"Skipping segment due to '[]' in transcript: {data['start_time']} to {data['end_time']}")
-                    skipped_lines.append(["laughs mostly", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
+                    skipped_lines.append(["short_annotation", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
                     continue
 
-                extract_audio_segment(source_audio, output_audio, start_seconds_margin, end_seconds_margin)
+                if "mhm" in data['words'].lower() and len(data['words']) < 30:
+                    print(f'{data["words"]}')
+                    # print(f"Skipping segment due to '[]' in transcript: {data['start_time']} to {data['end_time']}")
+                    skipped_lines.append(["short_Hmn", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
+                    continue
+
+                if "mm" in data['words'].lower() and len(data['words']) < 30:
+                    print(f'{data["words"]}')
+                    # print(f"Skipping segment due to '[]' in transcript: {data['start_time']} to {data['end_time']}")
+                    skipped_lines.append(["short_mm", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
+                    continue
+
+                if "hmm" in data['words'].lower() and len(data['words']) < 30:
+                    print(f'{data["words"]}')
+                    # print(f"Skipping segment due to '[]' in transcript: {data['start_time']} to {data['end_time']}")
+                    skipped_lines.append(["short_Hmm", data['speaker'], start_seconds, end_seconds, data['words'], source_audio_stem])
+                    continue
+
+                # extract_audio_segment(source_audio, output_audio, start_seconds_margin, end_seconds_margin)
             except Exception as e:
                 print(f"Failed to extract audio: {e}")
                 output_audio = ""

@@ -133,9 +133,9 @@ def plot_optimized_segments(approved_file, rejected_file):
 
 # Example usage
 if __name__ == "__main__":
-    base_path = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\CHIME6\aolme_base\output_base\S02')
-    approved_csv_path = base_path / 'approved_S02_U02.CH1.csv' 
-    rejected_csv_path = base_path / 'skipped_S02_U02.CH1.csv' 
+    base_path = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\CHIME6\aolme_base\output_base\S09')
+    approved_csv_path = base_path / 'approved_S09_U04.CH1.csv' 
+    rejected_csv_path = base_path / 'skipped_S09_U04.CH1.csv' 
 
     # Example usage
     optimization_results = plot_optimized_segments(approved_csv_path, rejected_csv_path)

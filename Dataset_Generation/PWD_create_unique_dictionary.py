@@ -36,8 +36,11 @@ def get_speaker_dict(input_wav_folder):
 
 if __name__ == "__main__":
 
-    wavs_dir = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\interviews_wavs\All_dialogues_output')  # Current directory
-    output_wavs_dir = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\interviews_wavs\TTS_ready_interviews')  # Current directory
+    wavs_dir = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\TTS3_dt\input_raw_TTS3_wavs')  # Current directory
+    output_wavs_dir = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\TTS3_dt\input_raw_TTS3_wavs\IDs')  # Current directory
+
+    # Ensure output directory exists
+    output_wavs_dir.mkdir(parents=True, exist_ok=True)
 
     speaker_dict_ID = get_speaker_dict(wavs_dir)
 

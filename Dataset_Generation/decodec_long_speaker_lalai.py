@@ -3,8 +3,8 @@ import subprocess
 from pathlib import Path
 
 def get_speaker_name(filename):
-    # return filename.stem.replace("_combined", "")
-    return filename.stem.replace("_combined_bk", "")
+    return filename.stem.replace("_combined", "")
+    # return filename.stem.replace("_combined_bk", "")
 
 def split_audio(input_wav, metadata_csv, output_folder):
     input_wav = Path(input_wav)
@@ -20,10 +20,10 @@ def split_audio(input_wav, metadata_csv, output_folder):
             filename, start_time, end_time = row
             start_time = float(start_time)
             duration = float(end_time) - start_time
-            bk_filename = "bk_" + filename
-            # output_wav = output_folder / filename
-            output_wav = output_folder / bk_filename
-            
+            # bk_filename = "bk_" + filename
+            # output_wav = output_folder / bk_filename
+            output_wav = output_folder / filename
+
             command = [
                 "ffmpeg", "-i", str(input_wav), "-ss", str(start_time), "-t", str(duration), "-acodec", "copy", str(output_wav)
             ]
@@ -35,8 +35,8 @@ def process_folder(input_folder, output_folder):
     output_folder = Path(output_folder)
     output_folder.mkdir(parents=True, exist_ok=True)
     
-    # combined_wavs = input_folder.glob("*_combined.wav")
-    combined_wavs = input_folder.glob("*_combined_bk.wav")
+    combined_wavs = input_folder.glob("*_combined.wav")
+    # combined_wavs = input_folder.glob("*_combined_bk.wav")
 
     matched_files = []
     for combined_wav in combined_wavs:
@@ -55,6 +55,7 @@ def process_folder(input_folder, output_folder):
         print(f"Processed: {wav_file} and {csv_file}")
 
 # Example usage
-input_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\SD_interviews_TTS3\TTS_long\output_combined\Audios separados\no-voice') 
-output_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\SD_interviews_TTS3\TTS_long\output_combined\Audios separados\no-voice\all_noises') 
+
+input_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\TTS3_dt\input_raw_TTS3_wavs\output_combined\separated_audios\voice') 
+output_folder = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\TTS3_dt\input_raw_TTS3_wavs\output_combined\separated_audios\voice\recov') 
 process_folder(input_folder, output_folder)

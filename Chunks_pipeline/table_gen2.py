@@ -3,7 +3,7 @@ import numpy as np
 from scipy import interpolate
 
 # Define the original tables
-Table1 = [-75, -64.96, -50.92, -48.88, -46.84, -43.8, -42.76, -41.72, -40.68, -39.64,
+Generic_High = [-75, -64.96, -50.92, -48.88, -46.84, -43.8, -42.76, -41.72, -40.68, -39.64,
         -38.6, -37.56, -36.52, -36, -35.5, -35, -34.5, -34, -33.5, -33,
         -32.5, -32, -31.5, -31, -30.5, -30, -29.72, -29.44, -29.16, -28.88,
         -28.6, -28.32, -28.04, -27.76, -27.48, -27.2, -26.92, -26.64, -26.36, -26.08,
@@ -15,7 +15,7 @@ Table1 = [-75, -64.96, -50.92, -48.88, -46.84, -43.8, -42.76, -41.72, -40.68, -3
         -17.4, -17.26, -17.12, -16.98, -16.84, -16.7, -16.56, -16.42, -16.28, -16.14,
         -16.0]
 
-Table2 = [-75, -50, -45, -40, -37.75, -35, -33.5, -32, -30, -28.5,
+Teams_Low = [-75, -50, -45, -40, -37.75, -35, -33.5, -32, -30, -28.5,
         -27.5, -26.5, -25.75, -24.75, -24, -23.5, -23, -22.5, -21.9, -21.5,
         -20.8, -20.3, -19.8, -19.3, -19, -18.5, -18.2, -17.8, -17.4, -17.2,
         -16.8, -16.56, -16.32, -16.08, -15.84, -15.6, -15.36, -15.12, -14.88, -14.64,
@@ -28,18 +28,18 @@ Table2 = [-75, -50, -45, -40, -37.75, -35, -33.5, -32, -30, -28.5,
         -7.0]
 
 # Create x values for each table (normalized to [0,1])
-x1 = np.linspace(0, 1, len(Table1))
-x2 = np.linspace(0, 1, len(Table2))
+x1 = np.linspace(0, 1, len(Generic_High))
+x2 = np.linspace(0, 1, len(Teams_Low))
 
 # Choose a length for Table3 (I'll use the average of Table1 and Table2 lengths)
-n3 = (len(Table1) + len(Table2)) // 2
+n3 = (len(Generic_High) + len(Teams_Low)) // 2
 
 # Create new x-values for Table3
 x3 = np.linspace(0, 1, n3)
 
 # Create interpolation functions for both tables
-f1 = interpolate.interp1d(x1, Table1, kind='cubic')
-f2 = interpolate.interp1d(x2, Table2, kind='cubic')
+f1 = interpolate.interp1d(x1, Generic_High, kind='cubic')
+f2 = interpolate.interp1d(x2, Teams_Low, kind='cubic')
 
 # Calculate interpolated values for both original tables at the new x-points
 v1 = f1(x3)
@@ -48,27 +48,27 @@ v2 = f2(x3)
 # Create Table3 as a weighted average of the two interpolations
 # Weight changes gradually from favoring Table1 at start to favoring Table2 at end
 weights = np.linspace(0.5, 0.5, n3)  # Equal weight to start
-Table3 = weights * v1 + (1 - weights) * v2
+Generic_Fix = weights * v1 + (1 - weights) * v2
 
 # Force first and last values to match requirements
-Table3[0] = -75.0  # First value: -75 dB
+Generic_Fix[0] = -75.0  # First value: -75 dB
 
 # Find the closest index to where -11 dB should be
-target_idx = np.argmin(np.abs(Table3 - (-11.0)))
-cutoff_idx = min(target_idx, len(Table3) - 1)
+target_idx = np.argmin(np.abs(Generic_Fix - (-11.0)))
+cutoff_idx = min(target_idx, len(Generic_Fix) - 1)
 
 # Truncate Table3 at this index and ensure the last value is exactly -11 dB
-Table3 = Table3[:cutoff_idx+1]
-Table3[-1] = -11.0
+Generic_Fix = Generic_Fix[:cutoff_idx+1]
+Generic_Fix[-1] = -11.0
 
 # Round to 2 decimal places for readability
-Table3 = np.round(Table3, 2)
+Generic_Fix = np.round(Generic_Fix, 2)
 
 # Plot the results
 plt.figure(figsize=(14, 8))
-plt.plot(x1, Table1, 'o', color='blue', markersize=6, label='Table1 (Dots)')
-plt.plot(x2, Table2, 's', color='red', markersize=6, label='Table2 (Squares)')
-plt.plot(np.linspace(0, 1, len(Table3)), Table3, '^', color='green', markersize=6, label='Table3 (Interpolated)')
+plt.plot(x1, Generic_High, 'o', color='blue', markersize=6, label='Vol_TeamsLow (Dots)')
+plt.plot(x2, Teams_Low, 's', color='red', markersize=6, label='Vol_High (Squares)')
+plt.plot(np.linspace(0, 1, len(Generic_Fix)), Generic_Fix, '^', color='green', markersize=6, label='Generic_DoubleTalk_Fix (Interpolated)')
 
 # Add title and labels
 plt.title('Comparison of Tables with Interpolated Table3', fontsize=16)
@@ -80,9 +80,9 @@ plt.tight_layout()
 plt.show()
 
 # Print Table3 for reference
-print("Table3 = [", end="")
-for i, val in enumerate(Table3):
+print("Generic_fix = [", end="")
+for i, val in enumerate(Generic_Fix):
     if i % 10 == 0 and i > 0:
         print("\n        ", end="")
-    print(f"{val}", end=", " if i < len(Table3)-1 else "")
+    print(f"{val}", end=", " if i < len(Generic_Fix)-1 else "")
 print("]")

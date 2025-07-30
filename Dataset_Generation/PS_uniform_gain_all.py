@@ -2,8 +2,10 @@ from pathlib import Path
 from pydub import AudioSegment
 
 # Set parameters
-input_folder = Path(r"C:\Users\luis2\Dropbox\DATASETS_AUDIO\SD_interviews_TTS3\TTS_ready_interviews_nonUniform")
-output_folder = input_folder / "output"
+
+root_dir = Path.home().joinpath('Dropbox/DATASETS_AUDIO')
+input_folder = root_dir / 'TTS3_dt' / 'reviewed_raw_TTS3_input'
+output_folder = input_folder / 'output_uniform_gain'
 target_dBFS = -20.0  # Adjust target loudness as needed
 
 # Ensure output folder exists

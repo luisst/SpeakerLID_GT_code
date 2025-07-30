@@ -22,13 +22,11 @@ def parse_words_file(words_file):
 
 
 def extract_ids(input_href):
-    id_line = input_href.split("#id(")[1]
-
-
-    id_list = []
-    pattern = re.compile(r'\b([A-Za-z0-9]+\.[A-Za-z0-9]+\.\d+)\b')
     
-    matches = pattern.findall(id_line)
+    id_list = []
+    pattern = re.compile(r'id\((.*?)\)')
+    
+    matches = pattern.findall(input_href)
     if matches:
         id_list.extend(matches)
     
@@ -55,7 +53,6 @@ def process_segment(segment, word_dict, segs_file, data):
 
     # Since each segment has only one child, directly access it
     child = list(segment)[0]  # Get the single child
-    # print(f'Processing {segs_file.split(os.sep)[-1]} |\n {child.attrib}')
     href = child.attrib["href"]
 
     # Check if href contains "#id("
@@ -66,7 +63,7 @@ def process_segment(segment, word_dict, segs_file, data):
     # Extract word IDs from href
     word_ids = extract_ids(href)
 
-    words_to_delete = []
+    # words_to_delete = []
 
     if len(word_ids) == 0:
         return data, word_dict
@@ -84,13 +81,13 @@ def process_segment(segment, word_dict, segs_file, data):
                 capturing = True
             if capturing:
                 words.append(word_text)
-                words_to_delete.append(word_id)  # Mark for deletion
+                # words_to_delete.append(word_id)  # Mark for deletion
             if word_id == end_id:
                 break               
 
-        for delete_id in words_to_delete:
-            if delete_id in word_dict:
-                del word_dict[delete_id]
+        # for delete_id in words_to_delete:
+        #     if delete_id in word_dict:
+        #         del word_dict[delete_id]
     
     transcription = " ".join(words)
     # Remove extra spaces
@@ -106,6 +103,10 @@ def process_segment(segment, word_dict, segs_file, data):
 
     # Remove leading and trailing spaces
     transcription = transcription.strip()
+
+    if transcription == "":
+        # print(f">>>>>>>>>>>>>>>> Warning: Empty transcription for segment: {segment.attrib}")
+        return data, word_dict
 
     data.append([participant, starttime, endtime, transcription])
 
@@ -147,7 +148,7 @@ def process_directory(input_dir, output_dir):
             
             if os.path.exists(words_file):
                 process_session(segs_file, words_file, output_csv)
-                # print(f"Processed {filename}")
+                print(f"Processed {filename}")
             else:
                 print(f"Skipping {filename}, missing words file {words_file}")
 
@@ -156,5 +157,4 @@ input_directory = Path(r'C:\Users\luis2\Dropbox\DATASETS_AUDIO\ICSI\input_segs_w
 output_directory = input_directory.joinpath('my_output_separated')
 process_directory(str(input_directory), str(output_directory))
 
-#TODO: Add a function to process the output files and merge the ones with the same substring code. i.e. 'Bdb001'
 

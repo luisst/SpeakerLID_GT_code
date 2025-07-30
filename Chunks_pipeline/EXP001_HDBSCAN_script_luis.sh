@@ -4,13 +4,16 @@ export MOVE_ON=true
 export ROOT_PATH="/home/luis/Dropbox/DATASETS_AUDIO/Proposal_runs"
 export SRC_PATH=$(pwd)
 
-export EXP_NAME="EXP010C"
-export DATASET_NAME="TestAO-Irmadb"
+export EXP_NAME="EXP040"
+export DATASET_NAME="TTS3_dt"
 
 # export DATASET_NAME="TestAO-Liz"
 export SHAS_NAME="SHAS"
 export FEAT_NAME="DV"
 export METHOD_NAME="umap1H10"
+
+export DOUBLE_TALK_FLAG=true
+export DT_THRESHOLD="0.8"
 
 ## Segmentation Parameters
 export seg_ln="1.0"
@@ -27,12 +30,13 @@ export STG1_FINAL_CSV="${ROOT_PATH}/${DATASET_NAME}/STG_1/STG1_${SHAS_NAME}/shas
 # source STG1_SHAS.sh
 
 #### Stage 2 Feature Extraction
+export STG2_DT_PRETRAINED="${SRC_PATH}/best_overlap_detection_model_xvectors_May20.pth"
 export current_stg2="${ROOT_PATH}/${DATASET_NAME}/STG_2/STG2_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}"
 export STG2_FEATS_PICKLE="${current_stg2}/${DATASET_NAME}_${SHAS_NAME}_${FEAT_NAME}_feats.pickle"
 
-# if [ "$MOVE_ON" = true ]; then
-# source STG2_DVECTORS.sh
-# fi
+if [ "$MOVE_ON" = true ]; then
+source STG2_DVECTORS.sh
+fi
 
 #### Stage 3 Unsupervised Method
 export current_stg3="${ROOT_PATH}/${DATASET_NAME}/STG_3/STG3_${EXP_NAME}-${SHAS_NAME}-${FEAT_NAME}-${METHOD_NAME}"
@@ -66,18 +70,18 @@ export pred_suffix_added="pred"
 export pred_ext="csv"
 
 
-cd $SRC_PATH
-if [ "$MOVE_ON" = true ]; then
-    source STG4_ENTROPY.sh
-fi
+# cd $SRC_PATH
+# if [ "$MOVE_ON" = true ]; then
+#     source STG4_ENTROPY.sh
+# fi
 
 ## Add Azure comparison
 
 #### Get Back to where you once belonged
 
-cp $SRC_PATH/EXP001_HDBSCAN_script_luis.sh $current_stg3/script_contents.txt
-conda activate
-cd $SRC_PATH
+# cp $SRC_PATH/EXP001_HDBSCAN_script_luis.sh $current_stg3/script_contents.txt
+# conda activate
+# cd $SRC_PATH
 
 # # Unset all the variables
 # unset ROOT_PATH
